@@ -12,6 +12,7 @@ editor: visual
 
 library(tidyverse)
 library(dplyr)
+library(tidytuesdayR)
 ```
 
 # Dataset
@@ -20,16 +21,14 @@ library(dplyr)
 #| label: load-data
 #| message: false
 
-pride_aggregates <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/pride_aggregates.csv')
-fortune_aggregates <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/fortune_aggregates.csv')
-static_list <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/static_list.csv')
-pride_sponsors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/pride_sponsors.csv')
-corp_by_politician <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv')
-donors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/donors.csv')
-
+pride_aggregates <- pride_aggregates
+fortune_aggregates <- fortune_aggregates
+static_list <- static_list
+pride_sponsors <- pride_sponsors
+corp_by_politician <- corp_by_politician
 ```
 
-A brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.
+We have multiple datasets that we are planning to work with for this project from. The first one is pride_aggregates, which has 31 observations of 4 variables. It has information on companies that are pride sponsors but also contribute to anti-LGBTQ+ corporations. The variables given are the company name, total amount contributed to anti-LGBTQ+ corporations, number of politicians contributed to, and number of states where they made contributions. The second dataset, fortune_aggregates, has 117 observations of the same 4 variables but this time looking at Fortune 500 pride sponsors who donate to anti-LGBTQ+ campaigns. The third dataset is static_list, containing information on 126 companies and whether they donated to pride, HRC business pledge, dollar amount contributed across states, number of politicians contributed to, and number of states where they made contributions.
 
 Make sure to load the data and use inline code for some of this information.
 
