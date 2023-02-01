@@ -1,0 +1,186 @@
+---
+title: "Project title"
+subtitle: "STA/ISS 313 - Spring 2023 - Project 1"
+author: "Team Name"
+title-slide-attributes:
+  data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg
+  data-background-size: stretch
+  data-slide-number: none
+format: revealjs
+editor: visual
+execute:
+  echo: false
+---
+
+```{r}
+#| label: load-packages
+#| include: false
+
+# Add any additional packages you need to this chunk
+# Remove any packages from this list that you're not using
+library(tidyverse)
+library(tidymodels)
+library(palmerpenguins)
+library(gt)
+```
+
+```{r}
+#| label: setup
+#| include: false
+
+# For better figure resolution
+knitr::opts_chunk$set(
+  fig.retina = 3, 
+  dpi = 300, 
+  fig.width = 6, 
+  fig.asp = 0.618, 
+  out.width = "70%"
+  )
+```
+
+```{r}
+#| label: load-data
+#| include: false
+
+# Load your data here
+```
+
+# Using Quarto for presentations
+
+## Quarto
+
+-   The presentation is created using the Quarto CLI
+
+-   `##` sets the start of a new slide
+
+## Layouts
+
+You can use plain text
+
+-   or bullet points
+
+::: columns
+::: {.column width="50%"}
+or text in two columns $^*$
+:::
+
+::: {.column width="50%"}
+-   like
+-   this
+:::
+:::
+
+### 
+
+::: aside
+\[\*\] And add footnotes
+:::
+
+## Code
+
+```{r}
+#| label: boring-regression
+
+# a boring regression
+model <- lm(dist ~ speed, data = cars)
+tidy(model)
+glance(model)
+```
+
+## Plots
+
+```{r}
+#| label: recode-species
+#| echo: false
+
+# In this chunk I'm doing a bunch of analysis that I don't want to present 
+# in my slides. But I need the resulting data frame for a plot I want to present.
+
+penguins_modified <- penguins %>%
+  mutate(species = fct_other(species, keep = "Adelie"))
+```
+
+```{r}
+#| label: plot-penguins
+#| echo: false
+#| warning: false
+#| fig-alt: |
+#|   Body mass vs. flipper lenght of Palmer Penguins for species Adelie and all 
+#|   the others combined together. There is a relatively strong, positive 
+#|   relationship between the two variables. The Adelie penguins are clustered 
+#|   together but they don't exhibit a different trend than the rest of the 
+#|   penguins.
+
+# Uses modified penguins dataset from previous chunk
+# Play around with height and width until you're happy with the look
+
+ggplot(
+  penguins_modified, 
+  aes(x = flipper_length_mm, y = body_mass_g, color = species)
+  ) +
+  geom_point() + 
+  theme_minimal()
+```
+
+## Plot and text
+
+::: columns
+::: {.column width="50%"}
+-   Some text
+-   goes here
+:::
+
+::: {.column width="50%"}
+```{r}
+#| warning: false
+#| out-width: "100%"
+#| fig-width: 4
+#| echo: false
+
+# See how I changed out-width and fig-width from defaults
+# to make the figure bigger
+
+ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
+  geom_boxplot() +
+  theme_minimal()
+```
+:::
+:::
+
+# A new section...
+
+## Tables
+
+If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
+
+```{r}
+#| label: penguins-table
+
+gt(head(penguins))
+```
+
+## Images
+
+![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png)
+
+## Math Expressions {.smaller}
+
+You can write LaTeX math expressions inside a pair of dollar signs, e.g. \$\alpha+\beta\$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
+
+    $$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+
+$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+
+Limitations:
+
+1.  The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
+
+2.  There should not be spaces after the opening `$` or before the closing `$`.
+
+# Wrap up
+
+## Feeling adventurous?
+
+-   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
+
+-   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.

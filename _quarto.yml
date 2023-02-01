@@ -1,0 +1,20 @@
+project:
+  type: website
+
+website:
+  navbar:
+    left:
+      - href: index.qmd
+      - text: "Proposal"
+        href: proposal.qmd
+      - text: "Presentation"
+        href: presentation.qmd
+      - text: "About"
+        href: about.qmd
+
+format:
+  html:
+    theme: default
+
+execute:
+  freeze: auto
