@@ -39,8 +39,8 @@ company_contribution_all_q2 <- contribution_data_all_states %>%
   group_by( pride_or_not, year) %>%
   summarize(total_contribution = sum(Amount)) %>%
 
-unique(company_contribution_all$`Pride and Sponsor Match?`)
 unique(contribution_data_all_states$`Pride?`)
+
 
 #unique(contribution_data_all_states$Date == NA)
 
@@ -50,6 +50,27 @@ unique(contribution_data_all_states$`Pride?`)
 #glimpse(pride_sponsors)
 #glimpse(corp_by_politician)
 #glimpse(contribution_data_all_states)
+```
+
+```{r}
+#Source: Politico (https://www.politico.com/2020-election/results/president/)
+#by how they voted in 2020 presidential election
+
+blue_states <- c("NJ", "CO", "AZ", "GA", "WA", "OR", "CA", "NV", "NM", "MN", 
+                 "HI", "MI", "IL", "WI", "VA", "MD", "PA", "NY", "VT", "NH", 
+                 "MA", "ME", "CT", "RI", "DE", "DC")
+
+
+contribution_data_all_states %>% 
+  filter(!is.na(Company)) %>%
+  mutate(year = year(ymd(Date))) %>%
+  filter(year == 2021) %>%
+  mutate(party = ifelse(State %in% blue_states, "Blue", "Red")) %>%
+  group_by(State) %>%
+  summarise(sum_of_contributions = sum(Amount))
+
+
+unique(contribution_data_all_states$State)
 ```
 
 The datasets we are using are from TidyTuesday and come from the website Data For Progress. The first dataset is pride_aggregates, which has 31 observations of 4 variables. It has information on companies that are pride sponsors but also contribute to anti-LGBTQ+ corporations. The variables given are the company name, total amount contributed to anti-LGBTQ+ corporations, number of politicians contributed to, and number of states where they made contributions. The second dataset, fortune_aggregates, has 117 observations of the same 4 variables but this time looking at Fortune 500 pride sponsors who donate to anti-LGBTQ+ campaigns. The third dataset is static_list, containing information on 126 companies and whether they donated to pride, HRC business pledge, dollar amount contributed across states, number of politicians contributed to, and number of states where they made contributions. Lastly, the largest dataset is contribution_data_all_states with 13210 observations of companies along with if they were a pride and sponsor match, if they were a pride event sponsor, HRC business pledge, donor name, politician donated to, state donated to, amount in USD of donation, date, citation, donor type, comments, and an archive.

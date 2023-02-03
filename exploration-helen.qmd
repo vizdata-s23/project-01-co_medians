@@ -14,8 +14,6 @@ corp_by_politician <- readr::read_csv('https://raw.githubusercontent.com/rfordat
 donors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/donors.csv')
 
 contribution_data_all_states <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/contribution_data_all_states.csv')
-
-
 ```
 
 Use Fortune aggregates - more rows 
