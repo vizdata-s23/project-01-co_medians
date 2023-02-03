@@ -31,6 +31,18 @@ pride_sponsors <- tuesdata$pride_sponsors
 corp_by_politician <- tuesdata$corp_by_politician
 contribution_data_all_states <- tuesdata$contribution_data_all_states
 
+company_contribution_all_q2 <- contribution_data_all_states %>%
+  filter(!is.na(Company), !is.na(Date)) %>%
+  mutate(year = year(ymd(Date)),
+         pride_or_not = case_when(`Pride?` == TRUE ~ "Pride",
+                                TRUE ~ "Anti-LGBTQ+")) %>%
+  group_by( pride_or_not, year) %>%
+  summarize(total_contribution = sum(Amount)) %>%
+
+unique(company_contribution_all$`Pride and Sponsor Match?`)
+unique(contribution_data_all_states$`Pride?`)
+
+#unique(contribution_data_all_states$Date == NA)
 
 #glimpse(pride_aggregates)
 #glimpse(fortune_aggregates)

@@ -1,0 +1,22 @@
+---
+title: "exploration-amber"
+title: "Homework 01"
+author: "Amber Potter"
+format:
+  html:
+    embed-resources: true
+toc: true
+---
+
+
+```{r packages}
+library(tidyverse)
+```
+
+```{r}
+static_list <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/static_list.csv')
+
+pride_sponsors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/pride_sponsors.csv')
+
+corp_by_politician <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv')
+```
