@@ -83,7 +83,9 @@ unique(static_list$Company)
 
 static_list %>%  
   filter(!is.na(Company), !is.na(`HRC Business Pledge`)) %>%
-  select(Company, `Amount Contributed Across States`, `HRC Business Pledge`)
+  select(Company, `Amount Contributed Across States`, `HRC Business Pledge`) %>%
+  group_by(Company) %>%
+  summarise(total_amount = sum(`Amount Contributed Across States`))
   
 ```
 
