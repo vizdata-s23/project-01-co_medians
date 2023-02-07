@@ -6,6 +6,8 @@ After looking into the datasets further, we realized that there was overlap of i
 
 ## Static_list
 
+Each row corresponds to a company; a few of the variables we are using from this dataset for our analysis include `Pride?`, `HRC Business Pledge`, and `Amount Contributed Across States`. 
+
 | Variable                               | Description                                                                        |
 |----------------------------------------|------------------------------------------------------------------------------------|
 | `Company`                              | The name of the Fortune 500 company.                                               |
@@ -16,6 +18,8 @@ After looking into the datasets further, we realized that there was overlap of i
 | `# of States Where Contributions Made` | The number of states where the company made anti-LBGTQ contributions .             |
 
 ## Contribution_data_all_states
+
+Each row denotes a single donation along with the company who made it; some of the variables we are using to answer our research questions from this dataset are `Pride?`, `Date` (which we extracted the column `Year` from), and `Amount`.
 
 |                            |                                                                   |
 |----------------------------|-------------------------------------------------------------------|
