@@ -32,14 +32,6 @@ pride_sponsors <- tuesdata$pride_sponsors
 corp_by_politician <- tuesdata$corp_by_politician
 contribution_data_all_states <- tuesdata$contribution_data_all_states
 
-#unique(contribution_data_all_states$`Pride?`)
-#unique(contribution_data_all_states$Date == NA)
-#glimpse(pride_aggregates)
-#glimpse(fortune_aggregates)
-#glimpse(static_list)
-#glimpse(pride_sponsors)
-#glimpse(corp_by_politician)
-#glimpse(contribution_data_all_states)
 
 #write_rds(static_list, "data/static_list.RDS")
 #write_rds(contribution_data_all_states, "data/contribution_data_all_states.RDS")
@@ -47,20 +39,23 @@ contribution_data_all_states <- tuesdata$contribution_data_all_states
 
 The datasets we are using are from TidyTuesday (https://github.com/rfordatascience/tidytuesday/tree/master/data/2022/2022-06-07) and come from the website Data For Progress. The first dataset is pride_aggregates, which has `r nrow(pride_aggregates)` observations of `r ncol(pride_aggregates)` variables. It has information on companies that are pride sponsors but also contribute to anti-LGBTQ+ corporations. The variables given are the company name, total amount contributed to anti-LGBTQ+ corporations, number of politicians contributed to, and number of states where they made contributions. The second dataset, fortune_aggregates, has `r nrow(fortune_aggregates)` observations of the same `r ncol(fortune_aggregates)` variables but this time looking at Fortune 500 pride sponsors who donate to anti-LGBTQ+ campaigns. The third dataset is static_list, containing information on `r nrow(static_list)` companies and whether they donated to pride, HRC business pledge, dollar amount contributed across states, number of politicians contributed to, and number of states where they made contributions; there are `r ncol(static_list)` columns. The fourth dataset is pride_sponsors, which has `r nrow(pride_sponsors)` observations of `r ncol(pride_sponsors)` variables, and it contains informaiton on the company, the pride event it sponsored, the sponsorship amount, year, source, and true donor value. The fifth dataset is corp_by_politician, which has `r nrow(corp_by_politician)` observations of `r ncol(corp_by_politician)` variables, and it contains information on the politician name, the title of the politician, the sum of amount to anti-LGBTQ+, and the state he/she represents. Lastly, the largest dataset is contribution_data_all_states with `r nrow(contribution_data_all_states)` observations of companies along with if they were a pride and sponsor match, if they were a pride event sponsor, HRC business pledge, donor name, politician donated to, state donated to, amount of donation, date, citation, donor type, comments, and an archive; there are a total of `r ncol(contribution_data_all_states)` columns. All contribution amounts are in USD.
 
-After looking into the datasets further, we realized that there was overlap of information in static_list, fortune_aggregates, and pride_aggregates, where static_list captured the most complete information from fortune_aggregates and static_list combined, so we decided to use that dataset. We decided not to focus on specific pride events nor on politicians, so we didn't use the pride_sponsors nor corp_by_politician datasets. We did use the contribution_data_all_states dataset, as that provided date information (for use in time-series plots), contribution amount, and if the contribution was towards pride or anti-LGBTQ campaigns.
+After looking into the datasets further, we realized that there was overlap of information in static_list, fortune_aggregates, and pride_aggregates, where static_list captured the most complete information from fortune_aggregates and pride_aggregates combined, so we decided to use that dataset. We decided not to focus on specific pride events nor on politicians, so we didn't use the pride_sponsors nor corp_by_politician datasets. We did use the contribution_data_all_states dataset, as that provided date information (for use in time-series plots), contribution amount, and if the contribution was towards pride or anti-LGBTQ campaigns.
 
-Overall, we thought that these datasets would be extremely interesting both to visualize and to learn about. We are all advocates for LGBTQ+ rights, and we were very intrigued by the prevalence of Fortune 500 pride sponsors who donate to anti-LGBTQ+ campaigns.
+# Reason for Choosing this Dataset
+
+Overall, we thought that these datasets would be extremely interesting both to visualize and to learn about. We are all advocates for LGBTQ+ rights, and we were very intrigued by the prevalence of Fortune 500 pride sponsors who donate to anti-LGBTQ+ campaigns. We believe this is sneaky and dishonest behavior by corporations that deserves attention in order to help others become more aware of these hypocritical practices.
 
 # Questions
 
-The first question we want to answer using this dataset is: which companies donate the most money in contributions to anti-LGBTQ+ campaigns, which of these companies have a HRC pledge in place, and which of these companies have donated to pride campaigns? The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ people in society and the workplace.
+## Question 1
+
+The first question we want to answer using this dataset is: which companies tend to donate the most money in contributions to anti-LGBTQ+ campaigns, which of these companies have a HRC pledge in place, and which of these companies have donated to pride campaigns? The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ people in society and the workplace.
 
 Source: https://www.hrc.org/resources/business-statement-on-anti-lgbtq-state-legislation
 
 In our data processing, we renamed some variables (Amount Contributed Across States, HRC Business Pledge, and Pride?) for better readability.
 
 ```{r question-1-data-processing}
-#unique(static_list$Company)
 
 static_list <- static_list %>%
   rename(amount_contributed = `Amount Contributed Across States`)
@@ -84,6 +79,8 @@ new_static_list
 #idea for plot: x axis is contribution amount, y is the company, color whether or not have donated to pride, made stripes or another pattern if there's an HRC business pledge
 ```
 
+## Question 2
+
 Our second question involves the dollar amount of contributions made to anti-LGBTQ+ campaigns vs the dollar amount of contributions to pride campaigns by the hypocritical companies who contribute to both anti-LGBTQ+ and pro-pride campaigns. Specifically, what is the magnitude of difference in contributions to pro- and anti-LGBTQ+ campaigns made by these companies over the years 2013 to 2022, and are there any associations we can see between the two?
 
 For our data processing, we created a year variable by extracting the year from the Date variable. We also filtered by companies that weren't NA and dates that weren't NA; renamed the "Pride?" variable for better readability; and looked at the total contribution for both pride and anti-LGBTQ+ campaigns over the years 2013-2022. It is notable how there was no data on contributions towards anti-LGBTQ+ campaigns in 2016.
@@ -102,8 +99,12 @@ company_contribution_all_q2
 
 # Analysis plan
 
+## Plan for Answering Question 1
+
 For the first question, we plan to visualize the answer by creating a bar chart of the dollar amount of contributions to anti-LGBTQ+ campaigns made by the top 10 (tentative) companies in USD. The x variable would be the contribution amount, the y variable would be the company names, we plan to color the bar of the company based on whether or not they have donated to pride, and we plan to add a pattern (ex. stripes with ggpattern) on the bar to indicate whether a company has an HRC pledge in place. Variables used: Company (company name), amount_contributed (contribution to anti-LGBTQ+ in USD), hrc_pledge (indicating existence of an HRC pledge, and pride_or_not (whether or not company has donated to pride).
 
 Source: https://stackoverflow.com/questions/62393159/how-can-i-add-hatches-stripes-or-another-pattern-or-texture-to-a-barplot-in-ggp
+
+## Plan for Answering Question 2
 
 For the second question, we plan to create a line plot that displays the dollar amount of contributions made to both anti-LGBTQ+ campaigns and Pride campaigns by companies who contribute to both over the years of 2013 to 2022. To create the "year" variable, we used the "Date" variable originally in the dataset and extracted the year using the lubridate package. For our plot, the x variable would be the year, the y variable would be the contribution amount, and we would have two lines, one representing the contribution for anti-LGBTQ+ campaigns and the other representing the contribution for pride campaigns; we could either make the linetypes of the two lines different or have different colors for easy readability. Variables used: Contribution to anti-LGBTQ+ campaigns (USD), Contribution to Pride campaigns (USD), and Year.
