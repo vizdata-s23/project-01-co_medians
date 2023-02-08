@@ -1,11 +1,7 @@
 ---
-title: "exploration-amber"
-title: "Homework 01"
-author: "Amber Potter"
-format:
-  html:
-    embed-resources: true
-toc: true
+title: "Exploration-Amber"
+format: html
+editor: visual
 ---
 
 
