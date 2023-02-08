@@ -65,7 +65,7 @@ new_static_list <- static_list %>%
   summarise(total_amount = sum(amount_contributed),
             hrc_pledge, pride_or_not) %>%
   arrange(desc(total_amount)) %>%
-  slice_head(n = 10)
+  slice_head(n = 20)
   
 new_static_list
 #idea for plot: x axis is contribution amount, y is the company, color whether or not have donated to pride, made stripes or another pattern if there's an HRC business pledge
@@ -93,7 +93,7 @@ company_contribution_all_q2
 
 ## Plan for Answering Question 1
 
-For the first question, we plan to visualize the answer by creating a bar chart of the dollar amount of contributions to anti-LGBTQ+ campaigns made by the top 10 (tentative) companies in USD. The x variable would be the contribution amount, the y variable would be the company names, we plan to color the bar of the company based on whether or not they have donated to pride, and we plan to add a pattern (ex. stripes with ggpattern) on the bar to indicate whether a company has an HRC pledge in place. Variables used: Company (company name), amount_contributed (contribution to anti-LGBTQ+ in USD), hrc_pledge (indicating existence of an HRC pledge, and pride_or_not (whether or not company has donated to pride).
+For the first question, we plan to visualize the answer by creating a bar chart of the dollar amount of contributions to anti-LGBTQ+ campaigns made by the top 20 (tentative) companies in USD. The x variable would be the contribution amount, the y variable would be the company names, we plan to color the bar of the company based on whether or not they have donated to pride, and we plan to add a pattern (ex. stripes with ggpattern) on the bar to indicate whether a company has an HRC pledge in place. Variables used: Company (company name), amount_contributed (contribution to anti-LGBTQ+ in USD), hrc_pledge (indicating existence of an HRC pledge, and pride_or_not (whether or not company has donated to pride).
 
 Source: https://stackoverflow.com/questions/62393159/how-can-i-add-hatches-stripes-or-another-pattern-or-texture-to-a-barplot-in-ggp
 
