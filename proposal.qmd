@@ -45,7 +45,7 @@ The first question we want to answer using this dataset is: which companies tend
 
 Source: https://www.hrc.org/resources/business-statement-on-anti-lgbtq-state-legislation
 
-In our data processing, we renamed some variables (Amount Contributed Across States, HRC Business Pledge, and Pride?) for better readability.
+In our data processing, we renamed some variables for better readability.
 
 ```{r question-1-data-processing}
 static_list <- static_list %>%
@@ -74,7 +74,7 @@ new_static_list
 
 Our second question involves the dollar amount of contributions made to anti-LGBTQ+ campaigns vs the dollar amount of contributions to pride campaigns by the hypocritical companies who contribute to both anti-LGBTQ+ and pro-pride campaigns. Specifically, what is the magnitude of difference in contributions to pro- and anti-LGBTQ+ campaigns made by these companies over the years 2013 to 2022, and are there any associations we can see between the two?
 
-For our data processing, we created a year variable by extracting the year from the Date variable. We also filtered by companies that weren't NA and dates that weren't NA; renamed the "Pride?" variable for better readability; and looked at the total contribution for both pride and anti-LGBTQ+ campaigns over the years 2013-2022. It is notable how there was no data on contributions towards anti-LGBTQ+ campaigns in 2016.
+For our data processing, we created a year variable by extracting the year from the Date variable. We also filtered for companies and dates that weren't NA; renamed the `Pride?` variable to `pride_or_not` for better readability; and looked at the total contribution for both pride and anti-LGBTQ+ campaigns over the years 2013-2022. It is notable that there was no data on contributions towards anti-LGBTQ+ campaigns in 2016.
 
 ```{r question-2-data-processing}
 company_contribution_all_q2 <- contribution_data_all_states %>%
@@ -92,7 +92,7 @@ company_contribution_all_q2
 
 ## Plan for Answering Question 1
 
-For the first question, we plan to visualize the answer by creating a bar chart of the dollar amount of contributions to anti-LGBTQ+ campaigns made by the top 20 (tentative) companies in USD. The x variable would be the contribution amount, the y variable would be the company names, we plan to color the bar of the company based on whether or not they have donated to pride, and we plan to add a pattern (ex. stripes with ggpattern) on the bar to indicate whether a company has an HRC pledge in place. We can also add annotations for the actual amount the companies donated, which can be helpful for comparison. Variables used: Company (company name), amount_contributed (contribution to anti-LGBTQ+ in USD), hrc_pledge (indicating existence of an HRC pledge, and pride_or_not (whether or not company has donated to pride).
+For the first question, we plan to visualize the answer by creating a bar chart of the dollar amount of contributions to anti-LGBTQ+ campaigns made by the top 20 (tentative) companies in USD. The x variable would be the contribution amount, the y variable would be the company names, we plan to color the bar of the company based on whether or not they have donated to pride, and we plan to add a pattern (ex. stripes with ggpattern) on the bar to indicate whether a company has an HRC pledge in place. We can also add annotations for the actual amount the companies donated, which can be helpful for comparison. Variables used: `Company` company name, `amount_contributed` contribution to anti-LGBTQ+ in USD, `hrc_pledge` indicating existence of an HRC pledge, and `pride_or_not` denoting whether or not company has donated to pride.
 
 Source: https://stackoverflow.com/questions/62393159/how-can-i-add-hatches-stripes-or-another-pattern-or-texture-to-a-barplot-in-ggp
 
