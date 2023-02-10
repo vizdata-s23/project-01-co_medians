@@ -64,3 +64,12 @@ contribution_data_all_states %>%
   arrange(desc(count_polititians))
 ```
 
+```{r}
+#| label: years_greg_abbot
+
+contribution_data_all_states %>%
+  filter(Politician == "Greg Abbott") %>% 
+  mutate(year = year(ymd(Date))) %>%
+  select(year) %>%
+  distinct(year)
+```
