@@ -1,0 +1,66 @@
+---
+title: "data_manipulation"
+---
+
+```{r load-packages}
+#| label: load-pkgs
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(dplyr)
+library(tidytuesdayR)
+library(lubridate)
+library(readr)
+
+# read data 
+static_list <-readRDS("data/static_list.RDS")
+contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
+```
+
+
+```{r question-1-data-processing}
+static_list <- static_list |> 
+  mutate(amount_contributed = `Amount Contributed Across States`)
+
+static_list <- static_list |> 
+  mutate(hrc_pledge = `HRC Business Pledge`)
+
+static_list <- static_list |> 
+  mutate(pride_or_not = `Pride?`)
+
+
+new_static_list <- static_list |> 
+  filter(!is.na(Company), !is.na(hrc_pledge)) |> 
+  select(Company, amount_contributed, hrc_pledge, pride_or_not) |> 
+  group_by(Company) |> 
+  summarise(total_amount = sum(amount_contributed),
+            hrc_pledge, pride_or_not) |> 
+  arrange(desc(total_amount)) |> 
+  slice_head(n = 20)
+  
+new_static_list |> 
+  filter(hrc_pledge == TRUE, pride_or_not == FALSE)
+```
+
+For our data processing, we created a year variable by extracting the year from the Date variable. We also filtered for companies and dates that weren't NA; renamed the Pride? variable to pride_or_not for better readability; and looked at the total contribution for both pride and anti-LGBTQ+ campaigns over the years 2013-2022. It is notable that there was no data on contributions towards anti-LGBTQ+ campaigns in 2016.
+
+```{r question-2-data-processing}
+company_contribution_all_q2 <- contribution_data_all_states %>%
+  filter(!is.na(Company), !is.na(Date)) %>%
+  mutate(year = year(ymd(Date)),
+         pride_or_not = case_when(`Pride?` == TRUE ~ "Pride",
+                                TRUE ~ "Anti-LGBTQ+")) %>%
+  group_by(pride_or_not, year) %>%
+  summarise(total_contribution = sum(Amount), .groups = 'drop')
+
+company_contribution_all_q2
+```
+
+```{r}
+contribution_data_all_states %>%
+  group_by(Politician) %>%
+  summarize(count_polititians = n()) %>%
+  arrange(desc(count_polititians))
+```
+
