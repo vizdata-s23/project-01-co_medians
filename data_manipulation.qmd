@@ -20,26 +20,26 @@ contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
 
 
 ```{r question-1-data-processing}
-static_list <- static_list |> 
+static_list <- static_list %>%
   mutate(amount_contributed = `Amount Contributed Across States`)
 
-static_list <- static_list |> 
+static_list <- static_list %>%
   mutate(hrc_pledge = `HRC Business Pledge`)
 
-static_list <- static_list |> 
+static_list <- static_list %>% 
   mutate(pride_or_not = `Pride?`)
 
 
-new_static_list <- static_list |> 
-  filter(!is.na(Company), !is.na(hrc_pledge)) |> 
-  select(Company, amount_contributed, hrc_pledge, pride_or_not) |> 
-  group_by(Company) |> 
+new_static_list <- static_list %>% 
+  filter(!is.na(Company), !is.na(hrc_pledge)) %>%
+  select(Company, amount_contributed, hrc_pledge, pride_or_not) %>%
+  group_by(Company) %>%
   summarise(total_amount = sum(amount_contributed),
-            hrc_pledge, pride_or_not) |> 
-  arrange(desc(total_amount)) |> 
+            hrc_pledge, pride_or_not) %>%
+  arrange(desc(total_amount)) %>%
   slice_head(n = 20)
   
-new_static_list |> 
+new_static_list %>%
   filter(hrc_pledge == TRUE, pride_or_not == FALSE)
 ```
 
@@ -70,6 +70,45 @@ contribution_data_all_states %>%
 contribution_data_all_states %>%
   filter(Politician == "Greg Abbott") %>% 
   mutate(year = year(ymd(Date))) %>%
-  select(year) %>%
-  distinct(year)
+  group_by(year) %>%
+  summarize(year_total = sum(Amount))
+
+
+contribution_data_all_states %>%
+  mutate(year = year(ymd(Date))) %>%
+  group_by(year) %>%
+  summarize(year_total = sum(Amount)) %>%
+  arrange(desc(year))
+
+
+# gregs proportions
+
+568344	/1755374.26	
+6524906	/10325005.88
+3467398	/	 6530536.17	
+2953770	/	 6359610.83	
+
+contribution_data_all_states %>%
+  mutate(year = year(ymd(Date))) %>%
+  select(year, State) %>%
+  distinct() %>%
+  filter(State %in% c("ID", "TX", "FL", "TN", "AL")) %>%
+  arrange(year)
+
+contribution_data_all_states %>%
+  mutate(year = year(ymd(Date))) %>%
+  select(year, State) %>%
+  distinct() %>%
+  filter(year >=2019) %>%
+  arrange(year)
+
+contribution_data_all_states %>%
+  mutate(year = year(ymd(Date))) %>%
+  select(year, State, Amount) %>%
+  group_by(year, State) %>%
+  summarize(total = sum(Amount)) %>%
+  distinct() %>%
+  filter(State == "TN") %>%
+  arrange(year)
+  
 ```
