@@ -41,6 +41,13 @@ Overall, we thought that these datasets would be extremely interesting both to v
 
 ## Question 1
 
+What is the relationship between whether a company is a pride sponsor, has an hrc pledge, and the amount that they donate to anti-lgbt campaigns?
+
+- plot 1: proportion of # of anti lgbt donations coming from hrc companies vs not
+or proportion of anti lgbt donations coming from pride sponsors
+
+- plot 2: comparing individual companies total donation amounts to anti lgbt, coloring by hrc
+
 The first question we want to answer using this dataset is: which companies tend to donate the most money in contributions to anti-LGBTQ+ campaigns, which of these companies have a HRC pledge in place, and which of these companies have donated to pride campaigns? The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ people in society and the workplace.
 
 Source: https://www.hrc.org/resources/business-statement-on-anti-lgbtq-state-legislation
@@ -67,7 +74,8 @@ new_static_list <- static_list %>%
   arrange(desc(total_amount)) %>%
   slice_head(n = 10)
   
-new_static_list
+new_static_list %>%
+  filter(hrc_pledge == TRUE, pride_or_not == FALSE)
 #idea for plot: x axis is contribution amount, y is the company, color whether or not have donated to pride, made stripes or another pattern if there's an HRC business pledge
 ```
 
@@ -100,3 +108,22 @@ Source: https://stackoverflow.com/questions/62393159/how-can-i-add-hatches-strip
 ## Plan for Answering Question 2
 
 For the second question, we plan to create a line plot that displays the dollar amount of contributions made to both anti-LGBTQ+ campaigns and Pride campaigns by companies who contribute to both over the years of 2013 to 2022. To create the "year" variable, we used the "Date" variable originally in the dataset and extracted the year using the lubridate package. For our plot, the x variable would be the year, the y variable would be the contribution amount, and we would have two lines, one representing the contribution for anti-LGBTQ+ campaigns and the other representing the contribution for pride campaigns; we could either make the linetypes of the two lines different or have different colors for easy readability. Variables used: Contribution to anti-LGBTQ+ campaigns (USD), Contribution to Pride campaigns (USD), and Year.
+
+
+```{r}
+contribution_data_all_states %>%
+  filter(!is.na(Company)) %>%
+  mutate(year = year(Date)) %>% 
+  filter(year == 2021) %>% 
+  group_by(Company, `Pride?`) %>% 
+  mutate(amount_cont = sum(Amount)) %>%
+  relocate(amount_cont) %>% 
+  select(Company, amount_cont, `Pride?`) %>%
+  distinct() %>%
+  arrange(desc(amount_cont)) %>% 
+  head(20) %>%
+  ggplot(aes(x = Company, y = amount_cont, fill = `Pride?`)) +
+  geom_histogram(stat = "identity") +
+  coord_flip()
+```
+
