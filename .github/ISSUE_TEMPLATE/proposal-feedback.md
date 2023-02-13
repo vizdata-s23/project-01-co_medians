@@ -1,3 +1,11 @@
+---
+name: Proposal feedback
+about: Instructor review of project proposal
+title: Proposal feedback
+labels: ''
+assignees: ''
+---
+
 Dear TEAM_NAME: Below is the score breakdown for your proposal. Details of things that should be updated/revised are provided in separate issues. As you address them, you should close the individual issues.
 
 You can do this in one of two ways:
