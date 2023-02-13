@@ -18,13 +18,13 @@ library(lubridate)
 library(readr)
 ```
 
-# Dataset
+## Dataset
 
 ```{r load-data}
 #| label: load-data
 #| message: false
 
-# read data 
+## read data 
 static_list <-readRDS("data/static_list.RDS")
 contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
 ```
@@ -33,19 +33,19 @@ The datasets we are using are from TidyTuesday (https://github.com/rfordatascien
 
 The first dataset we are using is `static_list`, containing information on `r nrow(static_list)` companies (each row corresponds to a company) and whether they donated to pride, if they have an HRC business pledge, the dollar amount contributed across states (USD), the number of politicians contributed to, and the number of states where they made contributions. It has `r ncol(static_list)` columns/variables. A few of the variables we are using from this dataset for our analysis include `Company`, `Pride?`, `HRC Business Pledge`, and `Amount Contributed Across States`. The second dataset is `contribution_data_all_states` with `r nrow(contribution_data_all_states)` observations with each row denoting a single donation/contribution, along with information on the company it was made by, whether or not they were a pride and sponsor match, if they were a pride event sponsor, HRC business pledge, donor name, politician donated to, state donated to, amount of donation (USD), date, citation, donor type, comments, and an archive. It has a total of `r ncol(contribution_data_all_states)` columns/variables. Some of the variables we are using to answer our research questions from this dataset are `Politician`, `Date`, and `Amount`.
 
-# Reason for Choosing this Dataset
+## Reason for Choosing this Dataset
 
 Overall, we thought that these datasets would be extremely interesting both to visualize and to learn about. We are all advocates for LGBTQ+ rights, and we were very intrigued by the prevalence of corporate pride sponsors who also donate to anti-LGBTQ+ campaigns. This article (https://19thnews.org/2022/06/companies-anti-lgbtq-bills-lawmakers/) outlines the fact that many companies have publicly opposed anti-LGBTQ+ bills and have pro-LGBTQ campaigns, however, some of these companies simultaneously fund lawmakers who back anti-LGBTQ+ bills. In particular, from 2021-2022, the newspaper "Popular Information" found that 25 companies who were publicly in support of the pride movement have also donated \$13M to politicians who back anti-LGBTQ+ bills. We believe this is sneaky and dishonest behavior by corporations that deserves attention in order to help others become more aware of these hypocritical practices.
 
-# Questions and Analysis Plan
+## Questions and Analysis Plan
 
-## Question 1
+### Question 1
 
 The first question we want to answer using this dataset is: What is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge, and their contributions to anti-LGBTQ+ campaigns? The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ people in society and the workplace. We would expect that companies who support the LGBTQ+ community would not also make anti-LGBTQ+ donations, but this is not the case. Even more so, even companies with HRC pledges make these anti-LGBTQ+ donations. Therefore, we wanted to compare company contribution amounts to uncover patterns associated with these categorizations.
 
 Source: https://www.hrc.org/resources/business-statement-on-anti-lgbtq-state-legislation
 
-## Plan for Answering Question 1
+### Plan for Answering Question 1
 
 For our first question, we plan to make a bar chart visualization of the top 10 or 20 companies who contributed the most to anti-LGBTQ+ campaigns (in USD). From there, we will color the bars based on whether or not the company is a Pride sponsor, and add a pattern (ex. stripes with ggpattern) on the bar to indicate whether a company has an HRC pledge in place. We are interested in seeing which companies are donating the most money to anti-LGBTQ+ campaigns, as well as how many of the top corporate contributers are blatantly anti-LGBTQ+ vs. those that are hypocritical Pride sponsors. 
 
@@ -53,14 +53,14 @@ For the second visualization, we want to investigate the distribution of anti-LG
 
 Source: https://stackoverflow.com/questions/62393159/how-can-i-add-hatches-stripes-or-another-pattern-or-texture-to-a-barplot-in-ggp
 
-## Question 2
+### Question 2
 
 Our second question asks: how have the donations to politicians who support anti-LGBTQ+ campaigns changed over time? We are very curious as to how the total amount of money contributed to anti-LGBTQ+ politicians has changed from 2013-2022, as there has been growing discussion about human rights issues especially in the past few years and we would hope to see a decline in the amount contributed. However, we also know that outspoken homophobia and transphobia seemed to grow during and following Trump's presidency. 
 
 Speaking of the dialogue on these topics, Greg Abbott has been receiving a lot of public attention recently as an outspoken Texas Republican. According to this data, he has received the highest number of individual donations overall, despite him only being included over the years 2019-2022. As an extension of our main question, we are also interested in further looking into donations that were made specifically to Greg Abbott and seeing how his amounts compare to overall trends across all politicians. Overall, we would hypothesize that the trend of anti-LGBTQ+ political campaign donations would decrease over time (or one would hope they do), however due to the large media presence of Greg Abbott and his strong rhetoric involving this topic, we believe he might prove a contrast to the overall trend.
 
 
-## Plan for Answering Question 2
+### Plan for Answering Question 2
 
 First, we plan to create a line plot showing how contributions (in USD amounts) to anti-LGBTQ+ politicians has changed over time from 2013 to 2022. We feel as though this is one of the first and most basic questions that someone would have regarding data on contributions to anti-LGBTQ+ political campaigns over multiple years. To do this, we plan to plot the average of the total amount donated to each politician over the years in our data. We will add these as points (using `geom_point()`) with size proportional to the number of politicians donated to in that year. We also plan to create a line connecting these points (using `geom_line()`) that will highlight the trend over time. In an additional ggplot layer, we will single out just Greg Abbott's total amount received by year and plot this with another `geom_line()` using a different color. For this plot we will need to create the variable `year` by isolating year from the `Date` variable, create a variable for `yearly_total_per_politician` by calculating the total amount donated to each politician each year, create a variable `num_politicians` for the number of politicians donated to each year, and a variable for `mean_yearly_total_per_politician` by calculating the average of `yearly_total_per_politician` per year. For the Greg Abbott layer, we also will need to summarize his total amount received by year (which we can call `yearly_abbott_total`).
 
