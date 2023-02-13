@@ -3,6 +3,9 @@ project:
 
 website:
   navbar:
+    right:
+      - icon: github
+        href: https://github.com/vizdata-s23/project-01-co_medians
     left:
       - href: index.qmd
       - text: "Proposal"
