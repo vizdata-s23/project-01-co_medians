@@ -12,6 +12,7 @@ library(dplyr)
 library(tidytuesdayR)
 library(lubridate)
 library(readr)
+library(ggpattern)
 
 # read data 
 static_list <-readRDS("static_list.RDS")
@@ -38,10 +39,45 @@ new_static_list <- static_list %>%
             hrc_pledge, pride_or_not) %>%
   arrange(desc(total_amount)) %>%
   slice_head(n = 20)
-  
-new_static_list %>%
-  filter(hrc_pledge == TRUE, pride_or_not == FALSE)
 ```
+
+```{r}
+#| label: question 1 plot 2
+
+static_list |> 
+  mutate(category = case_when(hrc_pledge == TRUE & pride_or_not == TRUE ~ "both",
+                              hrc_pledge == FALSE & pride_or_not == TRUE ~ "pride_not_hrc",
+                              TRUE ~ "neither")) |> 
+ggplot(aes(x = amount_contributed)) +
+  scale_x_continuous(label = scales::label_dollar()) +
+  geom_density(aes(fill = category), alpha = .5, show.legend = FALSE) +
+  facet_wrap(~category, ncol = 1) +
+  coord_cartesian(xlim = c(0, 750000)) 
+```
+
+
+
+```{r}
+#| label: question 1 plot 1
+new_static_list |> 
+  mutate(hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
+         pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")) |> 
+ggplot(aes(x = Company, y = total_amount, 
+                            pattern = hrc_pledge, fill = pride_or_not)) +
+  geom_col_pattern() +
+  scale_pattern_manual(values = c("none", "stripe")) +
+  scale_y_continuous(label = scales::label_dollar()) +
+  coord_flip() +
+  labs(title = "USD Amounts of top 20 companies in contributions to anti-LGBTQ+ campaigns",
+       subtitle = "Colored by ...",
+       x = "Company Name",
+       y = "Amount contributed to anti-LGBTQ+ campaigns (in USD)",
+       fill = "Does the company donate to Pride as well?",
+       pattern = "Does the company have an HRC pledge?")
+```
+
+
+
 
 For our data processing, we created a year variable by extracting the year from the Date variable. We also filtered for companies and dates that weren't NA; renamed the Pride? variable to pride_or_not for better readability; and looked at the total contribution for both pride and anti-LGBTQ+ campaigns over the years 2013-2022. It is notable that there was no data on contributions towards anti-LGBTQ+ campaigns in 2016.
 
