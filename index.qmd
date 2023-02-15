@@ -30,6 +30,38 @@ editor: visual
 
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
+```{r}
+library(tidyverse)
+library(lubridate)
+```
+
+```{r load-data}
+corp_by_politician <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv')
+static_list <-readRDS("data/static_list.RDS")
+contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
+
+question2_data <- inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
+
+question2_data <- question2_data %>%
+  filter(!is.na(Date)) %>%
+  mutate(year = year(ymd(Date))) %>%
+  filter(year == 2019 | year == 2020 | year == 2021 | year == 2022) 
+
+question2_data <- question2_data %>%
+  mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg"))
+
+#question2_data %>% filter(Politician == "Greg Abbott") %>% select(year) %>% unique()
+#Greg only had data in years 2019-2022
+```
+
+```{r plot-4}
+greg_not_greg <- question2_data %>%
+  group_by(is_greg, year) %>%
+  summarise(amounts = sum(Amount))
+  ggplot(aes(x = year, y = Amount)) + 
+  geom_col()
+```
+
 ### Discussion
 
 (1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
