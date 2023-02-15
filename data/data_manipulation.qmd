@@ -14,8 +14,8 @@ library(lubridate)
 library(readr)
 
 # read data 
-static_list <-readRDS("data/static_list.RDS")
-contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
+static_list <-readRDS("static_list.RDS")
+contribution_data_all_states <-readRDS("contribution_data_all_states.RDS")
 ```
 
 
