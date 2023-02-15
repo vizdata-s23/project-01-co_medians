@@ -57,9 +57,33 @@ question2_data <- question2_data %>%
 ```{r plot-4}
 greg_not_greg <- question2_data %>%
   group_by(is_greg, year) %>%
-  summarise(amounts = sum(Amount))
-  ggplot(aes(x = year, y = Amount)) + 
-  geom_col()
+  summarise(amounts = sum(Amount)) 
+
+not_greg <- greg_not_greg %>% 
+  filter(is_greg == "Not Greg")
+
+props_greg_not_greg <- greg_not_greg %>%
+  group_by(year) %>%
+  summarise(prop = round(100*(amounts/sum(amounts)), 0))
+
+data_for_annotation <- greg_not_greg %>%
+  group_by(year) %>%
+  summarise(amount_sum = sum(amounts))
+
+# annotation_data_2019 <- tribble(
+#   ~ amount_min,
+#   ~ amount_max,
+#   0,
+#   not_greg$amounts[1],
+#   not_greg$amounts[1],
+#   data_for_annotation$amount_sum[1],
+# ) %>%
+#   mutate(aqi_mid = (amount_min + amount_max) / 2)
+
+greg_not_greg %>%
+  ggplot(aes(x = year, y = amounts, fill = is_greg)) + 
+  geom_bar(position = 'stack', stat = 'identity')
+  
 ```
 
 ### Discussion
