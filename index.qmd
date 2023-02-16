@@ -184,8 +184,11 @@ ggplot(greg_not_greg) +
     size = 3
   ) +
   scale_color_identity() +
-  labs(x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns (in USD)",
-       fill = "Politician") +
+  labs(x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns 
+       (in USD)",
+       fill = "Politician",
+       title = "Distribution of donation amounts for anti-LGBTQ+ campaigns to politicians",
+       subtitle = "In the years 2019-2022") +
   scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
   scale_y_continuous(
     limits = c(0, 11000000),
