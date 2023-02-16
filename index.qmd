@@ -83,7 +83,7 @@ annotation_data_2019 <- tribble(
   paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2019][2], "%"),
   'black',
   not_greg$amounts[1],
-  data_for_annotation$amount_sum[1],
+  total_amount_per_year$amount_sum[1],
   paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2019][1], "%"),
   'white'
 ) %>%
@@ -99,7 +99,7 @@ annotation_data_2020 <- tribble(
   paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2020][2], "%"),
   'black',
   not_greg$amounts[2],
-  data_for_annotation$amount_sum[2],
+  total_amount_per_year$amount_sum[2],
   paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2020][1], "%"),
   'white'
 ) %>%
@@ -115,7 +115,7 @@ annotation_data_2021 <- tribble(
   paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2021][2], "%"),  
   'black',
   not_greg$amounts[3],
-  data_for_annotation$amount_sum[3],
+  total_amount_per_year$amount_sum[3],
   paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2021][1], "%"),
   'white'
 ) %>%
@@ -131,7 +131,7 @@ annotation_data_2022 <- tribble(
   paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2022][2], "%"),
   'black',
   not_greg$amounts[4],
-  data_for_annotation$amount_sum[4],
+  total_amount_per_year$amount_sum[4],
   paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2022][1], "%"),
   'white'
 ) %>%
