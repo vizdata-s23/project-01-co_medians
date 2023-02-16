@@ -30,7 +30,7 @@ editor: visual
 
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
-```{r}
+```{r load-packages}
 library(tidyverse)
 library(lubridate)
 ```
@@ -54,36 +54,138 @@ question2_data <- question2_data %>%
 #Greg only had data in years 2019-2022
 ```
 
-```{r plot-4}
+```{r plot-4-data-processing}
 greg_not_greg <- question2_data %>%
   group_by(is_greg, year) %>%
-  summarise(amounts = sum(Amount)) 
+  summarise(amounts = sum(Amount))
 
-not_greg <- greg_not_greg %>% 
+not_greg <- greg_not_greg %>%
   filter(is_greg == "Not Greg")
 
 props_greg_not_greg <- greg_not_greg %>%
   group_by(year) %>%
-  summarise(prop = round(100*(amounts/sum(amounts)), 0))
+  summarise(prop = round(100 * (amounts / sum(amounts)), 0))
 
-data_for_annotation <- greg_not_greg %>%
+total_amount_per_year <- greg_not_greg %>%
   group_by(year) %>%
   summarise(amount_sum = sum(amounts))
 
-# annotation_data_2019 <- tribble(
-#   ~ amount_min,
-#   ~ amount_max,
-#   0,
-#   not_greg$amounts[1],
-#   not_greg$amounts[1],
-#   data_for_annotation$amount_sum[1],
-# ) %>%
-#   mutate(aqi_mid = (amount_min + amount_max) / 2)
+annotation_data_2019 <- tribble(
+  ~ amount_min,
+  ~ amount_max,
+  ~ percentage,
+  ~ color, 
+  0,
+  not_greg$amounts[1],
+  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2019][2], "%"),
+  'black',
+  not_greg$amounts[1],
+  data_for_annotation$amount_sum[1],
+  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2019][1], "%"),
+  'white'
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
 
-greg_not_greg %>%
-  ggplot(aes(x = year, y = amounts, fill = is_greg)) + 
-  geom_bar(position = 'stack', stat = 'identity')
-  
+
+annotation_data_2020 <- tribble(
+  ~ amount_min,
+  ~ amount_max,
+  ~ percentage,
+  ~ color,
+  0,
+  not_greg$amounts[2],
+  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2020][2], "%"),
+  'black',
+  not_greg$amounts[2],
+  data_for_annotation$amount_sum[2],
+  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2020][1], "%"),
+  'white'
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+
+annotation_data_2021 <- tribble(
+  ~ amount_min,
+  ~ amount_max,
+  ~ percentage,
+  ~ color, 
+  0,
+  not_greg$amounts[3],
+  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2021][2], "%"),  
+  'black',
+  not_greg$amounts[3],
+  data_for_annotation$amount_sum[3],
+  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2021][1], "%"),
+  'white'
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+
+annotation_data_2022 <- tribble(
+  ~ amount_min,
+  ~ amount_max,
+  ~ percentage,
+  ~ color,
+  0,
+  not_greg$amounts[4],
+  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2022][2], "%"),
+  'black',
+  not_greg$amounts[4],
+  data_for_annotation$amount_sum[4],
+  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2022][1], "%"),
+  'white'
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+```
+
+```{r plot-4}
+ggplot(greg_not_greg) +
+  geom_bar(aes(x = year, y = amounts, fill = is_greg),
+           position = 'stack',
+           stat = 'identity') +
+  geom_text(
+    data = annotation_data_2019,
+    aes(
+      x = 2019,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 3
+  ) +
+  geom_text(
+    data = annotation_data_2020,
+    aes(
+      x = 2020,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 3
+  ) +
+  geom_text(
+    data = annotation_data_2021,
+    aes(
+      x = 2021,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 3
+  ) +
+  geom_text(
+    data = annotation_data_2022,
+    aes(
+      x = 2022,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 3
+  ) +
+  scale_color_identity() +
+  labs(x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns (in USD)",
+       fill = "Politician") +
+  scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
+  theme_minimal()
 ```
 
 ### Discussion
