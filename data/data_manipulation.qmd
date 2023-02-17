@@ -2,7 +2,7 @@
 title: "data_manipulation"
 ---
 
-```{r load-packages}
+```{r}
 #| label: load-pkgs
 #| message: false
 #| warning: false
@@ -13,6 +13,7 @@ library(tidytuesdayR)
 library(lubridate)
 library(readr)
 library(ggpattern)
+library(scales)
 
 # read data 
 static_list <-readRDS("static_list.RDS")
@@ -43,37 +44,53 @@ new_static_list <- static_list %>%
 
 ```{r}
 #| label: question 1 plot 2
+#| warning: false
 
 static_list |> 
-  mutate(category = case_when(hrc_pledge == TRUE & pride_or_not == TRUE ~ "both",
-                              hrc_pledge == FALSE & pride_or_not == TRUE ~ "pride_not_hrc",
-                              TRUE ~ "neither")) |> 
+  mutate(category = case_when(
+    hrc_pledge == TRUE & pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
+    hrc_pledge == FALSE & pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+                              TRUE ~ "Neither"),
+    category = fct_relevel(category, levels = c("HRC Pledge, donates to Pride",
+                        "No HRC pledge, donates to Pride", "Neither"))) |> 
 ggplot(aes(x = amount_contributed)) +
+  geom_density(aes(fill = category, color = category), show.legend = FALSE) +
   scale_x_continuous(label = scales::label_dollar()) +
-  geom_density(aes(fill = category), alpha = .5, show.legend = FALSE) +
+  scale_y_continuous(labels = label_number()) +     #idk if scientific notation is better
+  scale_fill_manual(values = c("#AA4A44", "#BF8F8C", "lightgrey")) +
+  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "lightgrey")) +    #can take this out
   facet_wrap(~category, ncol = 1) +
-  coord_cartesian(xlim = c(0, 750000)) 
+  coord_cartesian(xlim = c(0, 750000)) +
+  labs(title = "Density of company contributions (USD) to anti-LGBTQ+ campaigns",
+       subtitle = "Faceted by company characteristics",        #CHANGE TITLE
+       x = "Amount contributed (USD)",
+       y = "Density") +
+  theme_minimal()
 ```
 
 
 
 ```{r}
 #| label: question 1 plot 1
+
 new_static_list |> 
   mutate(hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
          pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")) |> 
-ggplot(aes(x = Company, y = total_amount, 
-                            pattern = hrc_pledge, fill = pride_or_not)) +
+ggplot(aes(x = Company, y = total_amount, fill = pride_or_not, pattern = hrc_pledge)) +
   geom_col_pattern() +
+  scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
   scale_pattern_manual(values = c("none", "stripe")) +
   scale_y_continuous(label = scales::label_dollar()) +
   coord_flip() +
-  labs(title = "USD Amounts of top 20 companies in contributions to anti-LGBTQ+ campaigns",
-       subtitle = "Colored by ...",
+  labs(title = "USD Amounts of top 20 companies in contributions \nto anti-LGBTQ+ campaigns",
        x = "Company Name",
        y = "Amount contributed to anti-LGBTQ+ campaigns (in USD)",
-       fill = "Does the company donate to Pride as well?",
-       pattern = "Does the company have an HRC pledge?")
+       fill = "Does the company \ndonate to Pride?",
+       pattern = "Does the company \nhave an HRC pledge?") +
+  theme_minimal() +
+  theme(legend.position = c(.85, .32),
+        legend.title = element_text(size = 8),
+        legend.background = element_rect(fill = "white", color = "darkgrey")) 
 ```
 
 
