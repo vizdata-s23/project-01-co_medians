@@ -1,5 +1,5 @@
 ---
-title: "The Modern State of Pride and. Anti-LGBTQ+ in the US"
+title: "The Modern State of Pride and Anti-LGBTQ+ in the US"
 subtitle: "STA/ISS 313 - Project 1"
 author: "Co-Medians - Ellen Zhang, Amber Potter, Helen Chen, Morgan Bernstein"
 format: html
@@ -30,9 +30,87 @@ We are all advocates for LGBTQ+ rights, and we are very intrigued by the prevale
 
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
+#### Plot 1:
+
 ```{r load-packages, echo=FALSE}
 library(tidyverse)
+library(dplyr)
+library(tidytuesdayR)
 library(lubridate)
+library(readr)
+library(ggpattern)
+library(scales)
+
+# read data 
+static_list <-readRDS("data/static_list.RDS")
+contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
+```
+
+```{r data-processing-plot-1, echo=FALSE}
+#| label: data_processing_plot_1
+
+static_list <- static_list %>%
+  mutate(amount_contributed = `Amount Contributed Across States`,
+         hrc_pledge = `HRC Business Pledge`,
+         pride_or_not = `Pride?`)
+
+new_static_list <- static_list %>% 
+  filter(!is.na(Company), !is.na(hrc_pledge)) %>%
+  select(Company, amount_contributed, hrc_pledge, pride_or_not) %>%
+  group_by(Company) %>%
+  summarise(total_amount = sum(amount_contributed),
+            hrc_pledge, pride_or_not) %>%
+  arrange(desc(total_amount)) %>%
+  slice_head(n = 20)
+```
+
+```{r question1-plot-1, echo=FALSE}
+#| label: question 1 plot 1
+
+new_static_list |> 
+  mutate(hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
+         pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")) |> 
+ggplot(aes(x = Company, y = total_amount, fill = pride_or_not, pattern = hrc_pledge)) +
+  geom_col_pattern() +
+  scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
+  scale_pattern_manual(values = c("none", "stripe")) +
+  scale_y_continuous(label = scales::label_dollar()) +
+  coord_flip() +
+  labs(title = "USD Amounts of top 20 companies in contributions \nto anti-LGBTQ+ campaigns",
+       x = "Company Name",
+       y = "Amount contributed to anti-LGBTQ+ campaigns (in USD)",
+       fill = "Does the company \ndonate to Pride?",
+       pattern = "Does the company \nhave an HRC pledge?") +
+  theme_minimal() +
+  theme(legend.position = c(.85, .32),
+        legend.title = element_text(size = 8),
+        legend.background = element_rect(fill = "white", color = "darkgrey")) 
+```
+
+```{r question1-plot-2, echo=FALSE, warning=FALSE}
+#| label: question 1 plot 2
+#| warning: false
+
+static_list |> 
+  mutate(category = case_when(
+    hrc_pledge == TRUE & pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
+    hrc_pledge == FALSE & pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+                              TRUE ~ "Neither"),
+    category = fct_relevel(category, levels = c("HRC Pledge, donates to Pride",
+                        "No HRC pledge, donates to Pride", "Neither"))) |> 
+ggplot(aes(x = amount_contributed)) +
+  geom_density(aes(fill = category, color = category), show.legend = FALSE) +
+  scale_x_continuous(label = scales::label_dollar()) +
+  scale_y_continuous(labels = label_number()) +     #idk if scientific notation is better
+  scale_fill_manual(values = c("#AA4A44", "#BF8F8C", "lightgrey")) +
+  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "lightgrey")) +    #can take this out
+  facet_wrap(~category, ncol = 1) +
+  coord_cartesian(xlim = c(0, 750000)) +
+  labs(title = "Density of company contributions (USD) to anti-LGBTQ+ campaigns",
+       subtitle = "Faceted by company characteristics",        #CHANGE TITLE
+       x = "Amount contributed (USD)",
+       y = "Density") +
+  theme_minimal()
 ```
 
 ### Discussion
@@ -47,17 +125,17 @@ library(lubridate)
 
 Our second question is: how have donations to politicians who support anti-LGBTQ+ campaigns changed over time? We are very curious about how the total amount of money contributed to anti-LGBTQ+ politicians has changed over the years, especially given the growing discussions around human rights in the past few years. However, we also know that outspoken homophobia and transphobia seemed to grow during and following Trump's presidency.
 
-In particular, Greg Abbott, the Governor of Texas, has been receiving a lot of public attention recently as an outspoken Republican. On Feb. 13, 2023, an article by the Human Rights Campaign denounced Abbott who said that he'll aim to ban transgender college athletes from playing any sports that are consistent with their gender identity. According to Time, in 2022, he also had an Anti-Trans Directive which negatively affected youth from the LGBTQ+ community; he said that the provision of gender-affirming care for children was a form a child abuse, and families were being investigated for this. 
+In particular, Greg Abbott, the Governor of Texas, has been receiving a lot of public attention recently as an outspoken Republican. On Feb. 13, 2023, an article by the Human Rights Campaign denounced Abbott who said that he'll aim to ban transgender college athletes from playing any sports that are consistent with their gender identity. According to Time, in 2022, he also had an Anti-Trans Directive which negatively affected youth from the LGBTQ+ community; he said that the provision of gender-affirming care for children was a form a child abuse, and families were being investigated for this.
 
-From our EDA, we also realized that Abbott received the highest number of individual donations overall, despite him only being included over the years 2019-2022. As an extension of our main question, we are interested in looking into donations that were made specifically to Greg Abbott and seeing how his amounts compare to overall trends across all politicians. Overall, we would hypothesize that the trend of anti-LGBTQ+ political campaign donations would decrease over time (or we would hope they do), however, due to the large media presence of Greg Abbott and his strong rhetoric on this topic, we believe he might prove a contrast to the overall trend. 
+From our EDA, we also realized that Abbott received the highest number of individual donations overall, despite him only being included over the years 2019-2022. As an extension of our main question, we are interested in looking into donations that were made specifically to Greg Abbott and seeing how his amounts compare to overall trends across all politicians. Overall, we would hypothesize that the trend of anti-LGBTQ+ political campaign donations would decrease over time (or we would hope they do), however, due to the large media presence of Greg Abbott and his strong rhetoric on this topic, we believe he might prove a contrast to the overall trend.
 
 ### Approach
 
 (1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
 
-We were interested in how the total USD amounts contributed to politicians changed over time. To do this, we created a stacked bar plot with year on the x axis and total amount (USD) on the y axis. The height of each bar indicated that year's total money received by anti-LGBTQ+ politicians across the states included. Diving further, we wanted to also look at Greg Abbott and how he compares to the overall amount. For the stacked bar plot, we colored by Greg Abbott vs. all the other politicians except Abbott. Since Abbott only had data for the years 2019-2022, we focused on those four years in our plot. 
+We were interested in how the total USD amounts contributed to politicians changed over time. To do this, we created a stacked bar plot with year on the x axis and total amount (USD) on the y axis. The height of each bar indicated that year's total money received by anti-LGBTQ+ politicians across the states included. Diving further, we wanted to also look at Greg Abbott and how he compares to the overall amount. For the stacked bar plot, we colored by Greg Abbott vs. all the other politicians except Abbott. Since Abbott only had data for the years 2019-2022, we focused on those four years in our plot.
 
-We understand that a challenge with stacked bar plots is that it is hard to compare them when their heights are different. So, we added annotations for the different proportions (in %) to make the stacked bar plots easier to interpret and to make it more clear how the contributions to Abbott compared to those of the other politicians. We found the stacked bar plot to be the most appropriate for this question because it shows how the total donation amounts were divided between politicians who were and were not Greg Abbott. It also clearly visualizes the relationship of each group of politician on the overall donation amount. Overall, the plot we created was helpful in comparing the total donation amounts for politicians who were and were not Greg Abbott simultaneously and understand the different proportions in donations over the years. 
+We understand that a challenge with stacked bar plots is that it is hard to compare them when their heights are different. So, we added annotations for the different proportions (in %) to make the stacked bar plots easier to interpret and to make it more clear how the contributions to Abbott compared to those of the other politicians. We found the stacked bar plot to be the most appropriate for this question because it shows how the total donation amounts were divided between politicians who were and were not Greg Abbott. It also clearly visualizes the relationship of each group of politician on the overall donation amount. Overall, the plot we created was helpful in comparing the total donation amounts for politicians who were and were not Greg Abbott simultaneously and understand the different proportions in donations over the years.
 
 ### Analysis
 
@@ -236,19 +314,21 @@ ggplot(greg_not_greg) +
 
 From our fourth plot, we can see that in the years 2019-2021, there has been an increase in the amounts donated to politicians who are anti-LGBTQ+, with a stark increase in the year 2021. Upon further research, we found that 2021 was the worst year for anti-LGBTQ+ legislation since 2015 (HRC). In 2021, there were 17 anti-LGBTQ bills that were enacted into law, and this was more than the number of anti-LGBTQ+ laws in the years 2018-2020 combined. Some of these include bills that ban transgender girls from being involved in sports to the erasure of LGBTQ+ individuals from curriculum in schools to felonies for giving transgender young people healthcare in life-saving situations to licenses to discriminate against those in the LGBTQ+ community. In fact, there were 250+ bills that were introduced in legislatures that year. Fortunately, the total amounts decreased significantly in the year 2022, and we hope this downward trend will continue. Additionally, we can see that the proportion of total donations going to Greg Abbott increased in the years 2019-2021, with him having over 60% of total donations in 2021; not only have the proportions increased during those years, but the dollar amounts he received also increased. This suggests that there was, unfortunately, a lot of support for Abbott, as he has always been very vocal about being anti-LGBTQ+ and is a prominent figure in the US, being the Governor of Texas, a traditionally very red state. Fortunately, he received a smaller proportion of the total donations in 2022 and a smaller dollar amount of donations. This could be associated with the fact that he got the worst press out of all governors in the US regarding LGBTQ+ issues (Houston Chronicle), and this could've led less people to want to donate to his controversial campaigns.
 
-A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians. 
+A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians.
 
-## Sources: 
+## Sources:
 
-* https://19thnews.org/2022/06/companies-anti-lgbtq-bills-lawmakers/
+-   https://19thnews.org/2022/06/companies-anti-lgbtq-bills-lawmakers/
 
-* https://www.hrc.org/press-releases/human-rights-campaign-gov-abbott-continuing-his-crusade-to-harm-transgender-and-non-binary-texans
+-   https://www.hrc.org/press-releases/human-rights-campaign-gov-abbott-continuing-his-crusade-to-harm-transgender-and-non-binary-texans
 
-* https://time.com/6150964/greg-abbott-trans-kids-child-abuse/
+-   https://time.com/6150964/greg-abbott-trans-kids-child-abuse/
 
-* https://www.hrc.org/press-releases/2021-officially-becomes-worst-year-in-recent-history-for-lgbtq-state-legislative-attacks-as-unprecedented-number-of-states-enact-record-shattering-number-of-anti-lgbtq-measures-into-law
+-   https://www.hrc.org/press-releases/2021-officially-becomes-worst-year-in-recent-history-for-lgbtq-state-legislative-attacks-as-unprecedented-number-of-states-enact-record-shattering-number-of-anti-lgbtq-measures-into-law
 
-* https://www.houstonchronicle.com/politics/texas/article/gov-greg-gbbott-gets-worst-press-on-lgbtq-issues-17184157.php
+-   https://www.houstonchronicle.com/politics/texas/article/gov-greg-gbbott-gets-worst-press-on-lgbtq-issues-17184157.php
 
-* https://www.nbcnews.com/nbc-out/out-politics-and-policy/less-10-2022s-anti-lgbtq-state-bills-became-law-report-finds-rcna67619
+-   https://www.nbcnews.com/nbc-out/out-politics-and-policy/less-10-2022s-anti-lgbtq-state-bills-became-law-report-finds-rcna67619
+
+-  https://meyerweb.com/eric/tools/color-blend/#D3D3D3:AA4A44:1:hex
 
