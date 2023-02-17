@@ -30,7 +30,7 @@ We are all advocates for LGBTQ+ rights, and we are very intrigued by the prevale
 
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
 
-```{r load-packages}
+```{r load-packages, echo=FALSE}
 library(tidyverse)
 library(lubridate)
 ```
@@ -65,7 +65,7 @@ We understand that a challenge with stacked bar plots is that it is hard to comp
 
 #### Plot 4:
 
-```{r load-merge-and-process-data}
+```{r load-merge-and-process-data, echo=FALSE}
 corp_by_politician <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv')
 static_list <-readRDS("data/static_list.RDS")
 contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
@@ -82,7 +82,7 @@ question2_data <- question2_data %>%
 # Greg only had data in years 2019-2022 so we consider only those years
 ```
 
-```{r plot-4-more-data-processing-for-plot}
+```{r plot-4-more-data-processing-for-plot, echo=FALSE}
 greg_not_greg <- question2_data %>%
   group_by(is_greg, year) %>%
   summarise(amounts = sum(Amount),
@@ -166,7 +166,7 @@ annotation_data_2022 <- tribble(
   mutate(amount_mid = (amount_min + amount_max) / 2)
 ```
 
-```{r plot-4}
+```{r plot-4, echo=FALSE}
 ggplot(greg_not_greg) +
   geom_bar(aes(x = year, y = amounts, fill = is_greg),
            position = 'stack',
