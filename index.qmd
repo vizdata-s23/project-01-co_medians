@@ -10,7 +10,7 @@ editor: visual
 
 (1 paragraph): Project abstract.
 
-We are all advocates for LGBTQ+ rights, and we are very intrigued by the prevalence of pride supporters who also donate to anti-LGBTQ+ campaigns. While there has been growing support for the LGBTQ+ community in the US and increased discussion on human rights, diversity, and inclusion, there is still a lot more progress needed in this area. We see that many companies have publicly opposed anti-LGBTQ+ bills and have pro-LGBTQ campaigns, however, some of these companies simultaneously fund lawmakers who back anti-LGBTQ+ bills (https://19thnews.org/2022/06/companies-anti-lgbtq-bills-lawmakers/) In particular, from 2021-2022, the newspaper "Popular Information" found that 25 companies who were publicly in support of the pride movement have also donated \$13M to politicians who back anti-LGBTQ+ bills. We believe this is dishonest behavior that deserves attention to help others become more aware of these hypocritical practices. Further, politicians are undoubtedly vital to policy reform to support the LGBTQ+ community, however, there has been a significant amount of funding going towards politicians who are anti-LGBTQ+. If we want positive change and real action to uplift the LGBTQ+ community, we need governmental support. In summary, we wanted to delve into two key players in the pride and anti-LGBTQ+ movements: companies and politicians, and understand how both stakeholder groups are associated with anti-LGBTQ+ campaigns that undermine the progress to support pride in the US.
+We are all advocates for LGBTQ+ rights, and we are very intrigued by the prevalence of pride supporters who also donate to anti-LGBTQ+ campaigns. While there has been growing support for the LGBTQ+ community in the US and increased discussion on human rights, diversity, and inclusion, there is still a lot more progress needed in this area. We see that many companies have publicly opposed anti-LGBTQ+ bills and have pro-LGBTQ campaigns, however, some of these companies simultaneously fund lawmakers who back anti-LGBTQ+ bills (The 19th) In particular, from 2021-2022, the newspaper "Popular Information" found that 25 companies who were publicly in support of the pride movement have also donated \$13M to politicians who back anti-LGBTQ+ bills. We believe this is dishonest behavior that deserves attention to help others become more aware of these hypocritical practices. Further, politicians are undoubtedly vital to policy reform to support the LGBTQ+ community, however, there has been a significant amount of funding going towards politicians who are anti-LGBTQ+. If we want positive change and real action to uplift the LGBTQ+ community, we need governmental support. In summary, we wanted to delve into two key players in the pride and anti-LGBTQ+ movements: companies and politicians, and understand how both stakeholder groups are associated with anti-LGBTQ+ campaigns that undermine the progress to support pride in the US.
 
 ## Introduction
 
@@ -47,7 +47,7 @@ library(lubridate)
 
 Our second question is: how have donations to politicians who support anti-LGBTQ+ campaigns changed over time? We are very curious about how the total amount of money contributed to anti-LGBTQ+ politicians has changed over the years, especially given the growing discussions around human rights in the past few years. However, we also know that outspoken homophobia and transphobia seemed to grow during and following Trump's presidency.
 
-In particular, Greg Abbott, the Governor of Texas, has been receiving a lot of public attention recently as an outspoken Republican. On Feb 13, 2023, an article by the Human Rights Campaign denounced Abbott who said that he'll aim to ban transgender college athletes from playing any sports that are consistent with their gender identity (https://www.hrc.org/press-releases/human-rights-campaign-gov-abbott-continuing-his-crusade-to-harm-transgender-and-non-binary-texans). According to Time, in 2022, he also had an Anti-Trans Directive which negatively affected youth from the LGBTQ+ community; he said that the provision of gender-affirming care for children was a form a child abuse, and families were being investigated for this (https://time.com/6150964/greg-abbott-trans-kids-child-abuse/). 
+In particular, Greg Abbott, the Governor of Texas, has been receiving a lot of public attention recently as an outspoken Republican. On Feb. 13, 2023, an article by the Human Rights Campaign denounced Abbott who said that he'll aim to ban transgender college athletes from playing any sports that are consistent with their gender identity. According to Time, in 2022, he also had an Anti-Trans Directive which negatively affected youth from the LGBTQ+ community; he said that the provision of gender-affirming care for children was a form a child abuse, and families were being investigated for this. 
 
 From our EDA, we also realized that Abbott received the highest number of individual donations overall, despite him only being included over the years 2019-2022. As an extension of our main question, we are interested in looking into donations that were made specifically to Greg Abbott and seeing how his amounts compare to overall trends across all politicians. Overall, we would hypothesize that the trend of anti-LGBTQ+ political campaign donations would decrease over time (or we would hope they do), however, due to the large media presence of Greg Abbott and his strong rhetoric on this topic, we believe he might prove a contrast to the overall trend. 
 
@@ -89,7 +89,7 @@ greg_not_greg <- question2_data %>%
             .groups = 'drop')
 
 not_greg <- greg_not_greg %>%
-  filter(is_greg == "Not Greg")
+  filter(is_greg == "Not Greg Abbott")
 
 props_greg_not_greg <- greg_not_greg %>%
   group_by(year) %>%
@@ -215,7 +215,7 @@ ggplot(greg_not_greg) +
   labs(x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns 
        (in USD)",
        fill = "Politician",
-       title = "Distribution of donation amounts for anti-LGBTQ+ campaigns to politicians",
+       title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
        subtitle = "In the years 2019-2022") +
   scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
   scale_y_continuous(
@@ -233,3 +233,24 @@ ggplot(greg_not_greg) +
 ### Discussion
 
 (1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
+
+From our fourth plot, we can see that in the years 2019-2021, there has been an increase in the amounts donated to politicians who are anti-LGBTQ+, with a stark increase in the year 2021. Upon further research, we found that 2021 was the worst year for anti-LGBTQ+ legislation since 2015 (HRC). In 2021, there were 17 anti-LGBTQ bills that were enacted into law, and this was more than the number of anti-LGBTQ+ laws in the years 2018-2020 combined. Some of these include bills that ban transgender girls from being involved in sports to the erasure of LGBTQ+ individuals from curriculum in schools to felonies for giving transgender young people healthcare in life-saving situations to licenses to discriminate against those in the LGBTQ+ community. In fact, there were 250+ bills that were introduced in legislatures that year. Fortunately, the total amounts decreased significantly in the year 2022, and we hope this downward trend will continue. Additionally, we can see that the proportion of total donations going to Greg Abbott increased in the years 2019-2021, with him having over 60% of total donations in 2021; not only have the proportions increased during those years, but the dollar amounts he received also increased. This suggests that there was, unfortunately, a lot of support for Abbott, as he has always been very vocal about being anti-LGBTQ+ and is a prominent figure in the US, being the Governor of Texas, a traditionally very red state. Fortunately, he received a smaller proportion of the total donations in 2022 and a smaller dollar amount of donations. This could be associated with the fact that he got the worst press out of all governors in the US regarding LGBTQ+ issues (Houston Chronicle), and this could've led less people to want to donate to his controversial campaigns.
+
+A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians. 
+
+
+
+Sources: 
+
+* https://19thnews.org/2022/06/companies-anti-lgbtq-bills-lawmakers/
+
+* https://www.hrc.org/press-releases/human-rights-campaign-gov-abbott-continuing-his-crusade-to-harm-transgender-and-non-binary-texans
+
+* https://time.com/6150964/greg-abbott-trans-kids-child-abuse/
+
+* https://www.hrc.org/press-releases/2021-officially-becomes-worst-year-in-recent-history-for-lgbtq-state-legislative-attacks-as-unprecedented-number-of-states-enact-record-shattering-number-of-anti-lgbtq-measures-into-law
+
+* https://www.houstonchronicle.com/politics/texas/article/gov-greg-gbbott-gets-worst-press-on-lgbtq-issues-17184157.php
+
+* https://www.nbcnews.com/nbc-out/out-politics-and-policy/less-10-2022s-anti-lgbtq-state-bills-became-law-report-finds-rcna67619
+
