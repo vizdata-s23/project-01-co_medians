@@ -144,16 +144,22 @@ We understand that a challenge with stacked bar plots is that it is hard to comp
 #### Plot 4:
 
 ```{r load-merge-and-process-data, echo=FALSE}
-corp_by_politician <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv')
-static_list <-readRDS("data/static_list.RDS")
-contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
+corp_by_politician <-
+  readr::read_csv(
+    'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv'
+  )
+static_list <- readRDS("data/static_list.RDS")
+contribution_data_all_states <-
+  readRDS("data/contribution_data_all_states.RDS")
 
-question2_data <- inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
+question2_data <-
+  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
+# inner join to capture the politicians that appear in both datasets
 
-question2_data <- question2_data %>%
+question2_plot2_data <- question2_data %>%
   filter(!is.na(Date)) %>%
   mutate(year = year(ymd(Date))) %>%
-  mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg")) %>%
+  mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
   filter(year == 2019 | year == 2020 | year == 2021 | year == 2022) 
 
 # question2_data %>% filter(Politician == "Greg Abbott") %>% select(year) %>% unique()
@@ -161,7 +167,7 @@ question2_data <- question2_data %>%
 ```
 
 ```{r plot-4-more-data-processing-for-plot, echo=FALSE}
-greg_not_greg <- question2_data %>%
+greg_not_greg <- question2_plot2_data %>%
   group_by(is_greg, year) %>%
   summarise(amounts = sum(Amount),
             .groups = 'drop')
@@ -186,11 +192,11 @@ annotation_data_2019 <- tribble(
   ~ color, 
   0,
   not_greg$amounts[1],
-  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2019][2], "%"),
+  paste0(props_greg_not_greg$prop[2], "%"),
   'black',
   not_greg$amounts[1],
   total_amount_per_year$amount_sum[1],
-  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2019][1], "%"),
+  paste0(props_greg_not_greg$prop[1], "%"),
   'white'
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
@@ -202,11 +208,11 @@ annotation_data_2020 <- tribble(
   ~ color,
   0,
   not_greg$amounts[2],
-  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2020][2], "%"),
+  paste0(props_greg_not_greg$prop[4], "%"),
   'black',
   not_greg$amounts[2],
   total_amount_per_year$amount_sum[2],
-  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2020][1], "%"),
+  paste0(props_greg_not_greg$prop[3], "%"),
   'white'
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
@@ -218,11 +224,11 @@ annotation_data_2021 <- tribble(
   ~ color, 
   0,
   not_greg$amounts[3],
-  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2021][2], "%"),  
+  paste0(props_greg_not_greg$prop[6], "%"),  
   'black',
   not_greg$amounts[3],
   total_amount_per_year$amount_sum[3],
-  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2021][1], "%"),
+  paste0(props_greg_not_greg$prop[5], "%"),
   'white'
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
@@ -234,11 +240,11 @@ annotation_data_2022 <- tribble(
   ~ color,
   0,
   not_greg$amounts[4],
-  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2022][2], "%"),
+  paste0(props_greg_not_greg$prop[8], "%"),
   'black',
   not_greg$amounts[4],
   total_amount_per_year$amount_sum[4],
-  paste0(props_greg_not_greg$prop[props_greg_not_greg$year == 2022][1], "%"),
+  paste0(props_greg_not_greg$prop[7], "%"),
   'white'
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
@@ -305,7 +311,7 @@ ggplot(greg_not_greg) +
    theme(
     legend.position = c(0.14, 0.85),
     legend.background = element_blank(),
-    legend.box.background = element_rect(colour = "darkgrey", size = 0.5))
+    legend.box.background = element_rect(color = "darkgrey", size = 0.5))
 ```
 
 ### Discussion
