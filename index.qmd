@@ -1,7 +1,7 @@
 ---
-title: "Project title"
+title: "The Modern State of Pride and. Anti-LGBTQ+ in the US"
 subtitle: "STA/ISS 313 - Project 1"
-author: "Team Name"
+author: "Co-Medians - Ellen Zhang, Amber Potter, Helen Chen, Morgan Bernstein"
 format: html
 editor: visual
 ---
@@ -238,9 +238,7 @@ From our fourth plot, we can see that in the years 2019-2021, there has been an 
 
 A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians. 
 
-
-
-Sources: 
+## Sources: 
 
 * https://19thnews.org/2022/06/companies-anti-lgbtq-bills-lawmakers/
 
