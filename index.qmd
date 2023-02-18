@@ -164,9 +164,9 @@ static_list %>%
 
 (1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you're interested in this question.
 
-Our second question is: how have donations to politicians who support anti-LGBTQ+ campaigns changed over time? We are very curious about how the total amount of money contributed to anti-LGBTQ+ politicians has changed over the years, especially given the growing discussions around human rights in the past few years. However, we also know that outspoken homophobia and transphobia seemed to grow during and following Trump's presidency.
+The second question we will examine is: how have donations to politicians who support anti-LGBTQ+ campaigns changed over time? We are very curious about how the total amount of money contributed to anti-LGBTQ+ politicians has changed over the years, especially given the growing discussions around human and LGBTQ+ rights. However, we know that outspoken homophobia and transphobia have also increased during and following Trump's presidency, so it will interesting to see how these two opposing trends have affected the amount of contributions to anti-LGBTQ+ political campaigns in the past few years.
 
-In particular, Greg Abbott, the Governor of Texas, has been receiving a lot of public attention recently as an outspoken Republican. On Feb. 13, 2023, an article by the Human Rights Campaign denounced Abbott who said that he'll aim to ban transgender college athletes from playing any sports that are consistent with their gender identity. According to Time, in 2022, he also had an Anti-Trans Directive which negatively affected youth from the LGBTQ+ community; he said that the provision of gender-affirming care for children was a form a child abuse, and families were being investigated for this.
+In particular, Greg Abbott, the Governor of Texas, has been receiving a lot of public attention recently as an outspoken Republican. On February 13, 2023, an article by the Human Rights Campaign denounced Abbott who said that he'll aim to ban transgender college athletes from playing any sports that are consistent with their gender identity. According to Time, in 2022, he also had an Anti-Trans Directive which negatively affected youth from the LGBTQ+ community; he said that the provision of gender-affirming care for children was a form a child abuse, and families were being investigated for this.
 
 From our EDA, we also realized that Abbott received the highest number of individual donations overall, despite him only being included over the years 2019-2022. As an extension of our main question, we are interested in looking into donations that were made specifically to Greg Abbott and seeing how his amounts compare to overall trends across all politicians. Overall, we would hypothesize that the trend of anti-LGBTQ+ political campaign donations would decrease over time (or we would hope they do), however, due to the large media presence of Greg Abbott and his strong rhetoric on this topic, we believe he might prove a contrast to the overall trend.
 
@@ -215,8 +215,8 @@ greg_not_greg <- question2_plot2_data %>%
     .groups = "drop"
   )
 
-not_greg <- greg_not_greg %>%
-  filter(is_greg == "Not Greg Abbott")
+greg <- greg_not_greg %>%
+  filter(is_greg == "Greg Abbott")
 
 props_greg_not_greg <- greg_not_greg %>%
   group_by(year) %>%
@@ -238,13 +238,13 @@ annotation_data_2019 <- tribble(
   ~percentage,
   ~color,
   0,
-  not_greg$amounts[1],
-  paste0(props_greg_not_greg$prop[2], "%"),
-  "black",
-  not_greg$amounts[1],
-  total_amount_per_year$amount_sum[1],
+  greg$amounts[1],
   paste0(props_greg_not_greg$prop[1], "%"),
-  "white"
+  "white",
+  greg$amounts[1],
+  total_amount_per_year$amount_sum[1],
+  paste0(props_greg_not_greg$prop[2], "%"),
+  "black"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
@@ -254,13 +254,13 @@ annotation_data_2020 <- tribble(
   ~percentage,
   ~color,
   0,
-  not_greg$amounts[2],
-  paste0(props_greg_not_greg$prop[4], "%"),
-  "black",
-  not_greg$amounts[2],
-  total_amount_per_year$amount_sum[2],
+  greg$amounts[2],
   paste0(props_greg_not_greg$prop[3], "%"),
-  "white"
+  "white",
+  greg$amounts[2],
+  total_amount_per_year$amount_sum[2],
+  paste0(props_greg_not_greg$prop[4], "%"),
+  "black"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
@@ -270,13 +270,13 @@ annotation_data_2021 <- tribble(
   ~percentage,
   ~color,
   0,
-  not_greg$amounts[3],
-  paste0(props_greg_not_greg$prop[6], "%"),
-  "black",
-  not_greg$amounts[3],
-  total_amount_per_year$amount_sum[3],
+  greg$amounts[3],
   paste0(props_greg_not_greg$prop[5], "%"),
-  "white"
+  "white",
+  greg$amounts[3],
+  total_amount_per_year$amount_sum[3],
+  paste0(props_greg_not_greg$prop[6], "%"),
+  "black"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
@@ -286,20 +286,20 @@ annotation_data_2022 <- tribble(
   ~percentage,
   ~color,
   0,
-  not_greg$amounts[4],
-  paste0(props_greg_not_greg$prop[8], "%"),
-  "black",
-  not_greg$amounts[4],
-  total_amount_per_year$amount_sum[4],
+  greg$amounts[4],
   paste0(props_greg_not_greg$prop[7], "%"),
-  "white"
+  "white",
+  greg$amounts[4],
+  total_amount_per_year$amount_sum[4],
+  paste0(props_greg_not_greg$prop[8], "%"),
+  "black"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 ```
 
 ```{r plot-4, echo=FALSE}
 ggplot(greg_not_greg) +
-  geom_bar(aes(x = year, y = amounts, fill = is_greg),
+  geom_bar(aes(x = year, y = amounts, fill = fct_relevel(factor(is_greg, levels = c("Not Greg Abbott", "Greg Abbott")))),
     position = "stack",
     stat = "identity"
   ) +
@@ -311,7 +311,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   geom_text(
     data = annotation_data_2020,
@@ -321,7 +321,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   geom_text(
     data = annotation_data_2021,
@@ -331,7 +331,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   geom_text(
     data = annotation_data_2022,
@@ -341,7 +341,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   scale_color_identity() +
   labs(
@@ -351,7 +351,7 @@ ggplot(greg_not_greg) +
     title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
     subtitle = "In the years 2019-2022"
   ) +
-  scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
+  scale_fill_manual(values = c("lightgrey", "#AA4A44")) +
   scale_y_continuous(
     limits = c(0, 11000000),
     labels = scales::label_dollar(),
@@ -359,7 +359,7 @@ ggplot(greg_not_greg) +
   ) +
   theme_minimal() +
   theme(
-    legend.position = c(0.14, 0.85),
+    legend.position = c(0.165, 0.85),
     legend.background = element_blank(),
     legend.box.background = element_rect(color = "darkgrey", size = 0.5)
   )
@@ -372,7 +372,6 @@ ggplot(greg_not_greg) +
 From our fourth plot, we can see that in the years 2019-2021, there has been an increase in the amounts donated to politicians who are anti-LGBTQ+, with a stark increase in the year 2021. Upon further research, we found that 2021 was the worst year for anti-LGBTQ+ legislation since 2015 (HRC). In 2021, there were 17 anti-LGBTQ bills that were enacted into law, and this was more than the number of anti-LGBTQ+ laws in the years 2018-2020 combined. Some of these include bills that ban transgender girls from being involved in sports to the erasure of LGBTQ+ individuals from curriculum in schools to felonies for giving transgender young people healthcare in life-saving situations to licenses to discriminate against those in the LGBTQ+ community. In fact, there were 250+ bills that were introduced in legislatures that year. Fortunately, the total amounts decreased significantly in the year 2022, and we hope this downward trend will continue. Additionally, we can see that the proportion of total donations going to Greg Abbott increased in the years 2019-2021, with him having over 60% of total donations in 2021; not only have the proportions increased during those years, but the dollar amounts he received also increased. This suggests that there was, unfortunately, a lot of support for Abbott, as he has always been very vocal about being anti-LGBTQ+ and is a prominent figure in the US, being the Governor of Texas, a traditionally very red state. Fortunately, he received a smaller proportion of the total donations in 2022 and a smaller dollar amount of donations. This could be associated with the fact that he got the worst press out of all governors in the US regarding LGBTQ+ issues (Houston Chronicle), and this could've led less people to want to donate to his controversial campaigns.
 
 A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians.
-
 
 #### Plot 3:
 
@@ -423,7 +422,6 @@ ggplot() +
   theme_minimal() #+ 
   #scale_x_discrete(breaks = scales::pretty_breaks(10))
 ```
-
 
 ## Sources:
 
