@@ -40,6 +40,10 @@ The first dataset we are using is `static_list`, containing information on `r nr
 
 (1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you're interested in this question.
 
+The first question we would like to explore is: what is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge or not, and their contributions to anti-LGBTQ+ political campaigns? The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge. As awareness of various sexual identities have increased in the past few years, we are curious to see if there are businesses who publicly support the LGBTQ+ community through events and pledges but secretly contribute to politicians with anti-LGBTQ+ campaigns away from the public eye. We would expect that companies who support the LGBTQ+ community would not also make anti-LGBTQ+ donations, but this is not the case. Therefore, we wanted to compare company contribution amounts and public-facing LGBTQ+ support to shed light on patterns associated with these categorizations.
+
+For this question, we will be using the `static_list` and `contribution_data_all_states` datasets and not `corp_by_politician`. From `static_list`, we will be using the `HRC Business Pledge`, `Pride?`, `Company`, and `Amount Contributed Across States` variables.
+
 ### Approach
 
 (1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
