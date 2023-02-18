@@ -121,6 +121,31 @@ new_static_list %>%
 
 #### Plot 2:
 
+```{r question1-plot-2-data, echo=FALSE}
+company_categ_counts <- static_list %>%
+  mutate(
+    category = case_when(
+      hrc_pledge == TRUE &
+        pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
+      hrc_pledge == FALSE &
+        pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+      hrc_pledge == TRUE &
+        pride_or_not == FALSE ~ "HRC Pledge, no donation to Pride",
+      TRUE ~ "Neither"
+    ),
+    ,
+    category = fct_relevel(
+      category,
+      levels = c(
+        "HRC Pledge, donates to Pride",
+        "No HRC pledge, donates to Pride",
+        "HRC Pledge, no donation to Pride",
+        "Neither"
+      )
+    )) %>%
+      count(category)
+```
+
 ```{r question1-plot-2, echo=FALSE, warning=FALSE}
 #| label: question 1 plot 2
 #| warning: false
@@ -128,30 +153,49 @@ new_static_list %>%
 static_list %>%
   mutate(
     category = case_when(
-      hrc_pledge == TRUE & pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
-      hrc_pledge == FALSE & pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+      hrc_pledge == TRUE &
+        pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
+      hrc_pledge == FALSE &
+        pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+      hrc_pledge == TRUE &
+        pride_or_not == FALSE ~ "HRC Pledge, no donation to Pride",
       TRUE ~ "Neither"
     ),
-    category = fct_relevel(category, levels = c(
-      "HRC Pledge, donates to Pride",
-      "No HRC pledge, donates to Pride", "Neither"
-    ))
+    category = fct_relevel(
+      category,
+      levels = c(
+        "HRC Pledge, donates to Pride",
+        "No HRC pledge, donates to Pride",
+        "HRC Pledge, no donation to Pride",
+        "Neither"
+      )
+    )
   ) %>%
   ggplot(aes(x = amount_contributed)) +
   geom_density(aes(fill = category, color = category), show.legend = FALSE) +
   scale_x_continuous(label = scales::label_dollar()) +
   scale_y_continuous(labels = label_number()) + # idk if scientific notation is better
-  scale_fill_manual(values = c("#AA4A44", "#BF8F8C", "lightgrey")) +
-  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "lightgrey")) + # can take this out
-  facet_wrap(~category, ncol = 1) +
-  coord_cartesian(xlim = c(0, 750000)) +
+  scale_fill_manual(values = c("#AA4A44", "#BF8F8C", "grey", "#899499")) +
+  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "grey", "#899499")) + # can take this out
+  facet_wrap( ~ category, ncol = 1) +
+  coord_cartesian(xlim = c(0, 700000)) +
   labs(
-    title = "Density of company contributions (USD) to anti-LGBTQ+ campaigns",
-    subtitle = "Faceted by company characteristics", # CHANGE TITLE
-    x = "Amount contributed (USD)",
+    title = "Density of company contributions to anti-LGBTQ+ campaigns",
+    subtitle = "Faceted by company characteristics",
+    # CHANGE TITLE
+    x = "Amount contributed (in USD)",
     y = "Density"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  geom_text(
+    data = company_categ_counts,
+    aes(
+      x = 680000,
+      y = 0.000004,
+      label = paste0("n = ", company_categ_counts$n),
+    ),
+    size = 2.6
+  )
 ```
 
 ### Discussion
@@ -299,10 +343,15 @@ annotation_data_2022 <- tribble(
 
 ```{r plot-4, echo=FALSE}
 ggplot(greg_not_greg) +
-  geom_bar(aes(x = year, y = amounts, fill = fct_relevel(factor(is_greg, levels = c("Not Greg Abbott", "Greg Abbott")))),
-    position = "stack",
-    stat = "identity"
-  ) +
+  geom_bar(aes(
+    x = year,
+    y = amounts,
+    fill = fct_relevel(factor(
+      is_greg, levels = c("Not Greg Abbott", "Greg Abbott")
+    ))
+  ),
+  position = "stack",
+  stat = "identity") +
   geom_text(
     data = annotation_data_2019,
     aes(
