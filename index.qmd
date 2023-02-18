@@ -16,9 +16,23 @@ We are all advocates for LGBTQ+ rights, and we are very intrigued by the prevale
 
 (1-2 paragraphs): Brief introduction to the dataset. You may repeat some of the information about the dataset provided in the introduction to the dataset on the TidyTuesday repository, paraphrasing on your own terms. Imagine that your project is a standalone document and the grader has no prior knowledge of the dataset.
 
+```{r load-packages-for-intro, echo=FALSE, message=FALSE}
+library(tidyverse)
+
+# read data 
+static_list <-readRDS("data/static_list.RDS")
+
+contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
+
+corp_by_politician <-
+  readr::read_csv(
+    'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv'
+  )
+```
+
 The datasets we are using are from [TidyTuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2022/2022-06-07) and come from [Data For Progress](https://www.dataforprogress.org/accountable-allie), which is a think tank and polling firm that provides data for progressive campaigns, causes, and candidates. Their work has been used by US representatives, senators, and local leaders, and it has been cited by the White House. The datasets in this TidyTuesday are looking specifically at businesses that contribute to the campaigns of politicians who have anti-LGBTQ beliefs, and it includes seven datasets: `static_list`, `contribution_data_all_states`, `pride_aggregates`, `fortune_aggregates`, `pride_sponsors`, `donors`, and `corp_by_politician`. We found overlapping data in `static_list`, `fortune_aggregates`, and `pride_aggregates`. `Static_list` captured the most complete information from `fortune_aggregates` and `pride_aggregates` combined, so we decided to use `static_list`. Our decision to use `contribution_data_all_states` was made for similar reasons. In many ways it is a combination of the others in terms of information and variables, but we appreciated that it included that information by individual contribution rather than by company or politician totals. Finally, we also decided to use the `corp_by_politician` dataset to have information on the offices and titles each politician holds.
 
-The first dataset we are using is `static_list`, containing information on `r nrow(static_list)` companies (each row corresponds to a company) and whether they donated to pride, if they have an HRC business pledge, the dollar amount contributed across states (USD), the number of politicians contributed to, and the number of states where they made contributions. It has `r ncol(static_list)` columns/variables. A few of the variables we are using from this dataset for our analysis include `Company`, `Pride?`, `HRC Business Pledge`, and `Amount Contributed Across States`. The second dataset is `contribution_data_all_states` with `r nrow(contribution_data_all_states)` observations with each row denoting a single donation/contribution along with information on the company it was made by, whether or not they were a pride and sponsor match, if they were a pride event sponsor, HRC business pledge, donor name, politician donated to, state donated to, amount of donation (USD), date, citation, donor type, comments, and an archive. It has a total of `r ncol(contribution_data_all_states)` columns/variables. Some of the variables we are using to answer our research questions from this dataset are `Politician`, `Date`, and `Amount`. The last dataset is `corp_by_poltician`, which has information on `r nrow(corp_by_poltician)` politicians and a total of `r ncol(corp_by_poltician)` variables, including the politician's name, state, total amount of contributions received from business, and title. For this dataset, we are particularly interested in looking at politician `Title`.
+The first dataset we are using is `static_list`, containing information on `r nrow(static_list)` companies (each row corresponds to a company) and whether they donated to pride, if they have an HRC business pledge, the dollar amount contributed across states (USD), the number of politicians contributed to, and the number of states where they made contributions. It has `r ncol(static_list)` columns/variables. A few of the variables we are using from this dataset for our analysis include `Company`, `Pride?`, `HRC Business Pledge`, and `Amount Contributed Across States`. The second dataset is `contribution_data_all_states` with `r nrow(contribution_data_all_states)` observations with each row denoting a single donation/contribution along with information on the company it was made by, whether or not they were a pride and sponsor match, if they were a pride event sponsor, HRC business pledge, donor name, politician donated to, state donated to, amount of donation (USD), date, citation, donor type, comments, and an archive. It has a total of `r ncol(contribution_data_all_states)` columns/variables. Some of the variables we are using to answer our research questions from this dataset are `Politician`, `Date`, and `Amount`. The last dataset is `corp_by_poltician`, which has information on `r nrow(corp_by_politician)` politicians and a total of `r ncol(corp_by_politician)` variables, including the politician's name, state, total amount of contributions received from business, and title. For this dataset, we are particularly interested in looking at politician `Title`.
 
 ## Question 1: Title that relates to the question you're answering
 
@@ -90,6 +104,8 @@ ggplot(aes(x = Company, y = total_amount, fill = pride_or_not, pattern = hrc_ple
         legend.title = element_text(size = 8),
         legend.background = element_rect(fill = "white", color = "darkgrey")) 
 ```
+
+#### Plot 2:
 
 ```{r question1-plot-2, echo=FALSE, warning=FALSE}
 #| label: question 1 plot 2
