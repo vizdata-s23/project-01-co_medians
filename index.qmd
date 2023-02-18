@@ -98,7 +98,7 @@ new_static_list %>%
     hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
     pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")
   ) %>%
-  ggplot(aes(x = Company, y = total_amount, fill = pride_or_not, pattern = hrc_pledge)) +
+  ggplot(aes(x = reorder(Company,total_amount), y = total_amount, fill = pride_or_not, pattern = hrc_pledge)) +
   geom_col_pattern() +
   scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
   scale_pattern_manual(values = c("none", "stripe")) +
@@ -376,6 +376,8 @@ A limitation of our plot is that it only includes information on six states: Flo
 #### Plot 3:
 
 ```{r}
+
+library(ggrepel)
 question2_data <-
   inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
 
@@ -390,7 +392,7 @@ plot3_data_no_abbott <- question2_plot3_data %>%
   filter(Politician != "Greg Abbott") %>%
   mutate(position_cat = case_when(Title == "Representative" ~ "Representative",
                                   Title == "Senator" ~ "Senator",
-                                  Title == "Governor" ~ "Governor",
+                                  #Title == "Governor" ~ "Governor",
                                   TRUE ~ "Other")) %>%
   group_by(position_cat, year) %>%
   summarize(avg_avg_amount = mean(avg_amount, na.rm = TRUE))
@@ -401,10 +403,24 @@ plot3_data_abbott <- question2_plot3_data %>%
 
 unique(plot3_data_no_abbott$position_cat)
 
+plot3_data_no_abbott_text <- plot3_data_no_abbott %>%
+  filter(year == "2022")
+
+plot3_data_abbott_text <- plot3_data_abbott %>%
+  filter(year == "2022")
+
 
 ggplot() +
-  geom_line(data = plot3_data_no_abbott, mapping = aes(x = year, y = avg_avg_amount, color = position_cat)) +
-  geom_line(plot3_data_abbott, mapping = aes(x = year, y = avg_amount))
+  geom_line(data = plot3_data_no_abbott, mapping = aes(x = factor(year), y = avg_avg_amount, color = position_cat, group = position_cat), size = 2) +
+  geom_line(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, group = Politician), size = 2, color = "lightgray", linetype = "dashed") +
+  #geom_text_repel(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, label = Politician)) +
+  geom_text(plot3_data_no_abbott_text,
+            mapping = aes(x = factor(year), y = avg_avg_amount, label = position_cat), hjust = "2022") + 
+  geom_text(plot3_data_abbott_text,
+            mapping = aes(x = factor(year), y = avg_amount, label = Politician), hjust = "2022") + 
+  guides(color = FALSE) + 
+  theme_minimal() #+ 
+  #scale_x_discrete(breaks = scales::pretty_breaks(10))
 ```
 
 ## Sources:
