@@ -48,6 +48,8 @@ For this question, we will be using the `static_list` and `contribution_data_all
 
 (1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
 
+To answer our question, we will create a barplot and a density plot. The first plot, the barplot, will include the top 20 companies that contributed to anti-LGBTQ+ political campaigns and show how much each company contributed in total. The bars will be colored and patterned to indicate if the company has donated to Pride events and/or has an HRC pledge. This way, we can identify specific companies who have contributed the most to anti-LGBTQ+ politicians to see if they have also supported Pride events. We found this bar plot to be the most appropriate to address our question because it clearly visualizes how much the top 20 companies contributed to campaigns based on if they donated to Pride events or have signed the HRC pledge. Being able to look at specific companies also allows us to conduct further research on outlying companies to see if there is a reason why they contribute so much to anti-LGBTQ+ campaigns.
+
 ### Analysis
 
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
@@ -468,7 +470,7 @@ ggplot() +
   geom_text(plot3_data_abbott_text,
             mapping = aes(x = factor(year), y = avg_amount, label = Politician, color = Politician), hjust = "left") + 
   scale_y_continuous(label = scales::label_dollar()) +
-  scale_color_manual(values = c("#899499", "#AA4A44", "lightgray", "#BF8F8C")) +
+  scale_color_manual(values = c("#899499", "#AA4A44", "gray", "#BF8F8C")) +
   guides(color = FALSE) + 
   theme_minimal() +
   labs(
