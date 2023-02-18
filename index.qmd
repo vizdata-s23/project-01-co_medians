@@ -215,8 +215,8 @@ greg_not_greg <- question2_plot2_data %>%
     .groups = "drop"
   )
 
-not_greg <- greg_not_greg %>%
-  filter(is_greg == "Not Greg Abbott")
+greg <- greg_not_greg %>%
+  filter(is_greg == "Greg Abbott")
 
 props_greg_not_greg <- greg_not_greg %>%
   group_by(year) %>%
@@ -238,13 +238,13 @@ annotation_data_2019 <- tribble(
   ~percentage,
   ~color,
   0,
-  not_greg$amounts[1],
-  paste0(props_greg_not_greg$prop[2], "%"),
-  "black",
-  not_greg$amounts[1],
-  total_amount_per_year$amount_sum[1],
+  greg$amounts[1],
   paste0(props_greg_not_greg$prop[1], "%"),
-  "white"
+  "white",
+  greg$amounts[1],
+  total_amount_per_year$amount_sum[1],
+  paste0(props_greg_not_greg$prop[2], "%"),
+  "black"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
@@ -254,13 +254,13 @@ annotation_data_2020 <- tribble(
   ~percentage,
   ~color,
   0,
-  not_greg$amounts[2],
-  paste0(props_greg_not_greg$prop[4], "%"),
-  "black",
-  not_greg$amounts[2],
-  total_amount_per_year$amount_sum[2],
+  greg$amounts[2],
   paste0(props_greg_not_greg$prop[3], "%"),
-  "white"
+  "white",
+  greg$amounts[2],
+  total_amount_per_year$amount_sum[2],
+  paste0(props_greg_not_greg$prop[4], "%"),
+  "black"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
@@ -270,13 +270,13 @@ annotation_data_2021 <- tribble(
   ~percentage,
   ~color,
   0,
-  not_greg$amounts[3],
-  paste0(props_greg_not_greg$prop[6], "%"),
-  "black",
-  not_greg$amounts[3],
-  total_amount_per_year$amount_sum[3],
+  greg$amounts[3],
   paste0(props_greg_not_greg$prop[5], "%"),
-  "white"
+  "white",
+  greg$amounts[3],
+  total_amount_per_year$amount_sum[3],
+  paste0(props_greg_not_greg$prop[6], "%"),
+  "black"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
@@ -286,20 +286,20 @@ annotation_data_2022 <- tribble(
   ~percentage,
   ~color,
   0,
-  not_greg$amounts[4],
-  paste0(props_greg_not_greg$prop[8], "%"),
-  "black",
-  not_greg$amounts[4],
-  total_amount_per_year$amount_sum[4],
+  greg$amounts[4],
   paste0(props_greg_not_greg$prop[7], "%"),
-  "white"
+  "white",
+  greg$amounts[4],
+  total_amount_per_year$amount_sum[4],
+  paste0(props_greg_not_greg$prop[8], "%"),
+  "black"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 ```
 
 ```{r plot-4, echo=FALSE}
 ggplot(greg_not_greg) +
-  geom_bar(aes(x = year, y = amounts, fill = is_greg),
+  geom_bar(aes(x = year, y = amounts, fill = fct_relevel(factor(is_greg, levels = c("Not Greg Abbott", "Greg Abbott")))),
     position = "stack",
     stat = "identity"
   ) +
@@ -311,7 +311,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   geom_text(
     data = annotation_data_2020,
@@ -321,7 +321,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   geom_text(
     data = annotation_data_2021,
@@ -331,7 +331,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   geom_text(
     data = annotation_data_2022,
@@ -341,7 +341,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   scale_color_identity() +
   labs(
@@ -351,7 +351,7 @@ ggplot(greg_not_greg) +
     title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
     subtitle = "In the years 2019-2022"
   ) +
-  scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
+  scale_fill_manual(values = c("lightgrey", "#AA4A44")) +
   scale_y_continuous(
     limits = c(0, 11000000),
     labels = scales::label_dollar(),
@@ -359,7 +359,7 @@ ggplot(greg_not_greg) +
   ) +
   theme_minimal() +
   theme(
-    legend.position = c(0.14, 0.85),
+    legend.position = c(0.165, 0.85),
     legend.background = element_blank(),
     legend.box.background = element_rect(color = "darkgrey", size = 0.5)
   )
