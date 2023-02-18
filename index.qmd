@@ -164,9 +164,9 @@ static_list %>%
 
 (1-2 paragraphs): Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you're interested in this question.
 
-Our second question is: how have donations to politicians who support anti-LGBTQ+ campaigns changed over time? We are very curious about how the total amount of money contributed to anti-LGBTQ+ politicians has changed over the years, especially given the growing discussions around human rights in the past few years. However, we also know that outspoken homophobia and transphobia seemed to grow during and following Trump's presidency.
+The second question we will examine is: how have donations to politicians who support anti-LGBTQ+ campaigns changed over time? We are very curious about how the total amount of money contributed to anti-LGBTQ+ politicians has changed over the years, especially given the growing discussions around human and LGBTQ+ rights. However, we know that outspoken homophobia and transphobia have also increased during and following Trump's presidency, so it will interesting to see how these two opposing trends have affected the amount of contributions to anti-LGBTQ+ political campaigns in the past few years.
 
-In particular, Greg Abbott, the Governor of Texas, has been receiving a lot of public attention recently as an outspoken Republican. On Feb. 13, 2023, an article by the Human Rights Campaign denounced Abbott who said that he'll aim to ban transgender college athletes from playing any sports that are consistent with their gender identity. According to Time, in 2022, he also had an Anti-Trans Directive which negatively affected youth from the LGBTQ+ community; he said that the provision of gender-affirming care for children was a form a child abuse, and families were being investigated for this.
+In particular, Greg Abbott, the Governor of Texas, has been receiving a lot of public attention recently as an outspoken Republican. On February 13, 2023, an article by the Human Rights Campaign denounced Abbott who said that he'll aim to ban transgender college athletes from playing any sports that are consistent with their gender identity. According to Time, in 2022, he also had an Anti-Trans Directive which negatively affected youth from the LGBTQ+ community; he said that the provision of gender-affirming care for children was a form a child abuse, and families were being investigated for this.
 
 From our EDA, we also realized that Abbott received the highest number of individual donations overall, despite him only being included over the years 2019-2022. As an extension of our main question, we are interested in looking into donations that were made specifically to Greg Abbott and seeing how his amounts compare to overall trends across all politicians. Overall, we would hypothesize that the trend of anti-LGBTQ+ political campaign donations would decrease over time (or we would hope they do), however, due to the large media presence of Greg Abbott and his strong rhetoric on this topic, we believe he might prove a contrast to the overall trend.
 
@@ -373,7 +373,6 @@ From our fourth plot, we can see that in the years 2019-2021, there has been an 
 
 A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians.
 
-
 #### Plot 3:
 
 ```{r}
@@ -407,7 +406,6 @@ ggplot() +
   geom_line(data = plot3_data_no_abbott, mapping = aes(x = year, y = avg_avg_amount, color = position_cat)) +
   geom_line(plot3_data_abbott, mapping = aes(x = year, y = avg_amount))
 ```
-
 
 ## Sources:
 
