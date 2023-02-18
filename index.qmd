@@ -433,6 +433,7 @@ question2_data <-
 question2_plot3_data <- question2_data %>%
   filter(!is.na(Date)) %>%
   mutate(year = year(ymd(Date))) %>%
+  filter(year >= 2018) |> 
   #mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
   group_by(Politician, year, Title) %>%
   summarize(avg_amount = mean(Amount, na.rm = TRUE))
@@ -460,16 +461,22 @@ plot3_data_abbott_text <- plot3_data_abbott %>%
 
 
 ggplot() +
-  geom_line(data = plot3_data_no_abbott, mapping = aes(x = factor(year), y = avg_avg_amount, color = position_cat, group = position_cat), size = 2) +
-  geom_line(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, group = Politician), size = 2, color = "lightgray", linetype = "dashed") +
-  #geom_text_repel(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, label = Politician)) +
+  geom_line(data = plot3_data_no_abbott, mapping = aes(x = factor(year), y =      avg_avg_amount, color = position_cat, group = position_cat)) +
+  geom_line(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, group = Politician), color = "#899499", linetype = "dashed") +
   geom_text(plot3_data_no_abbott_text,
-            mapping = aes(x = factor(year), y = avg_avg_amount, label = position_cat), hjust = "2022") + 
+            mapping = aes(x = factor(year), y = avg_avg_amount, label = position_cat, color = position_cat), hjust = "left") + 
   geom_text(plot3_data_abbott_text,
-            mapping = aes(x = factor(year), y = avg_amount, label = Politician), hjust = "2022") + 
+            mapping = aes(x = factor(year), y = avg_amount, label = Politician, color = Politician), hjust = "left") + 
+  scale_y_continuous(label = scales::label_dollar()) +
+  scale_color_manual(values = c("#899499", "#AA4A44", "lightgray", "#BF8F8C")) +
   guides(color = FALSE) + 
-  theme_minimal() #+ 
-  #scale_x_discrete(breaks = scales::pretty_breaks(10))
+  theme_minimal() +
+  labs(
+    title = "Average amount (USD) contributed per politician over time",
+    subtitle = "Colored by politician category",
+    x = "Year",
+    y = "Amount per contribution (USD)"
+  )
 ```
 
 ## Sources:
