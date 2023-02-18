@@ -19,14 +19,14 @@ We are all advocates for LGBTQ+ rights, and we are very intrigued by the prevale
 ```{r load-packages-for-intro, echo=FALSE, message=FALSE}
 library(tidyverse)
 
-# read data 
-static_list <-readRDS("data/static_list.RDS")
+# read data
+static_list <- readRDS("data/static_list.RDS")
 
-contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
+contribution_data_all_states <- readRDS("data/contribution_data_all_states.RDS")
 
 corp_by_politician <-
   readr::read_csv(
-    'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv'
+    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
   )
 ```
 
@@ -59,25 +59,29 @@ library(readr)
 library(ggpattern)
 library(scales)
 
-# read data 
-static_list <-readRDS("data/static_list.RDS")
-contribution_data_all_states <-readRDS("data/contribution_data_all_states.RDS")
+# read data
+static_list <- readRDS("data/static_list.RDS")
+contribution_data_all_states <- readRDS("data/contribution_data_all_states.RDS")
 ```
 
 ```{r data-processing-plot-1, echo=FALSE}
 #| label: data_processing_plot_1
 
 static_list <- static_list %>%
-  mutate(amount_contributed = `Amount Contributed Across States`,
-         hrc_pledge = `HRC Business Pledge`,
-         pride_or_not = `Pride?`)
+  mutate(
+    amount_contributed = `Amount Contributed Across States`,
+    hrc_pledge = `HRC Business Pledge`,
+    pride_or_not = `Pride?`
+  )
 
-new_static_list <- static_list %>% 
+new_static_list <- static_list %>%
   filter(!is.na(Company), !is.na(hrc_pledge)) %>%
   select(Company, amount_contributed, hrc_pledge, pride_or_not) %>%
   group_by(Company) %>%
-  summarise(total_amount = sum(amount_contributed),
-            hrc_pledge, pride_or_not) %>%
+  summarise(
+    total_amount = sum(amount_contributed),
+    hrc_pledge, pride_or_not
+  ) %>%
   arrange(desc(total_amount)) %>%
   slice_head(n = 20)
 ```
@@ -85,24 +89,30 @@ new_static_list <- static_list %>%
 ```{r question1-plot-1, echo=FALSE}
 #| label: question 1 plot 1
 
-new_static_list |> 
-  mutate(hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
-         pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")) |> 
-ggplot(aes(x = Company, y = total_amount, fill = pride_or_not, pattern = hrc_pledge)) +
+new_static_list %>%
+  mutate(
+    hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
+    pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")
+  ) %>%
+  ggplot(aes(x = Company, y = total_amount, fill = pride_or_not, pattern = hrc_pledge)) +
   geom_col_pattern() +
   scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
   scale_pattern_manual(values = c("none", "stripe")) +
   scale_y_continuous(label = scales::label_dollar()) +
   coord_flip() +
-  labs(title = "USD Amounts of top 20 companies in contributions \nto anti-LGBTQ+ campaigns",
-       x = "Company Name",
-       y = "Amount contributed to anti-LGBTQ+ campaigns (in USD)",
-       fill = "Does the company \ndonate to Pride?",
-       pattern = "Does the company \nhave an HRC pledge?") +
+  labs(
+    title = "USD Amounts of top 20 companies in contributions \nto anti-LGBTQ+ campaigns",
+    x = "Company Name",
+    y = "Amount contributed to anti-LGBTQ+ campaigns (in USD)",
+    fill = "Does the company \ndonate to Pride?",
+    pattern = "Does the company \nhave an HRC pledge?"
+  ) +
   theme_minimal() +
-  theme(legend.position = c(.85, .32),
-        legend.title = element_text(size = 8),
-        legend.background = element_rect(fill = "white", color = "darkgrey")) 
+  theme(
+    legend.position = c(.85, .32),
+    legend.title = element_text(size = 8),
+    legend.background = element_rect(fill = "white", color = "darkgrey")
+  )
 ```
 
 #### Plot 2:
@@ -111,25 +121,32 @@ ggplot(aes(x = Company, y = total_amount, fill = pride_or_not, pattern = hrc_ple
 #| label: question 1 plot 2
 #| warning: false
 
-static_list |> 
-  mutate(category = case_when(
-    hrc_pledge == TRUE & pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
-    hrc_pledge == FALSE & pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
-                              TRUE ~ "Neither"),
-    category = fct_relevel(category, levels = c("HRC Pledge, donates to Pride",
-                        "No HRC pledge, donates to Pride", "Neither"))) |> 
-ggplot(aes(x = amount_contributed)) +
+static_list %>%
+  mutate(
+    category = case_when(
+      hrc_pledge == TRUE & pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
+      hrc_pledge == FALSE & pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+      TRUE ~ "Neither"
+    ),
+    category = fct_relevel(category, levels = c(
+      "HRC Pledge, donates to Pride",
+      "No HRC pledge, donates to Pride", "Neither"
+    ))
+  ) %>%
+  ggplot(aes(x = amount_contributed)) +
   geom_density(aes(fill = category, color = category), show.legend = FALSE) +
   scale_x_continuous(label = scales::label_dollar()) +
-  scale_y_continuous(labels = label_number()) +     #idk if scientific notation is better
+  scale_y_continuous(labels = label_number()) + # idk if scientific notation is better
   scale_fill_manual(values = c("#AA4A44", "#BF8F8C", "lightgrey")) +
-  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "lightgrey")) +    #can take this out
+  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "lightgrey")) + # can take this out
   facet_wrap(~category, ncol = 1) +
   coord_cartesian(xlim = c(0, 750000)) +
-  labs(title = "Density of company contributions (USD) to anti-LGBTQ+ campaigns",
-       subtitle = "Faceted by company characteristics",        #CHANGE TITLE
-       x = "Amount contributed (USD)",
-       y = "Density") +
+  labs(
+    title = "Density of company contributions (USD) to anti-LGBTQ+ campaigns",
+    subtitle = "Faceted by company characteristics", # CHANGE TITLE
+    x = "Amount contributed (USD)",
+    y = "Density"
+  ) +
   theme_minimal()
 ```
 
@@ -151,7 +168,7 @@ From our EDA, we also realized that Abbott received the highest number of indivi
 
 ### Approach
 
-(1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
+(1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
 
 We were interested in how the total USD amounts contributed to politicians changed over time. To do this, we created a stacked bar plot with year on the x axis and total amount (USD) on the y axis. The height of each bar indicated that year's total money received by anti-LGBTQ+ politicians across the states included. Diving further, we wanted to also look at Greg Abbott and how he compares to the overall amount. For the stacked bar plot, we colored by Greg Abbott vs. all the other politicians except Abbott. Since Abbott only had data for the years 2019-2022, we focused on those four years in our plot.
 
@@ -166,7 +183,7 @@ We understand that a challenge with stacked bar plots is that it is hard to comp
 ```{r load-merge-and-process-data, echo=FALSE}
 corp_by_politician <-
   readr::read_csv(
-    'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv'
+    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
   )
 static_list <- readRDS("data/static_list.RDS")
 contribution_data_all_states <-
@@ -180,7 +197,7 @@ question2_plot2_data <- question2_data %>%
   filter(!is.na(Date)) %>%
   mutate(year = year(ymd(Date))) %>%
   mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
-  filter(year == 2019 | year == 2020 | year == 2021 | year == 2022) 
+  filter(year == 2019 | year == 2020 | year == 2021 | year == 2022)
 
 # question2_data %>% filter(Politician == "Greg Abbott") %>% select(year) %>% unique()
 # Greg only had data in years 2019-2022 so we consider only those years
@@ -189,83 +206,89 @@ question2_plot2_data <- question2_data %>%
 ```{r plot-4-more-data-processing-for-plot, echo=FALSE}
 greg_not_greg <- question2_plot2_data %>%
   group_by(is_greg, year) %>%
-  summarise(amounts = sum(Amount),
-            .groups = 'drop')
+  summarise(
+    amounts = sum(Amount),
+    .groups = "drop"
+  )
 
 not_greg <- greg_not_greg %>%
   filter(is_greg == "Not Greg Abbott")
 
 props_greg_not_greg <- greg_not_greg %>%
   group_by(year) %>%
-  summarise(prop = round(100 * (amounts / sum(amounts)), 0),
-            .groups = 'drop')
+  summarise(
+    prop = round(100 * (amounts / sum(amounts)), 0),
+    .groups = "drop"
+  )
 
 total_amount_per_year <- greg_not_greg %>%
   group_by(year) %>%
-  summarise(amount_sum = sum(amounts), 
-            .groups = 'drop')
+  summarise(
+    amount_sum = sum(amounts),
+    .groups = "drop"
+  )
 
 annotation_data_2019 <- tribble(
-  ~ amount_min,
-  ~ amount_max,
-  ~ percentage,
-  ~ color, 
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
   0,
   not_greg$amounts[1],
   paste0(props_greg_not_greg$prop[2], "%"),
-  'black',
+  "black",
   not_greg$amounts[1],
   total_amount_per_year$amount_sum[1],
   paste0(props_greg_not_greg$prop[1], "%"),
-  'white'
+  "white"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
 annotation_data_2020 <- tribble(
-  ~ amount_min,
-  ~ amount_max,
-  ~ percentage,
-  ~ color,
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
   0,
   not_greg$amounts[2],
   paste0(props_greg_not_greg$prop[4], "%"),
-  'black',
+  "black",
   not_greg$amounts[2],
   total_amount_per_year$amount_sum[2],
   paste0(props_greg_not_greg$prop[3], "%"),
-  'white'
+  "white"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
 annotation_data_2021 <- tribble(
-  ~ amount_min,
-  ~ amount_max,
-  ~ percentage,
-  ~ color, 
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
   0,
   not_greg$amounts[3],
-  paste0(props_greg_not_greg$prop[6], "%"),  
-  'black',
+  paste0(props_greg_not_greg$prop[6], "%"),
+  "black",
   not_greg$amounts[3],
   total_amount_per_year$amount_sum[3],
   paste0(props_greg_not_greg$prop[5], "%"),
-  'white'
+  "white"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
 annotation_data_2022 <- tribble(
-  ~ amount_min,
-  ~ amount_max,
-  ~ percentage,
-  ~ color,
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
   0,
   not_greg$amounts[4],
   paste0(props_greg_not_greg$prop[8], "%"),
-  'black',
+  "black",
   not_greg$amounts[4],
   total_amount_per_year$amount_sum[4],
   paste0(props_greg_not_greg$prop[7], "%"),
-  'white'
+  "white"
 ) %>%
   mutate(amount_mid = (amount_min + amount_max) / 2)
 ```
@@ -273,8 +296,9 @@ annotation_data_2022 <- tribble(
 ```{r plot-4, echo=FALSE}
 ggplot(greg_not_greg) +
   geom_bar(aes(x = year, y = amounts, fill = is_greg),
-           position = 'stack',
-           stat = 'identity') +
+    position = "stack",
+    stat = "identity"
+  ) +
   geom_text(
     data = annotation_data_2019,
     aes(
@@ -316,11 +340,13 @@ ggplot(greg_not_greg) +
     size = 3
   ) +
   scale_color_identity() +
-  labs(x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns 
+  labs(
+    x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns
        (in USD)",
-       fill = "Politician",
-       title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
-       subtitle = "In the years 2019-2022") +
+    fill = "Politician",
+    title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
+    subtitle = "In the years 2019-2022"
+  ) +
   scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
   scale_y_continuous(
     limits = c(0, 11000000),
@@ -328,10 +354,11 @@ ggplot(greg_not_greg) +
     breaks = c(0, 2000000, 4000000, 6000000, 8000000, 10000000)
   ) +
   theme_minimal() +
-   theme(
+  theme(
     legend.position = c(0.14, 0.85),
     legend.background = element_blank(),
-    legend.box.background = element_rect(color = "darkgrey", size = 0.5))
+    legend.box.background = element_rect(color = "darkgrey", size = 0.5)
+  )
 ```
 
 ### Discussion
@@ -341,6 +368,42 @@ ggplot(greg_not_greg) +
 From our fourth plot, we can see that in the years 2019-2021, there has been an increase in the amounts donated to politicians who are anti-LGBTQ+, with a stark increase in the year 2021. Upon further research, we found that 2021 was the worst year for anti-LGBTQ+ legislation since 2015 (HRC). In 2021, there were 17 anti-LGBTQ bills that were enacted into law, and this was more than the number of anti-LGBTQ+ laws in the years 2018-2020 combined. Some of these include bills that ban transgender girls from being involved in sports to the erasure of LGBTQ+ individuals from curriculum in schools to felonies for giving transgender young people healthcare in life-saving situations to licenses to discriminate against those in the LGBTQ+ community. In fact, there were 250+ bills that were introduced in legislatures that year. Fortunately, the total amounts decreased significantly in the year 2022, and we hope this downward trend will continue. Additionally, we can see that the proportion of total donations going to Greg Abbott increased in the years 2019-2021, with him having over 60% of total donations in 2021; not only have the proportions increased during those years, but the dollar amounts he received also increased. This suggests that there was, unfortunately, a lot of support for Abbott, as he has always been very vocal about being anti-LGBTQ+ and is a prominent figure in the US, being the Governor of Texas, a traditionally very red state. Fortunately, he received a smaller proportion of the total donations in 2022 and a smaller dollar amount of donations. This could be associated with the fact that he got the worst press out of all governors in the US regarding LGBTQ+ issues (Houston Chronicle), and this could've led less people to want to donate to his controversial campaigns.
 
 A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians.
+
+
+#### Plot 3:
+
+```{r}
+question2_data <-
+  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
+
+question2_plot3_data <- question2_data %>%
+  filter(!is.na(Date)) %>%
+  mutate(year = year(ymd(Date))) %>%
+  #mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
+  group_by(Politician, year, Title) %>%
+  summarize(avg_amount = mean(Amount, na.rm = TRUE))
+
+plot3_data_no_abbott <- question2_plot3_data %>%
+  filter(Politician != "Greg Abbott") %>%
+  mutate(position_cat = case_when(Title == "Representative" ~ "Representative",
+                                  Title == "Senator" ~ "Senator",
+                                  Title == "Governor" ~ "Governor",
+                                  TRUE ~ "Other")) %>%
+  group_by(position_cat, year) %>%
+  summarize(avg_avg_amount = mean(avg_amount, na.rm = TRUE))
+  
+
+plot3_data_abbott <- question2_plot3_data %>%
+  filter(Politician == "Greg Abbott")
+
+unique(plot3_data_no_abbott$position_cat)
+
+
+ggplot() +
+  geom_line(data = plot3_data_no_abbott, mapping = aes(x = year, y = avg_avg_amount, color = position_cat)) +
+  geom_line(plot3_data_abbott, mapping = aes(x = year, y = avg_amount))
+```
+
 
 ## Sources:
 
