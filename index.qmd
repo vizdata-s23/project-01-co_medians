@@ -47,13 +47,12 @@ For this question, we will be using the `static_list` dataset and not `contribut
 ### Approach
 
 (1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
-<<<<<<< HEAD
-=======
+
 
 To answer our question, we will create a barplot and a density plot. The first plot, the barplot, will include the top 20 companies that contributed to anti-LGBTQ+ political campaigns and show how much each company contributed in total. The bars will be colored and patterned to indicate if the company has donated to Pride events and/or has an HRC pledge. This way, we can identify specific companies who have contributed the most to anti-LGBTQ+ politicians to see if they have also supported Pride events. We found this bar plot to be the most appropriate to address our question because it clearly visualizes how much the top 20 companies contributed to campaigns based on if they donated to Pride events or have signed the HRC pledge. Being able to look at specific companies also allows us to conduct further research on outlying companies to see if there is a reason why they contribute so much to anti-LGBTQ+ campaigns.
 
 For our second plot, the density plot, we decided to group companies into four categories: 1) HRC pledge and donates to Pride; 2) HRC pledge and doesn't donate to Pride; 3) No HRC pledge and donates to Pride; and 4) Neither HRC pledge nor donation to Pride. For each of these categories, we wanted to look at the distribution of amounts contributed towards anti-LGBTQ+ campaigns. We also included annotations for the number of companies that fall into each category to provide helpful context for anlysis. Finally, we decided to use a density plot because it best captures the shape of the distribution and helps us identify the skew and number of peaks as well as the frequency of contribution amounts.
->>>>>>> 4a6d87f87a386e34de095c7caaf508b3558ed02e
+
 
 ### Analysis
 
