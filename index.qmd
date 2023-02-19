@@ -472,22 +472,27 @@ plot3_data_abbott_text <- plot3_data_abbott %>%
 
 
 ggplot() +
-  geom_line(data = plot3_data_no_abbott, mapping = aes(x = factor(year), y =      avg_avg_amount, color = position_cat, group = position_cat)) +
-  geom_line(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, group = Politician), color = "#899499", linetype = "dashed") +
+  geom_line(data = plot3_data_no_abbott, mapping = aes(x = factor(year), y =      avg_avg_amount, color = position_cat, group = position_cat), size = 1.1) +
+  geom_line(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, group = Politician), color = "#899499", linetype = "dashed", size = 1.1) +
   geom_text(plot3_data_no_abbott_text,
-            mapping = aes(x = factor(year), y = avg_avg_amount, label = position_cat, color = position_cat), hjust = "left") + 
+            mapping = aes(x = factor(year), y = avg_avg_amount, label = position_cat, color = position_cat), hjust = "left", size = 5) + 
   geom_text(plot3_data_abbott_text,
-            mapping = aes(x = factor(year), y = avg_amount, label = Politician, color = Politician), hjust = "left") + 
+            mapping = aes(x = factor(year), y = avg_amount, label = Politician, color = Politician), hjust = "left", size = 5) + 
   scale_y_continuous(label = scales::label_dollar()) +
+  scale_x_discrete(limits = c("2018", "2019", "2020", "2021", "2022", "2023"),
+                   breaks = c("2018", "2019", "2020", "2021", "2022"))  +
   scale_color_manual(values = c("#899499", "#AA4A44", "gray", "#BF8F8C")) +
-  guides(color = FALSE) + 
+  guides(color = "none") + 
   theme_minimal() +
   labs(
     title = "Average amount (USD) contributed per politician over time",
     subtitle = "Colored by politician category",
     x = "Year",
-    y = "Amount per contribution (USD)"
-  )
+    y = "Amount per contribution (USD)") +
+  theme(axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 16),
+        plot.subtitle = element_text(size = 12))
 ```
 
 ## Sources:
