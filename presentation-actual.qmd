@@ -239,8 +239,9 @@ How have donations to politicians who support anti-LGBTQ+ campaigns changed over
 
 -   Methodology: Line plot with year on the x-axis and average contribution per poltiician per year on the y-axis
 
-    -   Colored by poltiician title (or Greg Abbott)
-    -   Dashed line to indiciate Greg Abbott
+    -   Colored by poltiician title
+    -   Dashed line to indicate Greg Abbott
+    -   Annotations denoting which gorup each line represents
 
 ## Plot 1 Discussion
 
