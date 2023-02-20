@@ -18,17 +18,68 @@ library(scales)
 # Source for our bullet structure in this presentation: https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
 ```
 
-## Title
 
-## The Hypocrisy of US Corporate Pride and Anti-LGBTQ+ Donations
+## The Hypocrisy of US Corporate Pride and Anti-LGBTQ+ Donations {background-color = "lightgray"}
 
 ## Data
 
 ## Abstract
 
-## Question 1
+## Question 1 {background-color = "lightgray"}
 
 ## Plot 1
+
+```{r data-processing-plot-1, echo=FALSE}
+#| label: data_processing_plot_1
+
+static_list <- static_list %>%
+  mutate(
+    amount_contributed = `Amount Contributed Across States`,
+    hrc_pledge = `HRC Business Pledge`,
+    pride_or_not = `Pride?`
+  )
+
+new_static_list <- static_list %>%
+  filter(!is.na(Company), !is.na(hrc_pledge)) %>%
+  select(Company, amount_contributed, hrc_pledge, pride_or_not) %>%
+  group_by(Company) %>%
+  summarise(
+    total_amount = sum(amount_contributed),
+    hrc_pledge, pride_or_not
+  ) %>%
+  arrange(desc(total_amount)) %>%
+  slice_head(n = 20)
+```
+
+```{r question1-plot-1, echo=FALSE}
+#| label: question 1 plot 1
+
+new_static_list %>%
+  mutate(
+    hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
+    pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")
+  ) %>%
+  ggplot(aes(x = reorder(Company,total_amount), y = total_amount, fill = pride_or_not, pattern = hrc_pledge)) +
+  geom_col_pattern(pattern_fill = "darkgray", pattern_color = "darkgray", aes(color = pride_or_not), width = .7) +
+  scale_color_manual(values = c("#AA4A44", "lightgrey"), guide = "none") +
+  scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
+  scale_pattern_manual(values = c("none", "stripe"), guide = guide_legend(override.aes = list(fill = "white", color = "darkgray"))) +
+  scale_y_continuous(label = scales::label_dollar()) +
+  coord_flip() +
+  labs(
+    title = "USD Amounts of top 20 companies in contributions \nto anti-LGBTQ+ campaigns",
+    x = "Company",
+    y = "Amount contributed to anti-LGBTQ+ campaigns (in USD)",
+    fill = "Does the company \ndonate to Pride?",
+    pattern = "Does the company \nhave an HRC pledge?"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .32),
+    legend.title = element_text(size = 8),
+    legend.background = element_rect(fill = "white", color = "darkgrey")
+  )
+```
 
 ## Plot 1 Approach
 
@@ -38,6 +89,81 @@ library(scales)
 
 ## Plot 2
 
+```{r question1-plot-2-data, echo=FALSE}
+company_categ_counts <- static_list %>%
+  mutate(
+    category = case_when(
+      hrc_pledge == TRUE &
+        pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
+      hrc_pledge == FALSE &
+        pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+      hrc_pledge == TRUE &
+        pride_or_not == FALSE ~ "HRC Pledge, no donation to Pride",
+      TRUE ~ "Neither"
+    ),
+    category = fct_relevel(factor(
+      category,
+      levels = c(
+        "HRC Pledge, donates to Pride",
+        "No HRC pledge, donates to Pride",
+        "HRC Pledge, no donation to Pride",
+        "Neither"
+      )
+    ))
+  ) %>%
+  count(category)
+```
+
+```{r question1-plot-2, echo=FALSE, warning=FALSE}
+#| label: question 1 plot 2
+#| warning: false
+
+static_list %>%
+  mutate(
+    category = case_when(
+      hrc_pledge == TRUE &
+        pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
+      hrc_pledge == FALSE &
+        pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+      hrc_pledge == TRUE &
+        pride_or_not == FALSE ~ "HRC Pledge, no donation to Pride",
+      TRUE ~ "Neither"
+    ),
+    category = fct_relevel(factor(
+      category,
+      levels = c(
+        "HRC Pledge, donates to Pride",
+        "No HRC pledge, donates to Pride",
+        "HRC Pledge, no donation to Pride",
+        "Neither"
+      )
+    ))
+  ) %>%
+  ggplot(aes(x = amount_contributed)) +
+  geom_density(aes(fill = category, color = category), show.legend = FALSE) +
+  scale_x_continuous(label = scales::label_dollar()) +
+  scale_y_continuous(labels = label_number()) + # idk if scientific notation is better
+  scale_fill_manual(values = c("#AA4A44", "#BF8F8C", "grey", "#899499")) +
+  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "grey", "#899499")) + # can take this out
+  facet_wrap(~ category, ncol = 1) +
+  coord_cartesian(xlim = c(0, 700000)) +
+  labs(
+    title = "Density of company contributions to anti-LGBTQ+ campaigns",
+    subtitle = "Faceted by company characteristics",
+    # CHANGE TITLE
+    x = "Amount contributed (in USD)",
+    y = "Density"
+  ) +
+  theme_minimal() +
+  geom_text(data = company_categ_counts,
+            aes(
+              x = 680000,
+              y = 0.000004,
+              label = paste0("n = ", company_categ_counts$n),
+            ),
+            size = 2.6)
+```
+
 ## Plot 2 Approach
 
 ## Plot 2 Discussion
@@ -46,7 +172,7 @@ library(scales)
 
 ## Question 1 Conclusion
 
-## Question 2
+## Question 2 {background-color = "lightgray"}
 
 ## Plot 1
 
@@ -190,7 +316,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 2.5
+    size = 3
   ) +
   geom_text(
     data = annotation_data_2020,
@@ -200,7 +326,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 2.5
+    size = 3
   ) +
   geom_text(
     data = annotation_data_2021,
@@ -210,7 +336,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 2.5
+    size = 3
   ) +
   geom_text(
     data = annotation_data_2022,
@@ -220,7 +346,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 2.5
+    size = 3
   ) +
   scale_color_identity() +
   labs(
@@ -238,7 +364,7 @@ ggplot(greg_not_greg) +
   ) +
   theme_minimal() +
   theme(
-    legend.position = c(0.16, 0.85),
+    legend.position = c(0.12, 0.85),
     legend.background = element_blank(),
     legend.box.background = element_rect(color = "darkgrey", size = 0.5)
   )
