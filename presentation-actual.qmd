@@ -12,6 +12,16 @@ library(lubridate)
 library(readr)
 library(ggpattern)
 library(scales)
+
+# read data
+static_list <- readRDS("data/static_list.RDS")
+
+contribution_data_all_states <- readRDS("data/contribution_data_all_states.RDS")
+
+corp_by_politician <-
+  readr::read_csv(
+    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
+  )
 ```
 
 ```{r bullets, echo=FALSE}
@@ -25,7 +35,12 @@ library(scales)
 
 ## Abstract
 
-## Question 1 {background-color = "lightgray"}
+## Question 1 
+{background-color = "lightgray"}
+
+What is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge or not, and their contributions to anti-LGBTQ+ political campaigns?
+
+\[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge.
 
 ## Plot 1
 
@@ -83,7 +98,20 @@ new_static_list %>%
 
 ## Plot 1 Approach
 
+-   Goal: Investigate the relationship between a company's contributions anti-LGBTQ+ campaigns, their position as a Pride sponsor, and implementation of a company-wide HRC pledge.
+
+-   Methodology: Bar chart with amount contributed on the x-axis and company name on the y-axis
+
+    -   Colored by whether or not the company is a Pride sponsor
+    -   Striped bars indicate that the company has enacted an HRC pledge
+
 ## Plot 1 Discussion
+
+-   Company with the largest 
+    -   Stark increase in 2021; total amounts decreased significantly in 2022
+-   The proportion (and dollar amount) of total donations going to Greg Abbott increased in 2019-2021
+    -   Abbott had over 60% of total donations in 2021
+-   In 2022, Abbott received a smaller proportion of total donations and a smaller dollar amount of donations
 
 ## Plot 1 Limitations and Future Study
 
