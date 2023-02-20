@@ -14,6 +14,10 @@ library(ggpattern)
 library(scales)
 ```
 
+```{r bullets, echo=FALSE}
+# Source for our bullet structure in this presentation: https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
+```
+
 ## Title
 
 
