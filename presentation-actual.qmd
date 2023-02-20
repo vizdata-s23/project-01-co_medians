@@ -20,7 +20,6 @@ library(scales)
 
 ## Title
 
-
 ## The Hypocrisy of US Corporate Pride and Anti-LGBTQ+ Donations
 
 ## Data
@@ -246,29 +245,29 @@ ggplot(greg_not_greg) +
 ```
 
 ## Plot 2 Approach
-        
-* Goal: examine how the total amount contributed to anti-LGBTQ+ politicians changed over time
 
-* Methodology: stacked bar plot with year on the x axis and total amount of contributions on the y axis
-    - Colored by Greg Abbott vs. all the other politicians except Abbott
-    - Annotations for the different proportions (in %) for better interpretability
+-   Goal: examine how the total amount contributed to anti-LGBTQ+ politicians changed over time
 
-## Plot 2 Discussion 
+-   Methodology: stacked bar plot with year on the x axis and total amount of contributions on the y axis
 
-* Increase in total amounts donated to anti-LGBTQ+ politicians in 2019-2021
-    - Stark increase in 2021; total amounts decreased significantly in 2022
+    -   Colored by Greg Abbott vs. all the other politicians except Abbott
+    -   Annotations for the different proportions (in %) for better interpretability
 
-* The proportion (and dollar amount) of total donations going to Greg Abbott increased in 2019-2021
-    - Abbott had over 60% of total donations in 2021
+## Plot 2 Discussion
 
-* In 2022, Abbott received a smaller proportion of total donations and a smaller dollar amount of donations
+-   Increase in total amounts donated to anti-LGBTQ+ politicians in 2019-2021
+    -   Stark increase in 2021; total amounts decreased significantly in 2022
+-   The proportion (and dollar amount) of total donations going to Greg Abbott increased in 2019-2021
+    -   Abbott had over 60% of total donations in 2021
+-   In 2022, Abbott received a smaller proportion of total donations and a smaller dollar amount of donations
 
-## Plot 2 Limitations and Future Study 
+## Plot 2 Limitations and Future Study
 
-* Dataset only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
+-   Dataset only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
 
-* Our research would've been stronger had there been information on more states so we could compare between Republican and Democratic politicians
-    - Would also be interesting to look into federal politicians
+-   Our research would've been stronger had there been information on more states so we could compare between Republican and Democratic politicians
+
+    -   Would also be interesting to look into federal politicians
 
 ## Question 2 Conclusion
 
