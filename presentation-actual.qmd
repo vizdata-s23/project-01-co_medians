@@ -27,11 +27,15 @@ library(scales)
 
 ## Plot 1
 
+## Plot 1 Approach
+
 ## Plot 1 Discussion
 
 ## Plot 1 Limitations and Future Study
 
 ## Plot 2
+
+## Plot 2 Approach
 
 ## Plot 2 Discussion
 
@@ -42,6 +46,8 @@ library(scales)
 ## Question 2
 
 ## Plot 1
+
+## Plot 1 Approach
 
 ## Plot 1 Discussion
 
