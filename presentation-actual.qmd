@@ -4,6 +4,16 @@ format: revealjs
 editor: visual
 ---
 
+```{r load-packages, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(dplyr)
+library(tidytuesdayR)
+library(lubridate)
+library(readr)
+library(ggpattern)
+library(scales)
+```
+
 ## Title
 
 ## Data Source
@@ -34,8 +44,221 @@ editor: visual
 
 ## Plot 2
 
+```{r load-merge-and-process-data-for-plot-2, echo=FALSE, warning=FALSE}
+corp_by_politician <-
+  readr::read_csv(
+    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
+  )
+static_list <- readRDS("data/static_list.RDS")
+contribution_data_all_states <-
+  readRDS("data/contribution_data_all_states.RDS")
+
+question2_data <-
+  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
+# inner join to capture the politicians that appear in both datasets
+
+question2_plot2_data <- question2_data %>%
+  filter(!is.na(Date)) %>%
+  mutate(year = year(ymd(Date))) %>%
+  mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
+  filter(year == 2019 | year == 2020 | year == 2021 | year == 2022)
+
+# question2_data %>% filter(Politician == "Greg Abbott") %>% select(year) %>% unique()
+# Greg only had data in years 2019-2022 so we consider only those years
+```
+
+```{r plot-4-more-data-processing-for-plot, echo=FALSE, warning=FALSE}
+greg_not_greg <- question2_plot2_data %>%
+  group_by(is_greg, year) %>%
+  summarise(
+    amounts = sum(Amount),
+    .groups = "drop"
+  )
+
+greg <- greg_not_greg %>%
+  filter(is_greg == "Greg Abbott")
+
+props_greg_not_greg <- greg_not_greg %>%
+  group_by(year) %>%
+  summarise(
+    prop = round(100 * (amounts / sum(amounts)), 0),
+    .groups = "drop"
+  )
+
+total_amount_per_year <- greg_not_greg %>%
+  group_by(year) %>%
+  summarise(
+    amount_sum = sum(amounts),
+    .groups = "drop"
+  )
+
+annotation_data_2019 <- tribble(
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
+  0,
+  greg$amounts[1],
+  paste0(props_greg_not_greg$prop[1], "%"),
+  "white",
+  greg$amounts[1],
+  total_amount_per_year$amount_sum[1],
+  paste0(props_greg_not_greg$prop[2], "%"),
+  "black"
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+
+annotation_data_2020 <- tribble(
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
+  0,
+  greg$amounts[2],
+  paste0(props_greg_not_greg$prop[3], "%"),
+  "white",
+  greg$amounts[2],
+  total_amount_per_year$amount_sum[2],
+  paste0(props_greg_not_greg$prop[4], "%"),
+  "black"
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+
+annotation_data_2021 <- tribble(
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
+  0,
+  greg$amounts[3],
+  paste0(props_greg_not_greg$prop[5], "%"),
+  "white",
+  greg$amounts[3],
+  total_amount_per_year$amount_sum[3],
+  paste0(props_greg_not_greg$prop[6], "%"),
+  "black"
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+
+annotation_data_2022 <- tribble(
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
+  0,
+  greg$amounts[4],
+  paste0(props_greg_not_greg$prop[7], "%"),
+  "white",
+  greg$amounts[4],
+  total_amount_per_year$amount_sum[4],
+  paste0(props_greg_not_greg$prop[8], "%"),
+  "black"
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+```
+
+```{r plot-4, echo=FALSE, warning=FALSE}
+ggplot(greg_not_greg) +
+  geom_bar(aes(
+    x = year,
+    y = amounts,
+    fill = fct_relevel(factor(
+      is_greg, levels = c("Not Greg Abbott", "Greg Abbott")
+    ))
+  ),
+  position = "stack",
+  stat = "identity") +
+  geom_text(
+    data = annotation_data_2019,
+    aes(
+      x = 2019,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 2.5
+  ) +
+  geom_text(
+    data = annotation_data_2020,
+    aes(
+      x = 2020,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 2.5
+  ) +
+  geom_text(
+    data = annotation_data_2021,
+    aes(
+      x = 2021,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 2.5
+  ) +
+  geom_text(
+    data = annotation_data_2022,
+    aes(
+      x = 2022,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 2.5
+  ) +
+  scale_color_identity() +
+  labs(
+    x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns
+       (in USD)",
+    fill = "Politician",
+    title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
+    subtitle = "In the years 2019-2022"
+  ) +
+  scale_fill_manual(values = c("lightgrey", "#AA4A44")) +
+  scale_y_continuous(
+    limits = c(0, 11000000),
+    labels = scales::label_dollar(),
+    breaks = c(0, 2000000, 4000000, 6000000, 8000000, 10000000)
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = c(0.165, 0.85),
+    legend.background = element_blank(),
+    legend.box.background = element_rect(color = "darkgrey", size = 0.5)
+  )
+```
+
+## Plot 2 Approach
+
+* unordered list
+    - sub-item 1 
+    - sub-item 2 
+        - sub-sub-item 1
+        
+* Goal: examine how the total amount contributed to anti-LGBTQ+ politicians changed over time
+
+
+To do this, we created a stacked bar plot with year on the x axis and total amount of contributions on the y axis. The height of each bar indicated that year's total money received by anti-LGBTQ+ politicians across the states included. Diving further, we wanted to also look at Greg Abbott and how he compares to the overall amount. For the stacked bar plot, we colored by Greg Abbott vs. all the other politicians except Abbott. Since Abbott only had data for the years 2019-2022, we focused on those four years in our plot.
+
+
+
 ## Plot 2 Discussion 
 
+* Increase in total amounts donated to anti-LGBTQ+ politicians in 2019-2021
+    - Stark increase in 2021; total amounts decreased significantly in 2022
+
+* The proportion (and dollar amount) of total donations going to Greg Abbott increased in 2019-2021
+    - Abbott had over 60% of total donations in 2021
+
+* In 2022, Abbott received a smaller proportion of total donations and a smaller dollar amount of donations
+
 ## Plot 2 Limitations and Future Study 
+
+* Dataset only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
+
+* Our research would've been stronger had there been information on more states so we could compare between Republican and Democratic politicians
+    - Would also be interesting to look into federal politicians
 
 ## Sources
