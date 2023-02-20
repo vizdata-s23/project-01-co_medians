@@ -58,7 +58,7 @@ For our second plot, the density plot, we decided to group companies into four c
 
 #### Plot 1:
 
-```{r load-packages, echo=FALSE}
+```{r load-packages, echo=FALSE, message=FALSE}
 library(tidyverse)
 library(dplyr)
 library(tidytuesdayR)
@@ -246,7 +246,7 @@ We understand that a challenge with stacked bar plots is with comparing them whe
 
 #### Plot 3:
 
-```{r}
+```{r echo=FALSE, message=FALSE}
 library(ggrepel)
 question2_data <-
   inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
@@ -276,7 +276,7 @@ plot3_data_no_abbott <- question2_plot3_data %>%
 plot3_data_abbott <- question2_plot3_data %>%
   filter(Politician == "Greg Abbott")
 
-unique(plot3_data_no_abbott$position_cat)
+# unique(plot3_data_no_abbott$position_cat)
 
 plot3_data_no_abbott_text <- plot3_data_no_abbott %>%
   filter(year == "2022")
@@ -294,14 +294,14 @@ ggplot() +
       color = position_cat,
       group = position_cat
     ),
-    size = 1.1
+    linewidth = 1.1
   ) +
   geom_line(
     plot3_data_abbott,
     mapping = aes(x = factor(year), y = avg_amount, group = Politician),
     color = "#AA4A44",
     linetype = "dashed",
-    size = 1.1
+    linewidth = 1.1
   ) +
   geom_text(
     plot3_data_no_abbott_text,
@@ -349,7 +349,7 @@ ggplot() +
 
 #### Plot 4:
 
-```{r load-merge-and-process-data, echo=FALSE}
+```{r load-merge-and-process-data, echo=FALSE, message=FALSE}
 corp_by_politician <-
   readr::read_csv(
     "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
@@ -531,7 +531,7 @@ ggplot(greg_not_greg) +
   theme(
     legend.position = c(0.16, 0.85),
     legend.background = element_blank(),
-    legend.box.background = element_rect(color = "darkgrey", size = 0.5)
+    legend.box.background = element_rect(color = "darkgrey", linewidth = 0.5)
   )
 ```
 
