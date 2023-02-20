@@ -42,7 +42,7 @@ corp_by_politician <-
 \[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge.
 :::
 
-## Plot 1
+## Q1 Plot 1
 
 ```{r data-processing-plot-1, echo=FALSE}
 #| label: data_processing_plot_1
@@ -96,7 +96,7 @@ new_static_list %>%
   )
 ```
 
-## Plot 1 Approach
+## Q1 Plot 1 Approach
 
 -   Goal: Investigate the relationship between a company's contributions anti-LGBTQ+ campaigns, their position as a Pride sponsor, and implementation of a company-wide HRC pledge.
 
@@ -105,22 +105,22 @@ new_static_list %>%
     -   Colored by whether or not the company is a Pride sponsor
     -   Striped bars indicate that the company has enacted an HRC pledge
 
-## Plot 1 Discussion
+## Q1 Plot 1 Discussion
 
 -    Most of the top 20 companies have total contributions under \$100,000, with the exception of large outliers such as Toyota and AT&T
--   12 out of the 20 top companies are not Pride sponsors
-    - Top two companies in USD contributions- Toyota and AT&T- both contribute to Pride 
+-   12 out of the 20 top companies are not Pride sponsors, however the top two companies in USD contributions, Toyota and AT&T, both contribute to Pride 
 -   The majority of companies in the top 20 also have not implemented an HRC pledge
     - In addition, one company doesn't donate to Pride but has a HRC business pledge, and three companies both donate to Pride and have an HRC pledge.
 
-## Plot 1 Limitations and Future Study
+## Q1 Plot 1 Limitations and Future Study
 
 -   Dataset only includes information on contributions to politicians from six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
 
 -   Our investigation could be furthered by looking into the magnitude of donations to Pride vs to anti-LGBTQ+ campaigns  to see if these companies are contributing equally to both or if the financial contributions are skewed 
-    -   We think it would be interesing to take a look at other company efforts to promote inclusivity and equality in the workplace outside of an HRC pledge
 
-## Plot 2
+-   It would be interesing to look at company efforts to promote inclusivity and equality in the workplace other than an HRC pledge
+
+## Q1 Plot 2
 
 ```{r question1-plot-2-data, echo=FALSE}
 company_categ_counts <- static_list %>%
@@ -197,18 +197,18 @@ static_list %>%
             size = 2.6)
 ```
 
-## Plot 2 Approach
+## Q1 Plot 2 Approach
 
 -   Goal: Investigate the relationship between a company's contributions to anti-LGBTQ+ campaigns, position as a Pride sponsor, and existence of an HRC pledge.
 
--   Methodology: Density plot showing density of number of contributions (Contribution amount in USD on x-axis and density on y-axis)
+-   Methodology: Density plot showing density of number of contributions
 
-    -  Colored by category of company- Four categories of companies: 1) HRC pledge and donates to Pride, 2) HRC pledge and doesn't donate to Pride, 3) No HRC pledge and donates to Pride, 4) Neither HRC pledge nor donation to Pride
+    -  Colored& faceted by category of company: 1) HRC pledge and donates to Pride, 2) HRC pledge and doesn't donate to Pride, 3) No HRC pledge and donates to Pride, 4) Neither HRC pledge nor donation to Pride
     -   Annotations denoting the number of companies that fall into each category
 
-## Plot 2 Discussion
+## Q1 Plot 2 Discussion
 
-## Plot 2 Limitations and Future Study
+## Q1 Plot 2 Limitations and Future Study
 
 -   Numbers of companies were different across each group therefore drawing meaningful conclusions is more difficult
 
@@ -219,9 +219,9 @@ static_list %>%
 ## Question 2: How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
 {background-color = "lightgray"}
 
-## Plot 1
+## Q2 Plot 1
 
-## Plot 1 Approach
+## Q2 Plot 1 Approach
 
 -   Goal: Visualize the fluctuations in average contribution per politician over time, specificially Greg Abbott compared iwht other politicians
 
@@ -231,18 +231,17 @@ static_list %>%
     -   Dashed line to indicate Greg Abbott
     -   Annotations denoting which group each line represents
 
-## Plot 1 Discussion
+## Q2 Plot 1 Discussion
 
-## Plot 1 Limitations and Future Study
+## Q2 Plot 1 Limitations and Future Study
 
--   Greg Abbott is only present from the years 2019-2022 (approximately 4 years after he became governor of Texas) which greatly limits our analysis
+-   Greg Abbott is only present from the years 2019-2022 which greatly limits our analysis
 
--   There was only one other politician with the title governor that we had information on contribution dates to
-    -   It would be great to clearly see Greg Abbott's average contributions compared with others of his political influence
+-   There was only one other politician with the title governor where we had information on contribution dates. It would be great to clearly visualize Greg Abbott's average contributions compared with others of his political influence
 
 -   By displaying the average contribution amount per politician we lose specific information on the number of donations that were made as well as the magitude of donations
 
-## Plot 2
+## Q2 Plot 2
 
 ```{r load-merge-and-process-data-for-plot-2, echo=FALSE, warning=FALSE}
 corp_by_politician <-
@@ -430,7 +429,7 @@ ggplot(greg_not_greg) +
   )
 ```
 
-## Plot 2 Approach
+## Q2 Plot 2 Approach
 
 -   Goal: examine how the total amount contributed to anti-LGBTQ+ politicians changed over time
 
@@ -439,7 +438,7 @@ ggplot(greg_not_greg) +
     -   Colored by Greg Abbott vs. all the other politicians except Abbott
     -   Annotations for the different proportions (in %) for better interpretability
 
-## Plot 2 Discussion
+## Q2 Plot 2 Discussion
 
 -   Increase in total amounts donated to anti-LGBTQ+ politicians in 2019-2021
     -   Stark increase in 2021; total amounts decreased significantly in 2022
@@ -447,7 +446,7 @@ ggplot(greg_not_greg) +
     -   Abbott had over 60% of total donations in 2021
 -   In 2022, Abbott received a smaller proportion of total donations and a smaller dollar amount of donations
 
-## Plot 2 Limitations and Future Study
+## Q2 Plot 2 Limitations and Future Study
 
 -   Dataset only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
 
