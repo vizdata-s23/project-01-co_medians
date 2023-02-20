@@ -107,13 +107,22 @@ new_static_list %>%
 
 ## Plot 1 Discussion
 
--   Company with the largest 
-    -   Stark increase in 2021; total amounts decreased significantly in 2022
--   The proportion (and dollar amount) of total donations going to Greg Abbott increased in 2019-2021
-    -   Abbott had over 60% of total donations in 2021
--   In 2022, Abbott received a smaller proportion of total donations and a smaller dollar amount of donations
+-   Magnitude of contributions
+    -   Most of the top 20 companies have total contributions under \$100,000, with the exception of large outliers such as Toyota and AT&T
+-   Pride sponsors who contribute to anti-LGBTQ+ campaigns?
+    -   12 out of the 20 top companies do not contribute to Pride
+    - Top two companies in USD contributions- Toyota and AT&T- both contribute to Pride 
+-   Existence of an HRC pledge in conjucntion with anti-LGBTQ+ donations
+    - The majority of companies in the top 20 also have not implemented an HRC pledge
+    - In addition, one company doesn't donate to Pride but has a HRC business pledge, and three companies both donate to Pride and have an HRC pledge.
 
 ## Plot 1 Limitations and Future Study
+
+-   Dataset only includes information on contributions to politicians from six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
+
+-   Our investigation could be furthered by looking into the magnitude of donations to Pride vs to anti-LGBTQ+ campaigns by these companies to see if they are contributing to both on an equal level or if the financial contributions are skewed 
+
+    -   We think it would also be interesing to take a look at other company efforts to promote inclusivity and equality int he workplace outside of an HRC pledge
 
 ## Plot 2
 
@@ -194,17 +203,44 @@ static_list %>%
 
 ## Plot 2 Approach
 
+-   Goal: Investigate the relationship between a company's contributions anti-LGBTQ+ campaigns, their position as a Pride sponsor, and implementation of a company-wide HRC pledge.
+
+-   Methodology: Density plot showing density of number of contributions (Contribution amount in USD on x-axis and density on y-axis)
+
+    -  Colored by category of company- Four categories of companies:
+      - 1) HRC pledge and donates to Pride 
+      - 2) HRC pledge and doesn't donate to Pride
+      - 3) No HRC pledge and donates to Pride
+      - 4) Neither HRC pledge nor donation to Pride
+      
+    -   Annotations denoting the number of companies that fall into each category
+
 ## Plot 2 Discussion
 
 ## Plot 2 Limitations and Future Study
 
+-   Numbers of companies were different across each group therefore drawing meaningful conclusions is more difficult
+
+-   In addition to this the range of sample sizes is quite large, with many companies falling into the 'neither' category, which is about 4 times as large as the second larges category
+   
+
 ## Question 1 Conclusion
 
-## Question 2 {background-color = "lightgray"}
+## Question 2 
+{background-color = "lightgray"}
+
+How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
 
 ## Plot 1
 
 ## Plot 1 Approach
+
+-   Goal: Visualize the fluctuations in average contribution per politician over time, specificially Greg Abbott compared iwht other politicians
+
+-   Methodology: Line plot with year on the x-axis and average contribution per poltiician per year on the y-axis
+
+    -   Colored by poltiician title (or Greg Abbott)
+    -   Dashed line to indiciate Greg Abbott
 
 ## Plot 1 Discussion
 
