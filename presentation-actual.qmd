@@ -1,0 +1,41 @@
+---
+title: "presentation-actual"
+format: revealjs
+editor: visual
+---
+
+## Title
+
+## Data Source
+
+## Abstract
+
+## Question 1
+
+## Plot 1
+
+## Plot 1 Discussion 
+
+## Plot 1 Limitations and Future Study 
+
+## Plot 2
+
+## Plot 2 Discussion 
+
+## Plot 2 Limitations and Future Study 
+
+## Question 2
+
+## Plot 1
+
+## Plot 1 Discussion 
+
+## Plot 1 Limitations and Future Study 
+
+## Plot 2
+
+## Plot 2 Discussion 
+
+## Plot 2 Limitations and Future Study 
+
+## Sources
