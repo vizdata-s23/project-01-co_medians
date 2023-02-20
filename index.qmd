@@ -225,13 +225,75 @@ In particular, Greg Abbott, the current Governor of Texas, has been receiving a 
 
 (1-2 paragraphs): Describe what types of plots you are going to make to address your question. For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
 
-We are interested in examinaing how the total amount contributed to anti-LGBTQ+ politicians by companies have changed over time. To do this, we created a stacked bar plot with year on the x axis and total amount of contributions on the y axis. The height of each bar indicated that year's total money received by anti-LGBTQ+ politicians across the states included. Diving further, we wanted to also look at Greg Abbott and how he compares to the overall amount. For the stacked bar plot, we colored by Greg Abbott vs. all the other politicians except Abbott. Since Abbott only had data for the years 2019-2022, we focused on those four years in our plot.
+We are interested in examinaing how the total amount contributed to anti-LGBTQ+ politicians by companies have changed over time. To do this, we created a stacked bar plot with year on the x axis and total amount of contributions on the y axis. The height of each bar indicated that year's total money received by anti-LGBTQ+ politicians across the six states included. Diving further, we wanted to also look at Greg Abbott and how he compares to the overall amount. For the stacked bar plot, we colored by Greg Abbott vs. all the other politicians except Abbott. Since Abbott only had data for the years 2019-2022, we focused on those four years in our plot.
 
 We understand that a challenge with stacked bar plots is that it is hard to compare them when their heights are different. So, we added annotations for the different proportions (in %) to make the stacked bar plots easier to interpret and to make it more clear how the contributions to Abbott compared to those of the other politicians. We found the stacked bar plot to be the most appropriate for this question because it shows how the total donation amounts were divided between politicians who were and were not Greg Abbott. It also clearly visualizes the relationship of each group of politician on the overall donation amount. Overall, the plot we created was helpful in comparing the total donation amounts for politicians who were and were not Greg Abbott simultaneously and understand the different proportions in donations over the years.
 
 ### Analysis
 
 (2-3 code blocks, 2 figures, text/code comments as needed): In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so. All plots must be made with **ggplot2**. Do not use base R or lattice plotting functions.
+
+#### Plot 3:
+
+```{r}
+
+library(ggrepel)
+question2_data <-
+  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
+
+question2_plot3_data <- question2_data %>%
+  filter(!is.na(Date)) %>%
+  mutate(year = year(ymd(Date))) %>%
+  filter(year >= 2018) %>% 
+  #mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
+  group_by(Politician, year, Title) %>%
+  summarize(avg_amount = mean(Amount, na.rm = TRUE))
+
+plot3_data_no_abbott <- question2_plot3_data %>%
+  filter(Politician != "Greg Abbott") %>%
+  mutate(position_cat = case_when(Title == "Representative" ~ "Representative",
+                                  Title == "Senator" ~ "Senator",
+                                  #Title == "Governor" ~ "Governor",
+                                  TRUE ~ "Other")) %>%
+  group_by(position_cat, year) %>%
+  summarize(avg_avg_amount = mean(avg_amount, na.rm = TRUE))
+  
+
+plot3_data_abbott <- question2_plot3_data %>%
+  filter(Politician == "Greg Abbott")
+
+unique(plot3_data_no_abbott$position_cat)
+
+plot3_data_no_abbott_text <- plot3_data_no_abbott %>%
+  filter(year == "2022")
+
+plot3_data_abbott_text <- plot3_data_abbott %>%
+  filter(year == "2022")
+
+
+ggplot() +
+  geom_line(data = plot3_data_no_abbott, mapping = aes(x = factor(year), y =      avg_avg_amount, color = position_cat, group = position_cat), size = 1.1) +
+  geom_line(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, group = Politician), color = "#AA4A44", linetype = "dashed", size = 1.1) +
+  geom_text(plot3_data_no_abbott_text,
+            mapping = aes(x = factor(year), y = avg_avg_amount, label = position_cat, color = position_cat), hjust = "left", size = 5) + 
+  geom_text(plot3_data_abbott_text,
+            mapping = aes(x = factor(year), y = avg_amount, label = Politician, color = Politician), hjust = "left", size = 5) + 
+  scale_y_continuous(label = scales::label_dollar()) +
+  scale_x_discrete(limits = c("2018", "2019", "2020", "2021", "2022", "2023"),
+                   breaks = c("2018", "2019", "2020", "2021", "2022"))  +
+  scale_color_manual(values = c("#AA4A44", "#899499", "gray", "#BF8F8C")) +
+  guides(color = "none") + 
+  theme_minimal() +
+  labs(
+    title = "Average amount (USD) contributed per politician over time",
+    subtitle = "Colored by politician category",
+    x = "Year",
+    y = "Amount per contribution (USD)") +
+  theme(axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 16),
+        plot.subtitle = element_text(size = 12))
+```
 
 #### Plot 4:
 
@@ -425,80 +487,13 @@ ggplot(greg_not_greg) +
 
 (1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
 
+From the line plot, we can see that the average USD amount per contribution to Greg Abbot are larger than for other groups of politicians. It is significantly higher than the average USD contribution for both senators and representatives, and Greg also receives a definitively higher average contribution than politicians with positions other than senator/representative including those with specific leadership positions, with the exception of the final year of data (2022). This is quite interesting and inline with our hypotheses, since Greg Abbot is an extremely outspoken republican politician and is likely to attract a lot of
+
 From our fourth plot, we can see that in the years 2019-2021, there has been an increase in the amounts donated to politicians who are anti-LGBTQ+, with a stark increase in the year 2021. Upon further research, we found that 2021 was the worst year for anti-LGBTQ+ legislation since 2015 (HRC). In 2021, there were 17 anti-LGBTQ bills that were enacted into law, and this was more than the number of anti-LGBTQ+ laws in the years 2018-2020 combined. Some of these include bills that ban transgender girls from being involved in sports to the erasure of LGBTQ+ individuals from curriculum in schools to felonies for giving transgender young people healthcare in life-saving situations to licenses to discriminate against those in the LGBTQ+ community. In fact, there were over 250 bills that were introduced in legislatures that year. Fortunately, the total amounts decreased significantly in the year 2022, and we hope this downward trend will continue.
 
 Additionally, we can see that the proportion of total donations going to Greg Abbott increased in the years 2019-2021, with him having over 60% of total donations in 2021; not only have the proportions increased during those years, but the dollar amounts he received also increased. This suggests that there was, unfortunately, a lot of support for Abbott, as he has always been very vocal about being anti-LGBTQ+ and is a prominent figure in the US, being the Governor of Texas, a traditionally very red state. Fortunately, he received a smaller proportion of the total donations in 2022 and a smaller dollar amount of donations. This could be associated with the fact that he got the worst press out of all governors in the US regarding LGBTQ+ issues (Houston Chronicle), and this could've led less people to want to donate to his controversial campaigns.
 
 A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians.
-
-#### Plot 3:
-
-```{r}
-
-library(ggrepel)
-question2_data <-
-  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
-
-question2_plot3_data <- question2_data %>%
-  filter(!is.na(Date)) %>%
-  mutate(year = year(ymd(Date))) %>%
-  filter(year >= 2018) %>% 
-  #mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
-  group_by(Politician, year, Title) %>%
-  summarize(avg_amount = mean(Amount, na.rm = TRUE))
-
-plot3_data_no_abbott <- question2_plot3_data %>%
-  filter(Politician != "Greg Abbott") %>%
-  mutate(position_cat = case_when(Title == "Representative" ~ "Representative",
-                                  Title == "Senator" ~ "Senator",
-                                  #Title == "Governor" ~ "Governor",
-                                  TRUE ~ "Other")) %>%
-  group_by(position_cat, year) %>%
-  summarize(avg_avg_amount = mean(avg_amount, na.rm = TRUE))
-  
-
-plot3_data_abbott <- question2_plot3_data %>%
-  filter(Politician == "Greg Abbott")
-
-unique(plot3_data_no_abbott$position_cat)
-
-plot3_data_no_abbott_text <- plot3_data_no_abbott %>%
-  filter(year == "2022")
-
-plot3_data_abbott_text <- plot3_data_abbott %>%
-  filter(year == "2022")
-
-
-ggplot() +
-  geom_line(data = plot3_data_no_abbott, mapping = aes(x = factor(year), y =      avg_avg_amount, color = position_cat, group = position_cat), size = 1.1) +
-  geom_line(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, group = Politician), color = "#AA4A44", linetype = "dashed", size = 1.1) +
-  geom_text(plot3_data_no_abbott_text,
-            mapping = aes(x = factor(year), y = avg_avg_amount, label = position_cat, color = position_cat), hjust = "left", size = 5) + 
-  geom_text(plot3_data_abbott_text,
-            mapping = aes(x = factor(year), y = avg_amount, label = Politician, color = Politician), hjust = "left", size = 5) + 
-  scale_y_continuous(label = scales::label_dollar()) +
-  scale_x_discrete(limits = c("2018", "2019", "2020", "2021", "2022", "2023"),
-                   breaks = c("2018", "2019", "2020", "2021", "2022"))  +
-  scale_color_manual(values = c("#AA4A44", "#899499", "gray", "#BF8F8C")) +
-  guides(color = "none") + 
-  theme_minimal() +
-  labs(
-    title = "Average amount (USD) contributed per politician over time",
-    subtitle = "Colored by politician category",
-    x = "Year",
-    y = "Amount per contribution (USD)") +
-  theme(axis.text = element_text(size = 12),
-        axis.title = element_text(size = 14),
-        plot.title = element_text(size = 16),
-        plot.subtitle = element_text(size = 12))
-```
-
-### Discussion #3
-
-(1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
-
-From the line plot, we can see that the average USD amount per contribution to Greg Abbot are larger than for other grpoups of politicians. It is significantly higher than the average USD contribution for both senators and represenatitives, and Greg also receives a definitively higher average contribution than politicians with positions other than senator/representative including those with specific leadership positions, with the exception of the final year of data (2022). This is quite interesting and online with our hypotheses, since Greg Abbot is an extremely outspoken republican politician and is likely to attract a lot of 
-
 
 ## Sources:
 
