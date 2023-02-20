@@ -237,18 +237,12 @@ ggplot(greg_not_greg) +
 ```
 
 ## Plot 2 Approach
-
-* unordered list
-    - sub-item 1 
-    - sub-item 2 
-        - sub-sub-item 1
         
 * Goal: examine how the total amount contributed to anti-LGBTQ+ politicians changed over time
 
-
-To do this, we created a stacked bar plot with year on the x axis and total amount of contributions on the y axis. The height of each bar indicated that year's total money received by anti-LGBTQ+ politicians across the states included. Diving further, we wanted to also look at Greg Abbott and how he compares to the overall amount. For the stacked bar plot, we colored by Greg Abbott vs. all the other politicians except Abbott. Since Abbott only had data for the years 2019-2022, we focused on those four years in our plot.
-
-
+* Methodology: stacked bar plot with year on the x axis and total amount of contributions on the y axis
+    - Colored by Greg Abbott vs. all the other politicians except Abbott
+    - Annotations for the different proportions (in %) for better interpretability
 
 ## Plot 2 Discussion 
 
@@ -267,13 +261,6 @@ To do this, we created a stacked bar plot with year on the x axis and total amou
 * Our research would've been stronger had there been information on more states so we could compare between Republican and Democratic politicians
     - Would also be interesting to look into federal politicians
 
-## Sources
-=======
-## Plot 2 Discussion
-
-## Plot 2 Limitations and Future Study
-
 ## Question 2 Conclusion
 
 ## Sources
->>>>>>> 81d7585323e103550e88848b4797c1d4baa917ea
