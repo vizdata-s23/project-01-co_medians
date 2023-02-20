@@ -473,7 +473,7 @@ plot3_data_abbott_text <- plot3_data_abbott %>%
 
 ggplot() +
   geom_line(data = plot3_data_no_abbott, mapping = aes(x = factor(year), y =      avg_avg_amount, color = position_cat, group = position_cat), size = 1.1) +
-  geom_line(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, group = Politician), color = "#899499", linetype = "dashed", size = 1.1) +
+  geom_line(plot3_data_abbott, mapping = aes(x = factor(year), y = avg_amount, group = Politician), color = "#AA4A44", linetype = "dashed", size = 1.1) +
   geom_text(plot3_data_no_abbott_text,
             mapping = aes(x = factor(year), y = avg_avg_amount, label = position_cat, color = position_cat), hjust = "left", size = 5) + 
   geom_text(plot3_data_abbott_text,
@@ -481,7 +481,7 @@ ggplot() +
   scale_y_continuous(label = scales::label_dollar()) +
   scale_x_discrete(limits = c("2018", "2019", "2020", "2021", "2022", "2023"),
                    breaks = c("2018", "2019", "2020", "2021", "2022"))  +
-  scale_color_manual(values = c("#899499", "#AA4A44", "gray", "#BF8F8C")) +
+  scale_color_manual(values = c("#AA4A44", "#899499", "gray", "#BF8F8C")) +
   guides(color = "none") + 
   theme_minimal() +
   labs(
@@ -494,6 +494,13 @@ ggplot() +
         plot.title = element_text(size = 16),
         plot.subtitle = element_text(size = 12))
 ```
+
+### Discussion #3
+
+(1-3 paragraphs): In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots. Speculate about why the data looks the way it does.
+
+From the line plot, we can see that the average USD amount per contribution to Greg Abbot are larger than for other grpoups of politicians. It is significantly higher than the average USD contribution for both senators and represenatitives, and Greg also receives a definitively higher average contribution than politicians with positions other than senator/representative including those with specific leadership positions, with the exception of the final year of data (2022). This is quite interesting and online with our hypotheses, since Greg Abbot is an extremely outspoken republican politician and is likely to attract a lot of 
+
 
 ## Sources:
 
