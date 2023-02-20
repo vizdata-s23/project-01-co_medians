@@ -39,7 +39,7 @@ corp_by_politician <-
 
 
 ::: aside
-\[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge.
+\[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge
 :::
 
 ## Q1 Plot 1
@@ -98,7 +98,7 @@ new_static_list %>%
 
 ## Q1 Plot 1 Approach
 
--   Goal: Investigate the relationship between a company's contributions anti-LGBTQ+ campaigns, their position as a Pride sponsor, and implementation of a company-wide HRC pledge.
+-   Goal: Investigate the relationship between a company's contributions anti-LGBTQ+ campaigns, their position as a Pride sponsor, and implementation of a company-wide HRC pledge
 
 -   Methodology: Bar chart with amount contributed on the x-axis and company name on the y-axis
 
@@ -110,9 +110,9 @@ new_static_list %>%
 -    Most of the top 20 companies have total contributions under \$100,000, with the exception of large outliers such as Toyota and AT&T
 -   12 out of the 20 top companies are not Pride sponsors, however the top two companies in USD contributions, Toyota and AT&T, both contribute to Pride 
 -   The majority of companies in the top 20 also have not implemented an HRC pledge
-    - In addition, one company doesn't donate to Pride but has a HRC business pledge, and three companies both donate to Pride and have an HRC pledge.
+    - In addition, one company doesn't donate to Pride but has a HRC business pledge, and three companies both donate to Pride and have an HRC pledge
 
-## Q1 Plot 1 Limitations and Future Study
+## Q1 Plot 1 Limitations & Future Study
 
 -   Dataset only includes information on contributions to politicians from six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
 
@@ -208,7 +208,7 @@ static_list %>%
 
 ## Q1 Plot 2 Discussion
 
-## Q1 Plot 2 Limitations and Future Study
+## Q1 Plot 2 Limitations & Future Study
 
 -   Numbers of companies were different across each group therefore drawing meaningful conclusions is more difficult
 
@@ -233,7 +233,7 @@ static_list %>%
 
 ## Q2 Plot 1 Discussion
 
-## Q2 Plot 1 Limitations and Future Study
+## Q2 Plot 1 Limitations & Future Study
 
 -   Greg Abbott is only present from the years 2019-2022 which greatly limits our analysis
 
@@ -446,7 +446,7 @@ ggplot(greg_not_greg) +
     -   Abbott had over 60% of total donations in 2021
 -   In 2022, Abbott received a smaller proportion of total donations and a smaller dollar amount of donations
 
-## Q2 Plot 2 Limitations and Future Study
+## Q2 Plot 2 Limitations & Future Study
 
 -   Dataset only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
 
