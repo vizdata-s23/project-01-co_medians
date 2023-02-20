@@ -247,7 +247,10 @@ How have donations to politicians who support anti-LGBTQ+ campaigns changed over
 ## Plot 1 Limitations and Future Study
 
 -   Greg Abbott is only present from the years 2019-2022 (approximately 4 years after he became governor of Texas) which greatly limits our analysis
--   There was only one other politician with the title governor (that we had information on contribution dates to) therefore we are not able to see as clearly Greg's contributions compared with others of his political influence
+
+-   There was only one other politician with the title governor that we had information on contribution dates to
+    -   It would be great to clearly see Greg Abbott's average contributions compared with others of his political influence
+
 -   By displaying the average contribution amount per politician we lose specific information on the number of donations that were made as well as the magitude of donations
 
 ## Plot 2
