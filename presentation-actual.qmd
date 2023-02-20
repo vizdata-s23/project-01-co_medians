@@ -203,7 +203,7 @@ static_list %>%
 
 -   Methodology: Density plot showing density of number of contributions
 
-    -  Colored& faceted by category of company: 1) HRC pledge and donates to Pride, 2) HRC pledge and doesn't donate to Pride, 3) No HRC pledge and donates to Pride, 4) Neither HRC pledge nor donation to Pride
+    -  Colored & faceted by category of company: 1) HRC pledge and donates to Pride, 2) HRC pledge and doesn't donate to Pride, 3) No HRC pledge and donates to Pride, 4) Neither HRC pledge nor donation to Pride
     -   Annotations denoting the number of companies that fall into each category
 
 ## Q1 Plot 2 Discussion

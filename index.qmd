@@ -547,7 +547,7 @@ From our fourth plot, we can see that in the years 2019-2021, there has been an 
 
 Additionally, we can see that the proportion of total donations going to Greg Abbott increased in the years 2019-2021, with him having over 60% of total donations in 2021; not only have the proportions increased during those years, but the dollar amounts he received also increased. This suggests that there was, unfortunately, a lot of support for Abbott, as he has always been very vocal about being anti-LGBTQ+ and is a prominent figure in the US, being the Governor of Texas, a traditionally very red state. Fortunately, he received a smaller proportion of the total donations in 2022 and a smaller dollar amount of donations. This could be associated with the fact that he got the worst press out of all governors in the US regarding LGBTQ+ issues (Houston Chronicle), and this could've led less people to want to donate to his controversial campaigns.
 
-A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians.
+A limitation of our plot is that it only includes information on six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee, and there are many more states that are anti-LGBTQ+ that we weren't able to capture due to limited data; for instance, according to NBC News, 23 states don't protect citizens from discrimination on the basis of sexual orientation. The six states that were in this dataset were some of the most prominent and alarming anti-LGBTQ+ supporters, however, our research would've been stronger had there been information on more states. For instance, if the dataset included blue states, we could've compared the difference (if any) in support for anti-LGBTQ between Republican and Democratic politicians. Finally, the politicians in this dataset were on the state level, and in the future, it might be worthwhile to consider federal politicians and how donations to politicians of even greater power and influence differ from those of state politicians. 
 
 ## Sources:
 
@@ -566,3 +566,7 @@ A limitation of our plot is that it only includes information on six states: Flo
 -   https://meyerweb.com/eric/tools/color-blend/#D3D3D3:AA4A44:1:hex
 
 -   https://www.nytimes.com/2019/07/02/opinion/lgbt-rights-pride-corporations.html
+
+-   https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
+
+
