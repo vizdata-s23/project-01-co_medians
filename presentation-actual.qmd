@@ -49,7 +49,6 @@ library(scales)
 
 ## Plot 2
 
-<<<<<<< HEAD
 ```{r load-merge-and-process-data-for-plot-2, echo=FALSE, warning=FALSE}
 corp_by_politician <-
   readr::read_csv(
@@ -230,7 +229,7 @@ ggplot(greg_not_greg) +
   ) +
   theme_minimal() +
   theme(
-    legend.position = c(0.165, 0.85),
+    legend.position = c(0.16, 0.85),
     legend.background = element_blank(),
     legend.box.background = element_rect(color = "darkgrey", size = 0.5)
   )
