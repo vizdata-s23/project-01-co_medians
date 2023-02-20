@@ -221,8 +221,7 @@ static_list %>%
 
 -   Numbers of companies were different across each group therefore drawing meaningful conclusions is more difficult
 
--   In addition to this the range of sample sizes is quite large, with many companies falling into the 'neither' category, which is about 4 times as large as the second larges category
-   
+-   In addition to this the range of sample sizes is quite large, with many companies falling into the 'neither' category, which is about 4 times as large as the second largest category
 
 ## Question 1 Conclusion
 
@@ -241,11 +240,15 @@ How have donations to politicians who support anti-LGBTQ+ campaigns changed over
 
     -   Colored by poltiician title
     -   Dashed line to indicate Greg Abbott
-    -   Annotations denoting which gorup each line represents
+    -   Annotations denoting which group each line represents
 
 ## Plot 1 Discussion
 
 ## Plot 1 Limitations and Future Study
+
+-   Greg Abbott is only present from the years 2019-2022 (approximately 4 years after he became governor of Texas) which greatly limits our analysis
+-   There was only one other politician with the title governor (that we had information on contribution dates to) therefore we are not able to see as clearly Greg's contributions compared with others of his political influence
+-   By displaying the average contribution amount per politician we lose specific information on the number of donations that were made as well as the magitude of donations
 
 ## Plot 2
 
