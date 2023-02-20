@@ -16,7 +16,10 @@ library(scales)
 
 ## Title
 
-## Data Source
+
+## The Hypocrisy of US Corporate Pride and Anti-LGBTQ+ Donations
+
+## Data
 
 ## Abstract
 
@@ -24,26 +27,29 @@ library(scales)
 
 ## Plot 1
 
-## Plot 1 Discussion 
+## Plot 1 Discussion
 
-## Plot 1 Limitations and Future Study 
+## Plot 1 Limitations and Future Study
 
 ## Plot 2
 
-## Plot 2 Discussion 
+## Plot 2 Discussion
 
-## Plot 2 Limitations and Future Study 
+## Plot 2 Limitations and Future Study
+
+## Question 1 Conclusion
 
 ## Question 2
 
 ## Plot 1
 
-## Plot 1 Discussion 
+## Plot 1 Discussion
 
-## Plot 1 Limitations and Future Study 
+## Plot 1 Limitations and Future Study
 
 ## Plot 2
 
+<<<<<<< HEAD
 ```{r load-merge-and-process-data-for-plot-2, echo=FALSE, warning=FALSE}
 corp_by_politician <-
   readr::read_csv(
@@ -262,3 +268,12 @@ To do this, we created a stacked bar plot with year on the x axis and total amou
     - Would also be interesting to look into federal politicians
 
 ## Sources
+=======
+## Plot 2 Discussion
+
+## Plot 2 Limitations and Future Study
+
+## Question 2 Conclusion
+
+## Sources
+>>>>>>> 81d7585323e103550e88848b4797c1d4baa917ea
