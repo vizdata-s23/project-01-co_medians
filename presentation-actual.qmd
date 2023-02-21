@@ -32,11 +32,23 @@ corp_by_politician <-
 
 ## Data
 
+-   Datasets are from TidyTuesday and originally drawn from Data for Progress
+
+-   Data looks specifically at businesses that contribute to anti-LGBTQ political campaigns
+
+-   We use 3 out of the 7 total datasets:
+
+    -   Static_list - most complete combined info from other datasets
+
+    -   Contribution_data_all_states - info by individual contribution
+
+    -   corp_by_politician - info on politician offices
+
 ## Abstract
 
-## Question 1: What is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge or not, and their contributions to anti-LGBTQ+ political campaigns?
-{background-color = "lightgray"}
+## Question 1: 
 
+What is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge or not, and their contributions to anti-LGBTQ+ political campaigns?
 
 ::: aside
 \[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge
@@ -98,27 +110,26 @@ new_static_list %>%
 
 ## Q1 Plot 1 Approach
 
--   Goal: Investigate the relationship between a company's contributions anti-LGBTQ+ campaigns, their position as a Pride sponsor, and implementation of a company-wide HRC pledge
+-   **Goal:** Investigate the relationship between a company's contributions to anti-LGBTQ+ campaigns, their position as a Pride sponsor, and implementation of a HRC pledge
 
--   Methodology: Bar chart with amount contributed on the x-axis and company name on the y-axis
+-   **Methodology:** Bar chart with amount contributed on the x-axis and company name on the y-axis
 
     -   Colored by whether or not the company is a Pride sponsor
     -   Striped bars indicate that the company has enacted an HRC pledge
 
 ## Q1 Plot 1 Discussion
 
--    Most of the top 20 companies have total contributions under \$100,000, with the exception of large outliers such as Toyota and AT&T
--   12 out of the 20 top companies are not Pride sponsors, however the top two companies in USD contributions, Toyota and AT&T, both contribute to Pride 
+-   Most of the top 20 companies have total contributions under \$100,000, with the exception of large outliers such as Toyota and AT&T
+-   12 out of the 20 top companies are not Pride sponsors, however the top two companies in USD contributions, Toyota and AT&T, both contribute to Pride
 -   The majority of companies in the top 20 also have not implemented an HRC pledge
-    - In addition, one company doesn't donate to Pride but has a HRC business pledge, and three companies both donate to Pride and have an HRC pledge
 
 ## Q1 Plot 1 Limitations & Future Study
 
 -   Dataset only includes information on contributions to politicians from six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
 
--   Our investigation could be furthered by looking into the magnitude of donations to Pride vs to anti-LGBTQ+ campaigns  to see if these companies are contributing equally to both or if the financial contributions are skewed 
+-   Our investigation could be furthered by looking into the magnitude of donations to Pride vs to anti-LGBTQ+ campaigns to see if these companies are contributing equally to both or not
 
--   It would be interesing to look at company efforts to promote inclusivity and equality in the workplace other than an HRC pledge
+-   It would be interesting to look at company efforts to promote exclusivity and equality in the workplace other than an HRC pledge, like on their company website
 
 ## Q1 Plot 2
 
@@ -201,9 +212,9 @@ static_list %>%
 
 -   Goal: Investigate the relationship between a company's contributions to anti-LGBTQ+ campaigns, position as a Pride sponsor, and existence of an HRC pledge.
 
--   Methodology: Density plot showing density of number of contributions
+-   Methodology: Density plot showing the density of the number of contributions
 
-    -  Colored & faceted by category of company: 1) HRC pledge and donates to Pride, 2) HRC pledge and doesn't donate to Pride, 3) No HRC pledge and donates to Pride, 4) Neither HRC pledge nor donation to Pride
+    -   Colored & faceted by category of company: 1) HRC pledge and donates to Pride, 2) HRC pledge and doesn't donate to Pride, 3) No HRC pledge and donates to Pride, 4) Neither HRC pledge nor donation to Pride
     -   Annotations denoting the number of companies that fall into each category
 
 ## Q1 Plot 2 Discussion
@@ -216,7 +227,10 @@ static_list %>%
 
 ## Question 1 Conclusion
 
-## Question 2: How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
+## Question 2: 
+
+How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
+
 {background-color = "lightgray"}
 
 ## Q2 Plot 1
@@ -239,7 +253,7 @@ static_list %>%
 
 -   There was only one other politician with the title governor where we had information on contribution dates. It would be great to clearly visualize Greg Abbott's average contributions compared with others of his political influence
 
--   By displaying the average contribution amount per politician we lose specific information on the number of donations that were made as well as the magitude of donations
+-   By displaying the average contribution amount per politician we lose specific information on the number of donations that were made as well as the magnitude of donations
 
 ## Q2 Plot 2
 
@@ -436,7 +450,7 @@ ggplot(greg_not_greg) +
 -   Methodology: stacked bar plot with year on the x axis and total amount of contributions on the y axis
 
     -   Colored by Greg Abbott vs. all the other politicians except Abbott
-    -   Annotations for the different proportions (in %) for better interpretability
+    -   Annotations for the different proportions (in %) for better interpret-ability
 
 ## Q2 Plot 2 Discussion
 
