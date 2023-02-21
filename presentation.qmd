@@ -23,6 +23,7 @@ library(lubridate)
 library(readr)
 library(ggpattern)
 library(scales)
+library(ggrepel)
 ```
 
 ```{r}
@@ -197,7 +198,7 @@ static_list %>%
   facet_wrap(~ category, ncol = 1) +
   coord_cartesian(xlim = c(0, 700000)) +
   labs(
-    title = "Density of company contributions to anti-LGBTQ+ campaigns",
+    title = "Density of corporate contributions to anti-LGBTQ+ campaigns",
     subtitle = "Faceted by company characteristics",
     # CHANGE TITLE
     x = "Amount contributed (in USD)",
@@ -217,11 +218,113 @@ static_list %>%
 
 ## Q2 Plot 1
 
+```{r}
+#| label: q2plot1
+
+question2_data <-
+  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
+
+question2_plot3_data <- question2_data %>%
+  filter(!is.na(Date)) %>%
+  mutate(year = year(ymd(Date))) %>%
+  filter(year >= 2018) %>%
+  #mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
+  group_by(Politician, year, Title) %>%
+  summarize(avg_amount = mean(Amount, na.rm = TRUE))
+
+plot3_data_no_abbott <- question2_plot3_data %>%
+  filter(Politician != "Greg Abbott") %>%
+  mutate(
+    position_cat = case_when(
+      Title == "Representative" ~ "Representative",
+      Title == "Senator" ~ "Senator",
+      #Title == "Governor" ~ "Governor",
+      TRUE ~ "Other"
+    )
+  ) %>%
+  group_by(position_cat, year) %>%
+  summarize(avg_avg_amount = mean(avg_amount, na.rm = TRUE))
+
+
+plot3_data_abbott <- question2_plot3_data %>%
+  filter(Politician == "Greg Abbott")
+
+# unique(plot3_data_no_abbott$position_cat)
+
+plot3_data_no_abbott_text <- plot3_data_no_abbott %>%
+  filter(year == "2022")
+
+plot3_data_abbott_text <- plot3_data_abbott %>%
+  filter(year == "2022")
+
+
+ggplot() +
+  geom_line(
+    data = plot3_data_no_abbott,
+    mapping = aes(
+      x = factor(year),
+      y =      avg_avg_amount,
+      color = position_cat,
+      group = position_cat
+    ),
+    linewidth = 1.1
+  ) +
+  geom_line(
+    plot3_data_abbott,
+    mapping = aes(x = factor(year), y = avg_amount, group = Politician),
+    color = "#AA4A44",
+    linetype = "dashed",
+    linewidth = 1.1
+  ) +
+  geom_text(
+    plot3_data_no_abbott_text,
+    mapping = aes(
+      x = 5.05,
+      y = avg_avg_amount,
+      label = position_cat,
+      color = position_cat
+    ),
+    hjust = "left",
+    size = 4
+  ) +
+  geom_text(
+    plot3_data_abbott_text,
+    mapping = aes(
+      x = 5.05,
+      y = avg_amount,
+      label = Politician,
+      color = Politician
+    ),
+    hjust = "left",
+    size = 4
+  ) +
+  scale_y_continuous(label = scales::label_dollar()) +
+  scale_x_discrete(
+    limits = c("2018", "2019", "2020", "2021", "2022", "2023"),
+    breaks = c("2018", "2019", "2020", "2021", "2022")
+  )  +
+  scale_color_manual(values = c("#AA4A44", "#899499", "gray", "#BF8F8C")) +
+  guides(color = "none") +
+  theme_minimal() +
+  labs(
+    title = "Average donation amount contributed per politician over time",
+    subtitle = "Colored by politician category",
+    x = "Year",
+    y = "Amount per contribution ( in USD)"
+  ) +
+  theme(
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    plot.title = element_text(size = 16),
+    plot.subtitle = element_text(size = 12)
+  )
+```
+
+
 ## Q2 Plot 2
 
 ```{r}
 #| label: q2-plot2-dataprocessing
-
 corp_by_politician <-
   readr::read_csv(
     "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
@@ -244,9 +347,9 @@ question2_plot2_data <- question2_data %>%
 # Greg only had data in years 2019-2022 so we consider only those years
 ```
 
+
 ```{r}
 #| label: q2-plot2-dataprocessing2
-
 greg_not_greg <- question2_plot2_data %>%
   group_by(is_greg, year) %>%
   summarise(
@@ -336,9 +439,9 @@ annotation_data_2022 <- tribble(
   mutate(amount_mid = (amount_min + amount_max) / 2)
 ```
 
-```{r}
-#| label: question2-plot2
 
+```{r}
+#| label: q2-plot2
 ggplot(greg_not_greg) +
   geom_bar(aes(
     x = year,
@@ -357,7 +460,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   geom_text(
     data = annotation_data_2020,
@@ -367,7 +470,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   geom_text(
     data = annotation_data_2021,
@@ -377,7 +480,7 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   geom_text(
     data = annotation_data_2022,
@@ -387,14 +490,15 @@ ggplot(greg_not_greg) +
       label = percentage,
       color = color
     ),
-    size = 3
+    size = 2.5
   ) +
   scale_color_identity() +
   labs(
-    x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns
+    title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
+    x = "Year", 
+    y = "Amount Donated for anti-LGBTQ+ Campaigns
        (in USD)",
     fill = "Politician",
-    title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
     subtitle = "In the years 2019-2022"
   ) +
   scale_fill_manual(values = c("lightgrey", "#AA4A44")) +
@@ -405,11 +509,14 @@ ggplot(greg_not_greg) +
   ) +
   theme_minimal() +
   theme(
-    legend.position = c(0.12, 0.85),
+    legend.position = c(0.16, 0.85),
     legend.background = element_blank(),
-    legend.box.background = element_rect(color = "darkgrey", size = 0.5)
+    legend.box.background = element_rect(color = "darkgrey", linewidth = 0.5)
   )
 ```
+
+
+## Q2 Plot 2
 
 
 
