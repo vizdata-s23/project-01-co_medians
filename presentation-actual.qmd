@@ -1,5 +1,5 @@
 ---
-title: "presentation-actual"
+title: "The Hypocrisy of US Corporate Pride and Anti-LGBTQ+ Donations"
 format: revealjs
 editor: visual
 ---
