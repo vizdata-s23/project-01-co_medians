@@ -42,8 +42,6 @@ corp_by_politician <-
 
     -   corp_by_politician - info on politician offices
 
-## Abstract
-
 ## Question 1: What is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge or not, and their contributions to anti-LGBTQ+ political campaigns?
 
 ::: aside
