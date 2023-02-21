@@ -76,6 +76,341 @@ corp_by_politician <-
 
 ## Question 1: What is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge or not, and their contributions to anti-LGBTQ+ political campaigns?
 
+::: aside
+\[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge
+:::
+
+## Q1 Plot 1
+
+```{r}
+#| label: data_processing_plot_1
+
+static_list <- static_list %>%
+  mutate(
+    amount_contributed = `Amount Contributed Across States`,
+    hrc_pledge = `HRC Business Pledge`,
+    pride_or_not = `Pride?`
+  )
+
+new_static_list <- static_list %>%
+  filter(!is.na(Company), !is.na(hrc_pledge)) %>%
+  select(Company, amount_contributed, hrc_pledge, pride_or_not) %>%
+  group_by(Company) %>%
+  summarise(
+    total_amount = sum(amount_contributed),
+    hrc_pledge, pride_or_not
+  ) %>%
+  arrange(desc(total_amount)) %>%
+  slice_head(n = 20)
+```
+
+```{r}
+#| label: question 1 plot 1
+
+new_static_list %>%
+  mutate(
+    hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
+    pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")
+  ) %>%
+  ggplot(aes(x = reorder(Company,total_amount), y = total_amount, fill = pride_or_not, pattern = hrc_pledge)) +
+  geom_col_pattern(pattern_fill = "darkgray", pattern_color = "darkgray", aes(color = pride_or_not), width = .7) +
+  scale_color_manual(values = c("#AA4A44", "lightgrey"), guide = "none") +
+  scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
+  scale_pattern_manual(values = c("none", "stripe"), guide = guide_legend(override.aes = list(fill = "white", color = "darkgray"))) +
+  scale_y_continuous(label = scales::label_dollar()) +
+  coord_flip() +
+  labs(
+    title = "USD Amounts of top 20 companies in contributions \nto anti-LGBTQ+ campaigns",
+    x = "Company",
+    y = "Amount contributed to anti-LGBTQ+ campaigns (in USD)",
+    fill = "Does the company \ndonate to Pride?",
+    pattern = "Does the company \nhave an HRC pledge?"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .32),
+    legend.title = element_text(size = 8),
+    legend.background = element_rect(fill = "white", color = "darkgrey")
+  )
+```
+
+## Q1 Plot 2
+
+```{r}
+#| question1-plot2-data
+
+company_categ_counts <- static_list %>%
+  mutate(
+    category = case_when(
+      hrc_pledge == TRUE &
+        pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
+      hrc_pledge == FALSE &
+        pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+      hrc_pledge == TRUE &
+        pride_or_not == FALSE ~ "HRC Pledge, no donation to Pride",
+      TRUE ~ "Neither"
+    ),
+    category = fct_relevel(factor(
+      category,
+      levels = c(
+        "HRC Pledge, donates to Pride",
+        "No HRC pledge, donates to Pride",
+        "HRC Pledge, no donation to Pride",
+        "Neither"
+      )
+    ))
+  ) %>%
+  count(category)
+```
+
+```{r}
+#| label: question 1 plot 2
+#| warning: false
+
+static_list %>%
+  mutate(
+    category = case_when(
+      hrc_pledge == TRUE &
+        pride_or_not == TRUE ~ "HRC Pledge, donates to Pride",
+      hrc_pledge == FALSE &
+        pride_or_not == TRUE ~ "No HRC pledge, donates to Pride",
+      hrc_pledge == TRUE &
+        pride_or_not == FALSE ~ "HRC Pledge, no donation to Pride",
+      TRUE ~ "Neither"
+    ),
+    category = fct_relevel(factor(
+      category,
+      levels = c(
+        "HRC Pledge, donates to Pride",
+        "No HRC pledge, donates to Pride",
+        "HRC Pledge, no donation to Pride",
+        "Neither"
+      )
+    ))
+  ) %>%
+  ggplot(aes(x = amount_contributed)) +
+  geom_density(aes(fill = category, color = category), show.legend = FALSE) +
+  scale_x_continuous(label = scales::label_dollar()) +
+  scale_y_continuous(labels = label_number()) + # idk if scientific notation is better
+  scale_fill_manual(values = c("#AA4A44", "#BF8F8C", "grey", "#899499")) +
+  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "grey", "#899499")) + # can take this out
+  facet_wrap(~ category, ncol = 1) +
+  coord_cartesian(xlim = c(0, 700000)) +
+  labs(
+    title = "Density of company contributions to anti-LGBTQ+ campaigns",
+    subtitle = "Faceted by company characteristics",
+    # CHANGE TITLE
+    x = "Amount contributed (in USD)",
+    y = "Density"
+  ) +
+  theme_minimal() +
+  geom_text(data = company_categ_counts,
+            aes(
+              x = 680000,
+              y = 0.000004,
+              label = paste0("n = ", company_categ_counts$n),
+            ),
+            size = 2.6)
+```
+
+## Question 2: How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
+
+## Q2 Plot 1
+
+## Q2 Plot 2
+
+```{r}
+#| q2-plot2-dataprocessing
+
+corp_by_politician <-
+  readr::read_csv(
+    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
+  )
+static_list <- readRDS("data/static_list.RDS")
+contribution_data_all_states <-
+  readRDS("data/contribution_data_all_states.RDS")
+
+question2_data <-
+  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
+# inner join to capture the politicians that appear in both datasets
+
+question2_plot2_data <- question2_data %>%
+  filter(!is.na(Date)) %>%
+  mutate(year = year(ymd(Date))) %>%
+  mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
+  filter(year == 2019 | year == 2020 | year == 2021 | year == 2022)
+
+# question2_data %>% filter(Politician == "Greg Abbott") %>% select(year) %>% unique()
+# Greg only had data in years 2019-2022 so we consider only those years
+```
+
+```{r}
+#| q2-plot2-dataprocessing2
+
+greg_not_greg <- question2_plot2_data %>%
+  group_by(is_greg, year) %>%
+  summarise(
+    amounts = sum(Amount),
+    .groups = "drop"
+  )
+
+greg <- greg_not_greg %>%
+  filter(is_greg == "Greg Abbott")
+
+props_greg_not_greg <- greg_not_greg %>%
+  group_by(year) %>%
+  summarise(
+    prop = round(100 * (amounts / sum(amounts)), 0),
+    .groups = "drop"
+  )
+
+total_amount_per_year <- greg_not_greg %>%
+  group_by(year) %>%
+  summarise(
+    amount_sum = sum(amounts),
+    .groups = "drop"
+  )
+
+annotation_data_2019 <- tribble(
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
+  0,
+  greg$amounts[1],
+  paste0(props_greg_not_greg$prop[1], "%"),
+  "white",
+  greg$amounts[1],
+  total_amount_per_year$amount_sum[1],
+  paste0(props_greg_not_greg$prop[2], "%"),
+  "black"
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+
+annotation_data_2020 <- tribble(
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
+  0,
+  greg$amounts[2],
+  paste0(props_greg_not_greg$prop[3], "%"),
+  "white",
+  greg$amounts[2],
+  total_amount_per_year$amount_sum[2],
+  paste0(props_greg_not_greg$prop[4], "%"),
+  "black"
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+
+annotation_data_2021 <- tribble(
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
+  0,
+  greg$amounts[3],
+  paste0(props_greg_not_greg$prop[5], "%"),
+  "white",
+  greg$amounts[3],
+  total_amount_per_year$amount_sum[3],
+  paste0(props_greg_not_greg$prop[6], "%"),
+  "black"
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+
+annotation_data_2022 <- tribble(
+  ~amount_min,
+  ~amount_max,
+  ~percentage,
+  ~color,
+  0,
+  greg$amounts[4],
+  paste0(props_greg_not_greg$prop[7], "%"),
+  "white",
+  greg$amounts[4],
+  total_amount_per_year$amount_sum[4],
+  paste0(props_greg_not_greg$prop[8], "%"),
+  "black"
+) %>%
+  mutate(amount_mid = (amount_min + amount_max) / 2)
+```
+
+```{r}
+#| question2-plot2
+
+ggplot(greg_not_greg) +
+  geom_bar(aes(
+    x = year,
+    y = amounts,
+    fill = fct_relevel(factor(
+      is_greg, levels = c("Not Greg Abbott", "Greg Abbott")
+    ))
+  ),
+  position = "stack",
+  stat = "identity") +
+  geom_text(
+    data = annotation_data_2019,
+    aes(
+      x = 2019,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 3
+  ) +
+  geom_text(
+    data = annotation_data_2020,
+    aes(
+      x = 2020,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 3
+  ) +
+  geom_text(
+    data = annotation_data_2021,
+    aes(
+      x = 2021,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 3
+  ) +
+  geom_text(
+    data = annotation_data_2022,
+    aes(
+      x = 2022,
+      y = amount_mid,
+      label = percentage,
+      color = color
+    ),
+    size = 3
+  ) +
+  scale_color_identity() +
+  labs(
+    x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns
+       (in USD)",
+    fill = "Politician",
+    title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
+    subtitle = "In the years 2019-2022"
+  ) +
+  scale_fill_manual(values = c("lightgrey", "#AA4A44")) +
+  scale_y_continuous(
+    limits = c(0, 11000000),
+    labels = scales::label_dollar(),
+    breaks = c(0, 2000000, 4000000, 6000000, 8000000, 10000000)
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = c(0.12, 0.85),
+    legend.background = element_blank(),
+    legend.box.background = element_rect(color = "darkgrey", size = 0.5)
+  )
+```
+
 
 
 
