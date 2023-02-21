@@ -320,7 +320,6 @@ ggplot() +
   )
 ```
 
-
 ## Q2 Plot 2
 
 ```{r}
@@ -514,11 +513,6 @@ ggplot(greg_not_greg) +
     legend.box.background = element_rect(color = "darkgrey", linewidth = 0.5)
   )
 ```
-
-
-## Q2 Plot 2
-
-
 
 
 ## Images
