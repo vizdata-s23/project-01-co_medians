@@ -119,7 +119,7 @@ new_static_list %>%
 -   12 out of the 20 top companies are not Pride sponsors, however the top two companies in USD contributions, Toyota and AT&T, both contribute to Pride
 -   The majority of companies in the top 20 also have not implemented an HRC pledge
 
-## Q1 Plot 1 Limitations & Future Study
+## Q1 Plot 1 Limitations & Future Study {.smaller}
 
 -   Dataset only includes information on contributions to politicians from six states: Florida, Texas, Idaho, Alabama, Arizona, and Tennessee
 
@@ -221,19 +221,15 @@ static_list %>%
 
 -   In addition to this the range of sample sizes is quite large, with many companies falling into the 'neither' category, which is about 4 times as large as the second largest category
 
-## Question 1 Conclusion
-
 ## Question 2: How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
-
-{background-color = "lightgray"}
 
 ## Q2 Plot 1
 
 ## Q2 Plot 1 Approach
 
--   Goal: Visualize the fluctuations in average contribution per politician over time, specificially Greg Abbott compared iwht other politicians
+-   Goal: Visualize the fluctuations in average contribution per politician over time, specifically Greg Abbott compared with other politicians
 
--   Methodology: Line plot with year on the x-axis and average contribution per poltiician per year on the y-axis
+-   Methodology: Line plot with year on the x-axis and average contribution per politician per year on the y-axis
 
     -   Colored by politician title
     -   Dashed line to indicate Greg Abbott
@@ -461,7 +457,5 @@ ggplot(greg_not_greg) +
 -   Our research would've been stronger had there been information on more states so we could compare between Republican and Democratic politicians
 
     -   Would also be interesting to look into federal politicians
-
-## Question 2 Conclusion
 
 ## Sources
