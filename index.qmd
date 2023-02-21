@@ -119,6 +119,7 @@ new_static_list %>%
                        guide = guide_legend(override.aes = list(
                          fill = "white", color = "darkgray"
                        ))) +
+#https://statisticsglobe.com/ggpattern-r-package  
   scale_y_continuous(label = scales::label_dollar()) +
   coord_flip() +
   labs(
@@ -574,4 +575,5 @@ A limitation of our plot is that it only includes information on six states: Flo
 
 -   https://coolbutuseless.github.io/package/ggpattern/
 
+-   https://statisticsglobe.com/ggpattern-r-package
 
