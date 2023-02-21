@@ -28,9 +28,7 @@ corp_by_politician <-
 # Source for our bullet structure in this presentation: https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
 ```
 
-## The Hypocrisy of US Corporate Pride and Anti-LGBTQ+ Donations {background-color = "lightgray"}
-
-## Data
+## Data {.smaller}
 
 -   Datasets are from TidyTuesday and originally drawn from Data for Progress
 
@@ -46,9 +44,7 @@ corp_by_politician <-
 
 ## Abstract
 
-## Question 1: 
-
-What is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge or not, and their contributions to anti-LGBTQ+ political campaigns?
+## Question 1: What is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge or not, and their contributions to anti-LGBTQ+ political campaigns?
 
 ::: aside
 \[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge
@@ -208,7 +204,7 @@ static_list %>%
             size = 2.6)
 ```
 
-## Q1 Plot 2 Approach
+## Q1 Plot 2 Approach {.smaller}
 
 -   Goal: Investigate the relationship between a company's contributions to anti-LGBTQ+ campaigns, position as a Pride sponsor, and existence of an HRC pledge.
 
@@ -227,9 +223,7 @@ static_list %>%
 
 ## Question 1 Conclusion
 
-## Question 2: 
-
-How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
+## Question 2: How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
 
 {background-color = "lightgray"}
 
