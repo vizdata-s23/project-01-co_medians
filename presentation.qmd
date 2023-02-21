@@ -1,9 +1,9 @@
 ---
 title: "The Hypocrisy of US Corporate Pride and Anti-LGBTQ+ Donations"
 subtitle: "STA/ISS 313 - Spring 2023 - Project 1"
-author: "Co-Medians: Helen Chen, Amber Potter, Morgan Bernstein, Ellen Zhang"
+author: "Team Co-Medians: Helen Chen, Amber Potter, Morgan Bernstein, Ellen Zhang"
 title-slide-attributes:
-  data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg
+  data-background-image: images/rainbow.jpg
   data-background-size: stretch
   data-slide-number: none
 format: revealjs
@@ -519,7 +519,42 @@ ggplot(greg_not_greg) +
   )
 ```
 
+## Sources
+
+-   https://19thnews.org/2022/06/companies-anti-lgbtq-bills-lawmakers/
+
+-   https://www.hrc.org/press-releases/human-rights-campaign-gov-abbott-continuing-his-crusade-to-harm-transgender-and-non-binary-texans
+
+-   https://time.com/6150964/greg-abbott-trans-kids-child-abuse/
+
+## Sources cont. 
+
+-   https://www.hrc.org/press-releases/2021-officially-becomes-worst-year-in-recent-history-for-lgbtq-state-legislative-attacks-as-unprecedented-number-of-states-enact-record-shattering-number-of-anti-lgbtq-measures-into-law
+
+-   https://www.houstonchronicle.com/politics/texas/article/gov-greg-gbbott-gets-worst-press-on-lgbtq-issues-17184157.php
+
+-   https://www.nbcnews.com/nbc-out/out-politics-and-policy/less-10-2022s-anti-lgbtq-state-bills-became-law-report-finds-rcna67619
+
+## Sources cont. 2
+
+-   https://meyerweb.com/eric/tools/color-blend/#D3D3D3:AA4A44:1:hex
+
+-   https://www.nytimes.com/2019/07/02/opinion/lgbt-rights-pride-corporations.html
+
+-   https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
+
+-   https://en.wikipedia.org/wiki/LGBT_rights_in_Japan
+
+## Sources cont. 3
+
+-   https://coolbutuseless.github.io/package/ggpattern/
+
+-   https://statisticsglobe.com/ggpattern-r-package
+
+-   https://coolbutuseless.github.io/package/ggpattern/articles/pattern-stripe.html#the-fill-aesthetic-as-a-mapped-aesthetic-1
+
+-   https://www.freepik.com/free-vector/watercolor-rainbow-background-design_30010873.htm#page=2&query=rainbow%20background&position=4&from_view=keyword&track=ais
 
 ## Images
 
-![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png)
+![Image credit: Image by <a href="https://www.freepik.com/free-vector/watercolor-rainbow-background-design_30010873.htm#page=2&query=rainbow%20background&position=4&from_view=keyword&track=ais">Freepik</a>](https://www.freepik.com/free-vector/watercolor-rainbow-background-design_30010873.htm#page=2&query=rainbow%20background&position=4&from_view=keyword&track=ais)
