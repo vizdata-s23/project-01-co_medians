@@ -129,6 +129,7 @@ new_static_list %>%
     fill = "Does the company \ndonate to Pride?",
     pattern = "Does the company \nhave an HRC pledge?"
   ) +
+#ggpattern legend: https://coolbutuseless.github.io/package/ggpattern/articles/pattern-stripe.html#the-fill-aesthetic-as-a-mapped-aesthetic-1
   theme_minimal() +
   theme(
     legend.position = c(.85, .32),
@@ -577,3 +578,4 @@ A limitation of our plot is that it only includes information on six states: Flo
 
 -   https://statisticsglobe.com/ggpattern-r-package
 
+-   https://coolbutuseless.github.io/package/ggpattern/articles/pattern-stripe.html#the-fill-aesthetic-as-a-mapped-aesthetic-1
