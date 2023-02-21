@@ -137,7 +137,7 @@ new_static_list %>%
 ## Q1 Plot 2
 
 ```{r}
-#| question1-plot2-data
+#| label: question1-plot2-data
 
 company_categ_counts <- static_list %>%
   mutate(
@@ -220,7 +220,7 @@ static_list %>%
 ## Q2 Plot 2
 
 ```{r}
-#| q2-plot2-dataprocessing
+#| label: q2-plot2-dataprocessing
 
 corp_by_politician <-
   readr::read_csv(
@@ -245,7 +245,7 @@ question2_plot2_data <- question2_data %>%
 ```
 
 ```{r}
-#| q2-plot2-dataprocessing2
+#| label: q2-plot2-dataprocessing2
 
 greg_not_greg <- question2_plot2_data %>%
   group_by(is_greg, year) %>%
@@ -337,7 +337,7 @@ annotation_data_2022 <- tribble(
 ```
 
 ```{r}
-#| question2-plot2
+#| label: question2-plot2
 
 ggplot(greg_not_greg) +
   geom_bar(aes(
