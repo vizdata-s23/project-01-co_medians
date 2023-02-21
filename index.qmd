@@ -4,6 +4,10 @@ subtitle: "STA/ISS 313 - Project 1"
 author: "Team Co-Medians: Ellen Zhang, Amber Potter, Helen Chen, Morgan Bernstein"
 format: html
 editor: visual
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
 ## Abstract
