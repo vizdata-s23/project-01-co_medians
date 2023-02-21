@@ -6,7 +6,7 @@ editor: visual
 
 This project was developed by **\[Co-Medians\]** For [STA/ISS 313: Advanced Data Visualization](https://vizdata.org/) at Duke University. The team is comprised of the following team members.
 
--   Amber Potter: i wanna get a push
--   Team member 2: One sentence description of Team member 2 (e.g., year, major, etc.).
+-   Amber Potter: Amber is a senior double majoring in Statistics and Computer Science and minoring in Linguistics and will be doing baseball analytics for the Pittsburgh Pirates post-graduation.
+-   Helen Chen: One sentence description of Team member 2 (e.g., year, major, etc.).
 -   Morgan Bernstein: Statistics Major and Computer Science Minor; Class of 2025.
--   Team member 4: One sentence description of Team member 4 (e.g., year, major, etc.).
+-   Ellen Zhang: One sentence description of Team member 4 (e.g., year, major, etc.).
