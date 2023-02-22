@@ -170,6 +170,9 @@ static_list %>%
     y = "Density"
   ) +
   theme_minimal() +
+  theme(
+    axis.title.x = element_text(vjust = 1)
+  ) +
   geom_text(data = company_categ_counts,
             aes(
               x = 680000,
@@ -210,7 +213,7 @@ new_static_list %>%
   scale_y_continuous(label = scales::label_dollar()) +
   coord_flip() +
   labs(
-    title = "Top 20 companies in donations to anti-LGBTQ+ campaigns",
+    title = "Top 20 companies in donations \nto anti-LGBTQ+ campaigns",
     x = "Company",
     y = "Amount donated (USD)",
     fill = "Does the company \ndonate to Pride?",
@@ -226,7 +229,7 @@ new_static_list %>%
 
 ## Question 2: How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
 
-## Q2 Plot 1
+---
 
 ```{r}
 #| label: q2plot1
@@ -330,7 +333,7 @@ ggplot() +
   )
 ```
 
-## Q2 Plot 2
+---
 
 ```{r}
 #| label: q2-plot2-dataprocessing
@@ -535,6 +538,8 @@ ggplot(greg_not_greg) +
 -   https://www.nytimes.com/2019/07/02/opinion/lgbt-rights-pride-corporations.html
 
 -   https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
+
+## Sources cont. {.smaller}
 
 -   https://en.wikipedia.org/wiki/LGBT_rights_in_Japan
 
