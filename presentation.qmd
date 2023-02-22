@@ -81,7 +81,7 @@ corp_by_politician <-
 \[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge
 :::
 
-## element_blank()
+---
 
 ```{r}
 #| label: data_processing_plot_1
@@ -179,7 +179,7 @@ static_list %>%
             size = 2.6)
 ```
 
-## Q1 Plot 2
+---
 
 ```{r}
 #| label: question 1 plot 1
