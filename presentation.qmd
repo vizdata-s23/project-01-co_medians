@@ -58,19 +58,19 @@ corp_by_politician <- readRDS("data/corp_by_politician.RDS")
 # Source for our bullet structure in this presentation: https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
 ```
 
-## Data {.smaller}
+## Data
 
 -   Datasets are from TidyTuesday and originally drawn from Data for Progress
 
--   Data looks specifically at businesses that contribute to anti-LGBTQ political campaigns
+-   Data looks specifically at businesses that contribute to anti-LGBTQ+ political campaigns
 
--   We use 3 out of the 7 total datasets:
+-   Our data:
 
-    -   Static_list - most complete combined info from other datasets
+    -   static_list - info on total donations by company
 
-    -   Contribution_data_all_states - info by individual contribution
+    -   contribution_data_all_states - info on individual donations by companies to politicians
 
-    -   corp_by_politician - info on politician offices
+    -   corp_by_politician - info on politicians
 
 ## Question 1: What is the relationship between a company's status as a pride sponsor, whether they have an HRC pledge or not, and their contributions to anti-LGBTQ+ political campaigns?
 
@@ -161,14 +161,20 @@ static_list |>
   facet_wrap( ~ category, ncol = 1) +
   coord_cartesian(xlim = c(0, 700000)) +
   labs(
-    title = "Distributions of total company donations to anti-LGBTQ+ campaigns",
+    title = "Distributions of total company donations to \nanti-LGBTQ+ campaigns",
     subtitle = "Faceted by company characteristics; n companies per category",
     x = "Amount donated (USD)",
     y = "Density"
   ) +
   theme_minimal() +
   theme(
-    axis.title.x = element_text(vjust = -2)
+    axis.text.x = element_text(size = 10),
+    axis.text.y = element_text(size = 8),
+    axis.title = element_text(size = 12),
+    plot.title = element_text(size = 16),
+    plot.subtitle = element_text(size = 11),
+    axis.title.x = element_text(vjust = -1.5),
+    strip.text = element_text(size = 12)
   ) +
   geom_text(data = company_categ_counts,
             aes(
@@ -176,7 +182,7 @@ static_list |>
               y = 0.000006,
               label = paste0("n = ", company_categ_counts$n),
             ),
-            size = 2.6)
+            size = 2.8)
 ```
 
 ------------------------------------------------------------------------
@@ -210,7 +216,7 @@ new_static_list |>
   scale_y_continuous(label = scales::label_dollar()) +
   coord_flip() +
   labs(
-    title = "Top 20 companies in donations \nto anti-LGBTQ+ campaigns",
+    title = "Top 20 companies in donations to \nanti-LGBTQ+ campaigns",
     x = "Company",
     y = "Amount donated (USD)",
     fill = "Does the company \ndonate to Pride?",
@@ -218,10 +224,15 @@ new_static_list |>
   )  +
   theme_minimal() +
   theme(
-    legend.position = c(.85, .4),
-    legend.title = element_text(size = 8),
+    axis.text = element_text(size = 9),
+    axis.title = element_text(size = 14),
+    plot.title = element_text(size = 16),
+    legend.position = c(.82, .42),
+    #plot.title = element_text(size = 14),
+    legend.text = element_text(size = 9),
+    legend.title = element_text(size = 9),
     legend.background = element_rect(fill = "white", color = "darkgrey"),
-    axis.title.x = element_text(vjust = -2)
+    axis.title.x = element_text(vjust = -1.5)
   )
 ```
 
@@ -296,7 +307,7 @@ ggplot() +
       color = position_cat
     ),
     hjust = "left",
-    size = 3
+    size = 3.5
   ) +
   geom_text(
     plot3_data_abbott_text,
@@ -307,7 +318,7 @@ ggplot() +
       color = Politician
     ),
     hjust = "left",
-    size = 3
+    size = 3.5
   ) +
   scale_y_continuous(label = scales::label_dollar()) +
   scale_x_discrete(
@@ -486,7 +497,7 @@ ggplot(greg_not_greg) +
    x = "Year", 
     y = "Amount received (USD)",
     fill = "Politician",
-    title = "Corporate Donations to Greg Abbott and anti-LGBTQ+ politicians",
+    title = "Corporate Donations to Greg Abbott and \nanti-LGBTQ+ politicians",
     subtitle = "In the years 2019-2022"
   ) +
   scale_fill_manual(values = c("lightgrey", "#AA4A44")) +
@@ -497,6 +508,10 @@ ggplot(greg_not_greg) +
   ) +
   theme_minimal() +
   theme(
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    plot.title = element_text(size = 16),
+    plot.subtitle = element_text(size = 12),
     legend.position = c(0.18, 0.82),
     legend.background = element_blank(),
     legend.box.background = element_rect(color = "darkgrey", linewidth = 0.5)
