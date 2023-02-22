@@ -56,6 +56,8 @@ corp_by_politician <- readRDS("data/corp_by_politician.RDS")
 #| include: false
 
 # Source for our bullet structure in this presentation: https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
+
+# Source for using '-''s so we don't have a title on some slides: https://quarto.org/docs/presentations/
 ```
 
 ## Data
