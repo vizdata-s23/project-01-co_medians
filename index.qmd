@@ -235,7 +235,7 @@ We understand that a challenge with stacked bar plots is with comparing them whe
 #### Plot 3:
 
 ```{r echo=FALSE, message=FALSE}
-#| label: question-2-plot 3
+#| label: question-2-plot-3-prep
 
 question2_data <-
   inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
@@ -268,7 +268,11 @@ plot3_data_no_abbott_text <- plot3_data_no_abbott %>%
 
 plot3_data_abbott_text <- plot3_data_abbott %>%
   filter(year == "2022")
+```
 
+
+```{r echo=FALSE, message=FALSE}
+#| label: q2-plot-3
 
 ggplot() +
   geom_line(
@@ -340,13 +344,13 @@ ggplot() +
 #  readr::read_csv(
 #    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
 #  )
-static_list <- readRDS("data/static_list.RDS")
-contribution_data_all_states <-
-  readRDS("data/contribution_data_all_states.RDS")
+#static_list <- readRDS("data/static_list.RDS")
+#contribution_data_all_states <-
+#  readRDS("data/contribution_data_all_states.RDS")
 
-question2_data <-
-  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
-# inner join to capture the politicians that appear in both datasets
+#question2_data <-
+#  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
+
 
 question2_plot2_data <- question2_data %>%
   filter(!is.na(Date)) %>%
@@ -354,11 +358,10 @@ question2_plot2_data <- question2_data %>%
   mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
   filter(year == 2019 | year == 2020 | year == 2021 | year == 2022)
 
-# question2_data %>% filter(Politician == "Greg Abbott") %>% select(year) %>% unique()
-# Greg only had data in years 2019-2022 so we consider only those years
 ```
 
-```{r plot-4-more-data-processing-for-plot, echo=FALSE}
+```{r echo=FALSE}
+#| label: plot-4-more-data-processing-for-plot
 greg_not_greg <- question2_plot2_data %>%
   group_by(is_greg, year) %>%
   summarise(
@@ -448,7 +451,9 @@ annotation_data_2022 <- tribble(
   mutate(amount_mid = (amount_min + amount_max) / 2)
 ```
 
-```{r plot-4, echo=FALSE}
+```{r echo=FALSE}
+#| label: plot-4
+
 ggplot(greg_not_greg) +
   geom_bar(aes(
     x = year,
