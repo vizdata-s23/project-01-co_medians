@@ -16,8 +16,16 @@ All of the members of our team are strong advocates for LGBTQ+ rights, and we ar
 
 ## Introduction
 
-```{r load-packages-for-intro, echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE}
+#| label: load-packages-for-intro
+
 library(tidyverse)
+library(ggrepel)
+
+```
+
+```{r echo=FALSE, message=FALSE}
+#| label: load-data-for-intro
 
 # read data
 static_list <- readRDS("data/static_list.RDS")
@@ -64,6 +72,7 @@ library(scales)
 # read data
 static_list <- readRDS("data/static_list.RDS")
 contribution_data_all_states <- readRDS("data/contribution_data_all_states.RDS")
+corp_by_politician <- readRDS("data/corp_by_politician.RDS")
 ```
 
 ```{r data-processing-plot-1, echo=FALSE}
@@ -237,7 +246,8 @@ We understand that a challenge with stacked bar plots is with comparing them whe
 #### Plot 3:
 
 ```{r echo=FALSE, message=FALSE}
-library(ggrepel)
+#| label: question-2-plot 3
+
 question2_data <-
   inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
 
@@ -336,10 +346,11 @@ ggplot() +
 #### Plot 4:
 
 ```{r load-merge-and-process-data, echo=FALSE, message=FALSE}
-corp_by_politician <-
-  readr::read_csv(
-    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
-  )
+|
+#corp_by_politician <-
+#  readr::read_csv(
+#    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
+#  )
 static_list <- readRDS("data/static_list.RDS")
 contribution_data_all_states <-
   readRDS("data/contribution_data_all_states.RDS")
