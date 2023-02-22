@@ -338,8 +338,8 @@ ggplot() +
 
 #### Plot 4:
 
-```{r load-merge-and-process-data, echo=FALSE, message=FALSE}
-|
+```{r  echo=FALSE, message=FALSE}
+#| label: plot-4-data-manip
 #corp_by_politician <-
 #  readr::read_csv(
 #    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
