@@ -143,9 +143,9 @@ static_list %>%
   facet_wrap( ~ category, ncol = 1) +
   coord_cartesian(xlim = c(0, 700000)) +
   labs(
-    title = "Density of total company contributions to anti-LGBTQ+ campaigns",
+    title = "Distributions of total company donations to anti-LGBTQ+ campaigns",
     subtitle = "Faceted by company characteristics; n companies per category",
-    x = "Amount contributed (in USD)",
+    x = "Amount donated (USD)",
     y = "Density"
   ) +
   theme_minimal() +
@@ -323,10 +323,10 @@ ggplot() +
   guides(color = "none") +
   theme_minimal() +
   labs(
-    title = "Average contribution per politician per year \nacross political positions",
-    subtitle = "Colored by political position, from 2018-2023",
+    title = "Average donations per politician per year \nacross political positions",
+    subtitle = "Grouped by political position, from 2018-2023",
     x = "Year",
-    y = "Contribution amount (in USD)"
+    y = "Amount received (USD)"
   ) +
   theme(
     axis.text = element_text(size = 12),
@@ -340,17 +340,6 @@ ggplot() +
 
 ```{r  echo=FALSE, message=FALSE}
 #| label: plot-4-data-manip
-#corp_by_politician <-
-#  readr::read_csv(
-#    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
-#  )
-#static_list <- readRDS("data/static_list.RDS")
-#contribution_data_all_states <-
-#  readRDS("data/contribution_data_all_states.RDS")
-
-#question2_data <-
-#  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
-
 
 question2_plot2_data <- question2_data %>%
   filter(!is.na(Date)) %>%
@@ -506,10 +495,10 @@ ggplot(greg_not_greg) +
   ) +
   scale_color_identity() +
   labs(
-    x = "Year", y = "Amount Donated for anti-LGBTQ+ Campaigns
-       (in USD)",
+    x = "Year", 
+    y = "Amount received (USD)",
     fill = "Politician",
-    title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
+    title = "Corporate Donations to Greg Abbott and anti-LGBTQ+ politicians",
     subtitle = "In the years 2019-2022"
   ) +
   scale_fill_manual(values = c("lightgrey", "#AA4A44")) +

@@ -81,7 +81,7 @@ corp_by_politician <-
 \[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge
 :::
 
----
+------------------------------------------------------------------------
 
 ```{r}
 #| label: data_processing_plot_1
@@ -164,9 +164,9 @@ static_list %>%
   facet_wrap( ~ category, ncol = 1) +
   coord_cartesian(xlim = c(0, 700000)) +
   labs(
-    title = "Density of total company contributions to \nanti-LGBTQ+ campaigns",
+    title = "Distributions of total company donations to anti-LGBTQ+ campaigns",
     subtitle = "Faceted by company characteristics; n companies per category",
-    x = "Amount contributed (in USD)",
+    x = "Amount donated (USD)",
     y = "Density"
   ) +
   theme_minimal() +
@@ -182,7 +182,7 @@ static_list %>%
             size = 2.6)
 ```
 
----
+------------------------------------------------------------------------
 
 ```{r}
 #| label: question 1 plot 1
@@ -230,7 +230,7 @@ new_static_list %>%
 
 ## Question 2: How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
 
----
+------------------------------------------------------------------------
 
 ```{r}
 #| label: q2plot1
@@ -321,10 +321,10 @@ ggplot() +
   guides(color = "none") +
   theme_minimal() +
   labs(
-    title = "Average contribution per politician per year \nacross politician positions",
-    subtitle = "Colored by politician position, from 2018-2023",
+    title = "Average donations per politician per year \nacross political positions",
+    subtitle = "Grouped by political position, from 2018-2023",
     x = "Year",
-    y = "Contribution amount (in USD)"
+    y = "Amount received (USD)"
   ) +
   theme(
     axis.text = element_text(size = 12),
@@ -334,7 +334,7 @@ ggplot() +
   )
 ```
 
----
+------------------------------------------------------------------------
 
 ```{r}
 #| label: q2-plot2-dataprocessing
@@ -499,10 +499,10 @@ ggplot(greg_not_greg) +
   ) +
   scale_color_identity() +
   labs(
-    title = "Distribution of donation amounts for \nanti-LGBTQ+ politicians",
-    x = "Year",
-    y = "Amount Donated (USD)",
+   x = "Year", 
+    y = "Amount received (USD)",
     fill = "Politician",
+    title = "Corporate Donations to Greg Abbott and anti-LGBTQ+ politicians",
     subtitle = "In the years 2019-2022"
   ) +
   scale_fill_manual(values = c("lightgrey", "#AA4A44")) +
@@ -522,11 +522,12 @@ ggplot(greg_not_greg) +
 ## Conclusion
 
 -   Our dataset only included information on politicians from six states; our research would've been stronger had there been more nationwide information to compare political parties of politicians
-  -   Would also be interesting to look into federal politicians
+
+-   Would also be interesting to look into federal politicians
 
 -   Explore the magnitude of difference in contributions to pro- vs. anti-LGBTQ+ campaigns of these hypocritical companies
 
--   Explore associations of other inclusivity measures in the workplace aside from an HRC pledge 
+-   Explore associations of other inclusivity measures in the workplace aside from an HRC pledge
 
 ## Sources {.smaller}
 
