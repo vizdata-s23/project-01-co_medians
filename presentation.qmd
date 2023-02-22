@@ -171,7 +171,7 @@ static_list %>%
   ) +
   theme_minimal() +
   theme(
-    axis.title.x = element_text(vjust = 1)
+    axis.title.x = element_text(vjust = -2)
   ) +
   geom_text(data = company_categ_counts,
             aes(
@@ -223,7 +223,8 @@ new_static_list %>%
   theme(
     legend.position = c(.85, .4),
     legend.title = element_text(size = 8),
-    legend.background = element_rect(fill = "white", color = "darkgrey")
+    legend.background = element_rect(fill = "white", color = "darkgrey"),
+    axis.title.x = element_text(vjust = -2)
   )
 ```
 
@@ -500,8 +501,7 @@ ggplot(greg_not_greg) +
   labs(
     title = "Distribution of donation amounts for \nanti-LGBTQ+ politicians",
     x = "Year",
-    y = "Amount Donated for anti-LGBTQ+ Campaigns
-       (in USD)",
+    y = "Amount Donated (USD)",
     fill = "Politician",
     subtitle = "In the years 2019-2022"
   ) +
@@ -513,7 +513,7 @@ ggplot(greg_not_greg) +
   ) +
   theme_minimal() +
   theme(
-    legend.position = c(0.16, 0.85),
+    legend.position = c(0.16, 0.82),
     legend.background = element_blank(),
     legend.box.background = element_rect(color = "darkgrey", linewidth = 0.5)
   )
@@ -537,9 +537,10 @@ ggplot(greg_not_greg) +
 
 -   https://www.nytimes.com/2019/07/02/opinion/lgbt-rights-pride-corporations.html
 
+## Sources cont. {.smaller}
+
 -   https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
 
-## Sources cont. {.smaller}
 
 -   https://en.wikipedia.org/wiki/LGBT_rights_in_Japan
 
