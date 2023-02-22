@@ -20,7 +20,13 @@ All of the members of our team are strong advocates for LGBTQ+ rights, and we ar
 #| label: load-packages-for-intro
 
 library(tidyverse)
-library(ggrepel)
+#library(ggrepel)
+library(dplyr)
+#library(tidytuesdayR)
+library(lubridate)
+library(readr)
+library(ggpattern)
+library(scales)
 
 ```
 
@@ -32,10 +38,7 @@ static_list <- readRDS("data/static_list.RDS")
 
 contribution_data_all_states <- readRDS("data/contribution_data_all_states.RDS")
 
-corp_by_politician <-
-  readr::read_csv(
-    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
-  )
+corp_by_politician <- readRDS("data/corp_by_politician.RDS")
 ```
 
 The datasets we are using are from [TidyTuesday](https://github.com/rfordatascience/tidytuesday/tree/master/data/2022/2022-06-07) and are drawn from [Data For Progress](https://www.dataforprogress.org/accountable-allie), which is a think tank and polling firm that provides data for progressive campaigns, causes, and candidates. Their work has been used by US representatives, senators, and local leaders, and it has even been cited by the White House. The datasets in this TidyTuesday are looking specifically at businesses that contribute to the campaigns of politicians who have anti-LGBTQ beliefs. It includes seven datasets: `static_list`, `contribution_data_all_states`, `pride_aggregates`, `fortune_aggregates`, `pride_sponsors`, `donors`, and `corp_by_politician`. We found overlapping data in `static_list`, `fortune_aggregates`, and `pride_aggregates`. `Static_list` captured the most complete information from `fortune_aggregates` and `pride_aggregates` combined, so we decided to use `static_list`. Our decision to use `contribution_data_all_states` was made for similar reasons. In many ways it is a combination of the others in terms of information and variables, but we appreciated that it included that information by individual contribution rather than by company or politician totals. Finally, we also decided to use the `corp_by_politician` dataset to have information on the offices and titles each politician holds.
@@ -60,20 +63,6 @@ For our second plot, the density plot, we decided to group companies into four c
 
 #### Plot 1:
 
-```{r load-packages, echo=FALSE, message=FALSE}
-library(tidyverse)
-library(dplyr)
-library(tidytuesdayR)
-library(lubridate)
-library(readr)
-library(ggpattern)
-library(scales)
-
-# read data
-static_list <- readRDS("data/static_list.RDS")
-contribution_data_all_states <- readRDS("data/contribution_data_all_states.RDS")
-corp_by_politician <- readRDS("data/corp_by_politician.RDS")
-```
 
 ```{r data-processing-plot-1, echo=FALSE}
 #| label: data_processing_plot_1
