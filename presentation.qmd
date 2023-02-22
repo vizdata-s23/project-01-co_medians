@@ -519,6 +519,15 @@ ggplot(greg_not_greg) +
   )
 ```
 
+## Images
+
+-   Our dataset only included information on politicians from six states; our research would've been stronger had there been more nationwide information to compare political parties of politicians
+  -   Would also be interesting to look into federal politicians
+
+-   We would love to explore the magnitude of difference in contributions to pro- vs. anti-LGBTQ+ campaigns of these hypocritical companies
+
+-   We think it would be interesting to explore the effects of other inclusivity measures in the workplace aside from an HRC pledge
+
 ## Sources {.smaller}
 
 -   https://19thnews.org/2022/06/companies-anti-lgbtq-bills-lawmakers/
@@ -551,6 +560,8 @@ ggplot(greg_not_greg) +
 -   https://coolbutuseless.github.io/package/ggpattern/articles/pattern-stripe.html#the-fill-aesthetic-as-a-mapped-aesthetic-1
 
 -   https://www.freepik.com/free-vector/watercolor-rainbow-background-design_30010873.htm#page=2&query=rainbow%20background&position=4&from_view=keyword&track=ais
+
+-   https://quarto.org/docs/presentations/
 
 ## Images
 
