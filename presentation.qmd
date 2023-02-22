@@ -83,27 +83,27 @@ corp_by_politician <- readRDS("data/corp_by_politician.RDS")
 ```{r}
 #| label: data_processing_plot_1
 
-static_list <- static_list %>%
+static_list <- static_list |>
   mutate(
     amount_contributed = `Amount Contributed Across States`,
     hrc_pledge = `HRC Business Pledge`,
     pride_or_not = `Pride?`
   )
 
-new_static_list <- static_list %>%
-  filter(!is.na(Company),!is.na(hrc_pledge)) %>%
-  select(Company, amount_contributed, hrc_pledge, pride_or_not) %>%
-  group_by(Company) %>%
+new_static_list <- static_list |>
+  filter(!is.na(Company),!is.na(hrc_pledge)) |>
+  select(Company, amount_contributed, hrc_pledge, pride_or_not) |>
+  group_by(Company) |>
   summarise(total_amount = sum(amount_contributed),
-            hrc_pledge, pride_or_not) %>%
-  arrange(desc(total_amount)) %>%
+            hrc_pledge, pride_or_not) |>
+  arrange(desc(total_amount)) |>
   slice_head(n = 20)
 ```
 
 ```{r}
 #| label: question1-plot2-data
 
-company_categ_counts <- static_list %>%
+company_categ_counts <- static_list |>
   mutate(
     category = case_when(
       hrc_pledge == TRUE &
@@ -123,7 +123,7 @@ company_categ_counts <- static_list %>%
         "Neither"
       )
     ))
-  ) %>%
+  ) |>
   count(category)
 ```
 
@@ -131,7 +131,7 @@ company_categ_counts <- static_list %>%
 #| label: question 1 plot 2
 #| warning: false
 
-static_list %>%
+static_list |>
   mutate(
     category = case_when(
       hrc_pledge == TRUE &
@@ -151,7 +151,7 @@ static_list %>%
         "Neither"
       )
     ))
-  ) %>%
+  ) |>
   ggplot(aes(x = amount_contributed)) +
   geom_density(aes(fill = category, color = category), show.legend = FALSE) +
   scale_x_continuous(label = scales::label_dollar()) +
@@ -184,11 +184,11 @@ static_list %>%
 ```{r}
 #| label: question 1 plot 1
 
-new_static_list %>%
+new_static_list |>
   mutate(
     hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
     pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")
-  ) %>%
+  ) |>
   ggplot(aes(
     x = reorder(Company, total_amount),
     y = total_amount,
@@ -236,36 +236,35 @@ new_static_list %>%
 question2_data <-
   inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
 
-question2_plot3_data <- question2_data %>%
-  filter(!is.na(Date)) %>%
-  mutate(year = year(ymd(Date))) %>%
-  filter(year >= 2018) %>%
-  group_by(Politician, year, Title) %>%
+question2_plot3_data <- question2_data |>
+  filter(!is.na(Date)) |>
+  mutate(year = year(ymd(Date))) |>
+  filter(year >= 2018) |>
+  group_by(Politician, year, Title) |>
   summarize(avg_amount = mean(Amount, na.rm = TRUE))
 
-plot3_data_no_abbott <- question2_plot3_data %>%
-  filter(Politician != "Greg Abbott") %>%
+plot3_data_no_abbott <- question2_plot3_data |>
+  filter(Politician != "Greg Abbott") |>
   mutate(
     position_cat = case_when(
       Title == "Representative" ~ "Representative",
       Title == "Senator" ~ "Senator",
       TRUE ~ "Other"
     )
-  ) %>%
-  group_by(position_cat, year) %>%
+  ) |>
+  group_by(position_cat, year) |>
   summarize(avg_avg_amount = mean(avg_amount, na.rm = TRUE))
 
 
-plot3_data_abbott <- question2_plot3_data %>%
+plot3_data_abbott <- question2_plot3_data |>
   filter(Politician == "Greg Abbott")
 
-plot3_data_no_abbott_text <- plot3_data_no_abbott %>%
+plot3_data_no_abbott_text <- plot3_data_no_abbott |>
   filter(year == "2022")
 
-plot3_data_abbott_text <- plot3_data_abbott %>%
+plot3_data_abbott_text <- plot3_data_abbott |>
   filter(year == "2022")
 ```
-
 
 ```{r}
 #| label: q2plot1
@@ -337,31 +336,31 @@ ggplot() +
 ```{r}
 #| label: q2-plot2-dataprocessing
 
-question2_plot2_data <- question2_data %>%
-  filter(!is.na(Date)) %>%
-  mutate(year = year(ymd(Date))) %>%
-  mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
+question2_plot2_data <- question2_data |>
+  filter(!is.na(Date)) |>
+  mutate(year = year(ymd(Date))) |>
+  mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) |>
   filter(year == 2019 | year == 2020 | year == 2021 | year == 2022)
 
 ```
 
 ```{r}
 #| label: q2-plot2-dataprocessing2
-greg_not_greg <- question2_plot2_data %>%
-  group_by(is_greg, year) %>%
+greg_not_greg <- question2_plot2_data |>
+  group_by(is_greg, year) |>
   summarise(amounts = sum(Amount),
             .groups = "drop")
 
-greg <- greg_not_greg %>%
+greg <- greg_not_greg |>
   filter(is_greg == "Greg Abbott")
 
-props_greg_not_greg <- greg_not_greg %>%
-  group_by(year) %>%
+props_greg_not_greg <- greg_not_greg |>
+  group_by(year) |>
   summarise(prop = round(100 * (amounts / sum(amounts)), 0),
             .groups = "drop")
 
-total_amount_per_year <- greg_not_greg %>%
-  group_by(year) %>%
+total_amount_per_year <- greg_not_greg |>
+  group_by(year) |>
   summarise(amount_sum = sum(amounts),
             .groups = "drop")
 
@@ -378,7 +377,7 @@ annotation_data_2019 <- tribble(
   total_amount_per_year$amount_sum[1],
   paste0(props_greg_not_greg$prop[2], "%"),
   "black"
-) %>%
+) |>
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
 annotation_data_2020 <- tribble(
@@ -394,7 +393,7 @@ annotation_data_2020 <- tribble(
   total_amount_per_year$amount_sum[2],
   paste0(props_greg_not_greg$prop[4], "%"),
   "black"
-) %>%
+) |>
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
 annotation_data_2021 <- tribble(
@@ -410,7 +409,7 @@ annotation_data_2021 <- tribble(
   total_amount_per_year$amount_sum[3],
   paste0(props_greg_not_greg$prop[6], "%"),
   "black"
-) %>%
+) |>
   mutate(amount_mid = (amount_min + amount_max) / 2)
 
 annotation_data_2022 <- tribble(
@@ -426,7 +425,7 @@ annotation_data_2022 <- tribble(
   total_amount_per_year$amount_sum[4],
   paste0(props_greg_not_greg$prop[8], "%"),
   "black"
-) %>%
+) |>
   mutate(amount_mid = (amount_min + amount_max) / 2)
 ```
 
