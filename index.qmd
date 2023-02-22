@@ -127,7 +127,7 @@ new_static_list %>%
   scale_y_continuous(label = scales::label_dollar()) +
   coord_flip() +
   labs(
-    title = "USD Amounts of top 20 companies in contributions \nto anti-LGBTQ+ campaigns",
+    title = "Top 20 corporate contributors to anti-LGBTQ+ political campaigns",
     x = "Company",
     y = "Amount contributed to anti-LGBTQ+ campaigns (in USD)",
     fill = "Does the company \ndonate to Pride?",
