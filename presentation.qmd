@@ -519,14 +519,14 @@ ggplot(greg_not_greg) +
   )
 ```
 
-## Images
+## Conclusion
 
 -   Our dataset only included information on politicians from six states; our research would've been stronger had there been more nationwide information to compare political parties of politicians
   -   Would also be interesting to look into federal politicians
 
--   We would love to explore the magnitude of difference in contributions to pro- vs. anti-LGBTQ+ campaigns of these hypocritical companies
+-   Explore the magnitude of difference in contributions to pro- vs. anti-LGBTQ+ campaigns of these hypocritical companies
 
--   We think it would be interesting to explore the effects of other inclusivity measures in the workplace aside from an HRC pledge
+-   Explore associations of other inclusivity measures in the workplace aside from an HRC pledge 
 
 ## Sources {.smaller}
 
@@ -549,7 +549,6 @@ ggplot(greg_not_greg) +
 ## Sources cont. {.smaller}
 
 -   https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
-
 
 -   https://en.wikipedia.org/wiki/LGBT_rights_in_Japan
 
