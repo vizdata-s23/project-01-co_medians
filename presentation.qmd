@@ -104,51 +104,6 @@ new_static_list <- static_list %>%
 ```
 
 ```{r}
-#| label: question 1 plot 1
-
-new_static_list %>%
-  mutate(
-    hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
-    pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")
-  ) %>%
-  ggplot(aes(
-    x = reorder(Company, total_amount),
-    y = total_amount,
-    fill = pride_or_not,
-    pattern = hrc_pledge
-  )) +
-  geom_col_pattern(
-    pattern_fill = "darkgray",
-    pattern_color = "darkgray",
-    aes(color = pride_or_not),
-    width = .7
-  ) +
-  scale_color_manual(values = c("#AA4A44", "lightgrey"), guide = "none") +
-  scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
-  scale_pattern_manual(values = c("none", "stripe"),
-                       guide = guide_legend(override.aes = list(
-                         fill = "white", color = "darkgray"
-                       ))) +
-  scale_y_continuous(label = scales::label_dollar()) +
-  coord_flip() +
-  labs(
-    title = "USD Amounts of top 20 companies in contributions \nto anti-LGBTQ+ campaigns",
-    x = "Company",
-    y = "Amount contributed to anti-LGBTQ+ campaigns (in USD)",
-    fill = "Does the company \ndonate to Pride?",
-    pattern = "Does the company \nhave an HRC pledge?"
-  ) +
-  theme_minimal() +
-  theme(
-    legend.position = c(.85, .4),
-    legend.title = element_text(size = 8),
-    legend.background = element_rect(fill = "white", color = "darkgrey")
-  )
-```
-
-## Q1 Plot 2
-
-```{r}
 #| label: question1-plot2-data
 
 company_categ_counts <- static_list %>%
@@ -203,15 +158,14 @@ static_list %>%
   ggplot(aes(x = amount_contributed)) +
   geom_density(aes(fill = category, color = category), show.legend = FALSE) +
   scale_x_continuous(label = scales::label_dollar()) +
-  scale_y_continuous(labels = label_number()) + # idk if scientific notation is better
+  scale_y_continuous(labels = label_number()) + 
   scale_fill_manual(values = c("#AA4A44", "#BF8F8C", "grey", "#899499")) +
-  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "grey", "#899499")) + # can take this out
+  scale_color_manual(values = c("#AA4A44", "#BF8F8C", "grey", "#899499")) +
   facet_wrap( ~ category, ncol = 1) +
   coord_cartesian(xlim = c(0, 700000)) +
   labs(
-    title = "Density of corporate contributions to anti-LGBTQ+ campaigns",
-    subtitle = "Faceted by company characteristics",
-    # CHANGE TITLE
+    title = "Density of total company contributions to \nanti-LGBTQ+ campaigns",
+    subtitle = "Faceted by company characteristics; n companies per category",
     x = "Amount contributed (in USD)",
     y = "Density"
   ) +
@@ -219,10 +173,55 @@ static_list %>%
   geom_text(data = company_categ_counts,
             aes(
               x = 680000,
-              y = 0.000005,
+              y = 0.000006,
               label = paste0("n = ", company_categ_counts$n),
             ),
             size = 2.6)
+```
+
+## Q1 Plot 2
+
+```{r}
+#| label: question 1 plot 1
+
+new_static_list %>%
+  mutate(
+    hrc_pledge = if_else(hrc_pledge == FALSE, "No", "Yes"),
+    pride_or_not = if_else(pride_or_not == FALSE, "No", "Yes")
+  ) %>%
+  ggplot(aes(
+    x = reorder(Company, total_amount),
+    y = total_amount,
+    fill = pride_or_not,
+    pattern = hrc_pledge
+  )) +
+  geom_col_pattern(
+    pattern_fill = "darkgray",
+    pattern_color = "darkgray",
+    aes(color = pride_or_not),
+    width = .7
+  ) +
+  scale_color_manual(values = c("#AA4A44", "lightgrey"), guide = "none") +
+  scale_fill_manual(values = c("#AA4A44", "lightgrey")) +
+  scale_pattern_manual(values = c("none", "stripe"),
+                       guide = guide_legend(override.aes = list(
+                         fill = "white", color = "darkgray"
+                       ))) +
+  scale_y_continuous(label = scales::label_dollar()) +
+  coord_flip() +
+  labs(
+    title = "Top 20 companies in donations to anti-LGBTQ+ campaigns",
+    x = "Company",
+    y = "Amount donated (USD)",
+    fill = "Does the company \ndonate to Pride?",
+    pattern = "Does the company \nhave an HRC pledge?"
+  )  +
+  theme_minimal() +
+  theme(
+    legend.position = c(.85, .4),
+    legend.title = element_text(size = 8),
+    legend.background = element_rect(fill = "white", color = "darkgrey")
+  )
 ```
 
 ## Question 2: How have donations to politicians who support anti-LGBTQ+ campaigns changed over time?
@@ -318,10 +317,10 @@ ggplot() +
   guides(color = "none") +
   theme_minimal() +
   labs(
-    title = "Average donation amount contributed per politician over time",
-    subtitle = "Colored by politician category",
+    title = "Average contribution per politician per year \nacross politician positions",
+    subtitle = "Colored by politician position, from 2018-2023",
     x = "Year",
-    y = "Amount per contribution ( in USD)"
+    y = "Contribution amount (in USD)"
   ) +
   theme(
     axis.text = element_text(size = 12),
@@ -498,7 +497,7 @@ ggplot(greg_not_greg) +
   ) +
   scale_color_identity() +
   labs(
-    title = "Distribution of donation amounts for anti-LGBTQ+ politicians",
+    title = "Distribution of donation amounts for \nanti-LGBTQ+ politicians",
     x = "Year",
     y = "Amount Donated for anti-LGBTQ+ Campaigns
        (in USD)",
