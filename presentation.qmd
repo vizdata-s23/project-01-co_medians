@@ -81,7 +81,7 @@ corp_by_politician <-
 \[\*\] The Human Rights Campaign (HRC) business pledge is a commitment for companies to show their clear opposition to harmful legislation aimed at restricting the access of LGBTQ+ identifying people in society and the workplace, and 296 companies have already signed the pledge
 :::
 
-## Q1 Plot 1
+## element_blank()
 
 ```{r}
 #| label: data_processing_plot_1
@@ -356,7 +356,6 @@ question2_plot2_data <- question2_data %>%
 # Greg only had data in years 2019-2022 so we consider only those years
 ```
 
-
 ```{r}
 #| label: q2-plot2-dataprocessing2
 greg_not_greg <- question2_plot2_data %>%
@@ -442,7 +441,6 @@ annotation_data_2022 <- tribble(
   mutate(amount_mid = (amount_min + amount_max) / 2)
 ```
 
-
 ```{r}
 #| label: q2-plot2
 ggplot(greg_not_greg) +
@@ -518,7 +516,7 @@ ggplot(greg_not_greg) +
   )
 ```
 
-## Sources
+## Sources {.smaller}
 
 -   https://19thnews.org/2022/06/companies-anti-lgbtq-bills-lawmakers/
 
@@ -526,15 +524,11 @@ ggplot(greg_not_greg) +
 
 -   https://time.com/6150964/greg-abbott-trans-kids-child-abuse/
 
-## Sources cont. 
-
 -   https://www.hrc.org/press-releases/2021-officially-becomes-worst-year-in-recent-history-for-lgbtq-state-legislative-attacks-as-unprecedented-number-of-states-enact-record-shattering-number-of-anti-lgbtq-measures-into-law
 
 -   https://www.houstonchronicle.com/politics/texas/article/gov-greg-gbbott-gets-worst-press-on-lgbtq-issues-17184157.php
 
 -   https://www.nbcnews.com/nbc-out/out-politics-and-policy/less-10-2022s-anti-lgbtq-state-bills-became-law-report-finds-rcna67619
-
-## Sources cont. 2
 
 -   https://meyerweb.com/eric/tools/color-blend/#D3D3D3:AA4A44:1:hex
 
@@ -543,8 +537,6 @@ ggplot(greg_not_greg) +
 -   https://stackoverflow.com/questions/49084904/r-markdown-bullet-list-with-multiple-levels
 
 -   https://en.wikipedia.org/wiki/LGBT_rights_in_Japan
-
-## Sources cont. 3
 
 -   https://coolbutuseless.github.io/package/ggpattern/
 
