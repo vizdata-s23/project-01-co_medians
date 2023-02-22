@@ -299,7 +299,7 @@ ggplot() +
       color = position_cat
     ),
     hjust = "left",
-    size = 4
+    size = 3
   ) +
   geom_text(
     plot3_data_abbott_text,
@@ -310,7 +310,7 @@ ggplot() +
       color = Politician
     ),
     hjust = "left",
-    size = 4
+    size = 3
   ) +
   scale_y_continuous(label = scales::label_dollar()) +
   scale_x_discrete(
@@ -513,7 +513,7 @@ ggplot(greg_not_greg) +
   ) +
   theme_minimal() +
   theme(
-    legend.position = c(0.16, 0.82),
+    legend.position = c(0.18, 0.82),
     legend.background = element_blank(),
     legend.box.background = element_rect(color = "darkgrey", linewidth = 0.5)
   )

@@ -192,11 +192,7 @@ new_static_list %>%
   scale_y_continuous(label = scales::label_dollar()) +
   coord_flip() +
   labs(
-<<<<<<< HEAD
-    title = "Top 20 corporate contributors to anti-LGBTQ+ political campaigns",
-=======
     title = "Top 20 companies in donations to \nanti-LGBTQ+ campaigns",
->>>>>>> c2300414aec04bf70ad7d3d02d1190c8b6163804
     x = "Company",
     y = "Amount donated (USD)",
     fill = "Does the company \ndonate to Pride?",
@@ -565,3 +561,5 @@ A limitation of our plot is that it only includes information on six states: Flo
 -   https://statisticsglobe.com/ggpattern-r-package
 
 -   https://coolbutuseless.github.io/package/ggpattern/articles/pattern-stripe.html#the-fill-aesthetic-as-a-mapped-aesthetic-1
+
+
