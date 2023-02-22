@@ -48,10 +48,7 @@ static_list <- readRDS("data/static_list.RDS")
 
 contribution_data_all_states <- readRDS("data/contribution_data_all_states.RDS")
 
-corp_by_politician <-
-  readr::read_csv(
-    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
-  )
+corp_by_politician <- readRDS("data/corp_by_politician.RDS")
 ```
 
 ```{r}
@@ -233,8 +230,9 @@ new_static_list %>%
 ------------------------------------------------------------------------
 
 ```{r}
-#| label: q2plot1
+#| label: q2plot1-prep
 
+# inner join to capture the politicians that appear in both datasets
 question2_data <-
   inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
 
@@ -242,7 +240,6 @@ question2_plot3_data <- question2_data %>%
   filter(!is.na(Date)) %>%
   mutate(year = year(ymd(Date))) %>%
   filter(year >= 2018) %>%
-  #mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
   group_by(Politician, year, Title) %>%
   summarize(avg_amount = mean(Amount, na.rm = TRUE))
 
@@ -252,7 +249,6 @@ plot3_data_no_abbott <- question2_plot3_data %>%
     position_cat = case_when(
       Title == "Representative" ~ "Representative",
       Title == "Senator" ~ "Senator",
-      #Title == "Governor" ~ "Governor",
       TRUE ~ "Other"
     )
   ) %>%
@@ -263,14 +259,16 @@ plot3_data_no_abbott <- question2_plot3_data %>%
 plot3_data_abbott <- question2_plot3_data %>%
   filter(Politician == "Greg Abbott")
 
-# unique(plot3_data_no_abbott$position_cat)
-
 plot3_data_no_abbott_text <- plot3_data_no_abbott %>%
   filter(year == "2022")
 
 plot3_data_abbott_text <- plot3_data_abbott %>%
   filter(year == "2022")
+```
 
+
+```{r}
+#| label: q2plot1
 
 ggplot() +
   geom_line(
@@ -338,17 +336,6 @@ ggplot() +
 
 ```{r}
 #| label: q2-plot2-dataprocessing
-corp_by_politician <-
-  readr::read_csv(
-    "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-06-07/corp_by_politician.csv"
-  )
-static_list <- readRDS("data/static_list.RDS")
-contribution_data_all_states <-
-  readRDS("data/contribution_data_all_states.RDS")
-
-question2_data <-
-  inner_join(contribution_data_all_states, corp_by_politician, by = "Politician")
-# inner join to capture the politicians that appear in both datasets
 
 question2_plot2_data <- question2_data %>%
   filter(!is.na(Date)) %>%
@@ -356,8 +343,6 @@ question2_plot2_data <- question2_data %>%
   mutate(is_greg = ifelse(Politician == "Greg Abbott", "Greg Abbott", "Not Greg Abbott")) %>%
   filter(year == 2019 | year == 2020 | year == 2021 | year == 2022)
 
-# question2_data %>% filter(Politician == "Greg Abbott") %>% select(year) %>% unique()
-# Greg only had data in years 2019-2022 so we consider only those years
 ```
 
 ```{r}
@@ -523,11 +508,11 @@ ggplot(greg_not_greg) +
 
 -   Our dataset only included information on politicians from six states; our research would've been stronger had there been more nationwide information to compare political parties of politicians
 
--   Would also be interesting to look into federal politicians
+-   Would be interesting to look into federal politicians
 
 -   Explore the magnitude of difference in contributions to pro- vs. anti-LGBTQ+ campaigns of these hypocritical companies
 
--   Explore associations of other inclusivity measures in the workplace aside from an HRC pledge
+-   Explore associations of other inclusivity measures in the workplace aside from HRC pledge
 
 ## Sources {.smaller}
 
